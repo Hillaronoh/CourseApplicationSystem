@@ -45,7 +45,7 @@
         ResultSet rs=null;
         int res1=0;
         int res2=0; 
-        String db="jdbc:mysql:///vettingsystem";
+        String db="jdbc:mysql:///project1c";
         String user="root";
         String password="";
         
@@ -55,7 +55,7 @@
 
             pst = conn.prepareStatement("insert into registration values(?,?,?,?,?)");
             
-            pst1 = conn.prepareStatement("select * from registration where Email=?");
+            pst1 = conn.prepareStatement("select * from registration where Email_address=?");
             
            }catch(SQLException e){
                e.printStackTrace(); 

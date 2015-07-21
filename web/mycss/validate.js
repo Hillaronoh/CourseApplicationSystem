@@ -108,8 +108,7 @@ function isChecked(inputName, focusInputElm, errMsg, errElm) {
    return isChecked;
 }
 function isValidPassword(inputValue, focusInputElm, errMsg, errElm) {
-   var isValid = (inputValue !== null)
-               && (inputValue.trim().match(/^\w{6,8}$/) !== null);
+   var isValid = (inputValue !== null) && (inputValue.trim().match(/^\w{6,10}$/) !== null);
    showMessageAndFocus(isValid, focusInputElm, errMsg, errElm);
    return isValid;
 }

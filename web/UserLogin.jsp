@@ -37,7 +37,7 @@
         Connection conn=null;
         PreparedStatement pst=null;
         ResultSet rs=null;
-        String db="jdbc:mysql:///vettingsystem";
+        String db="jdbc:mysql:///project1c";
         String user="root";
         String password="";
         
@@ -45,7 +45,7 @@
            try{
             conn = DriverManager.getConnection(db,user,password); 
 
-            pst = conn.prepareStatement("select * from registration where Email=? and Password=?"); 
+            pst = conn.prepareStatement("select * from registration where Email_address=? and Password=?"); 
             
            }catch(SQLException e){
                e.printStackTrace(); 
@@ -94,13 +94,13 @@
                <fieldset>
                    <div class="form-group">
                       <div class="input-group">
-                          <div class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></div>
+                          <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
                           <input class="form-control" type="email" placeholder="Email" name="email" autocomplete="off" autofocus>
                       </div>
                    </div>
                    <div class="form-group">
                        <div class="input-group">
-                           <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+                           <div class="input-group-addon"><i class="fa fa-lock"></i></div>
                            <input class="form-control" type="password" placeholder="Password" name="password">
                        </div>
                    </div>
@@ -110,7 +110,7 @@
                        </label>
                    </div>
                    <!-- Change this to a button or input when using this as a form -->
-                   <button class="btn btn-lg btn-success btn-block" type="submit" name="login"><span class="glyphicon glyphicon-log-in" style="font-size: 15px;"></span> Login</button>
+                   <button class="btn btn-lg btn-success btn-block" type="submit" name="login"><i class="fa fa-sign-in"></i> Login</button>
                 
                </fieldset>
            </form>
