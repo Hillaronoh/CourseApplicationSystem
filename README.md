@@ -1,0 +1,1 @@
+# CourseApplicationSystem ia an online course application system that allow undergraduate students(certificate,diploma & degree applicants) to apply for courses online and get feedback on wheather their applications were successful or not.
