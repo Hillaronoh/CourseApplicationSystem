@@ -37,6 +37,19 @@
             };
         </script>        
         <!--end date picker--> 
+        
+        <script type="text/javaScript">
+function ValidateG(form){
+ErrorText= "";
+if ( ( form.gender[0].checked == false ) && ( form.gender[1].checked == false ) )
+{
+alert ( "Please choose your Gender: Male or Female" );
+return false;
+}
+if (ErrorText= "") { form.submit() }
+}
+</script>
+        
         <!--start navigation menus-->
         <link rel="stylesheet" href="mycss/glyphicons/css/bootstrap.min.css">
         <link rel="stylesheet" style type="text/css" href="mycss/navMenus.css">
@@ -193,7 +206,7 @@
                                                             <tr>
                                                                 <td align="right" valign="top"></td>
                                                                 <td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <input type="submit" name="submit1" class="btn btn-success" value="Submit" onclick="return validateForm1(this)"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <input type="submit" name="submit1" class="btn btn-success" value="Submit" onclick=""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                     <input name="reset" class="btn btn-info" value="Reset" type="reset" id="reset"> <br/></td>
                                                                 <td valign="top"></td>
                                                                 

@@ -7,7 +7,7 @@ function init() {
 
 function validatePersonaldetailsForm(thisForm){
     with(thisForm) {
-        return (isSelected(gender.value, gender, "Select your gender!",genderError)
+        return (Gender(thisForm)
                 && isValidDateFormat(dob.value, dob, "Invalid Date Format!",dobError)
                 && isValidDateElements(dob, "Invalid Day, Month, or Year range detected!",dobError)
                 && isNotEmpty(postaladdress.value, postaladdress, "Postal Address Required!",postaladdressError)
@@ -119,6 +119,17 @@ function isValidDateElements(focusInputElm, errMsg, errElm){
     showMessageAndFocus(isValid, focusInputElm, errMsg, errElm);
     return isValid;   
 }
+
+function Gender(form){
+ErrorText= "";
+if ( ( form.gender[0].checked == false ) && ( form.gender[1].checked == false ) )
+{
+alert ( "Please choose your Gender: Male or Female" );
+return false;
+}
+if (ErrorText= "") { form.submit() }
+}
+
 function clearDisplay() {
     var elms = document.getElementsByTagName("*"); 
     for (var i = 0; i < elms.length; i++) {
