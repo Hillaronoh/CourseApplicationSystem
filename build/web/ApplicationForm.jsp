@@ -16,6 +16,19 @@
         <!--start date picker-->
         <link rel="stylesheet" type="text/css" media="all" href="jsDatePick_ltr.min.css" />
         <script type="text/javascript" src="jsDatePick.min.1.3.js"></script>
+        
+        <script LANGUAGE="JavaScript">
+function ValidateGender(form){
+ErrorText= "";
+if ( ( form.gender[0].checked == false ) && ( form.gender[1].checked == false ) )
+{
+alert ( "Please choose your Gender: Male or Female" );
+return false;
+}
+if (ErrorText= "") { form.submit() }
+}
+</script>
+        
         <script type="text/javascript">
             window.onload = function(){
                 new JsDatePick({
@@ -169,10 +182,14 @@ if (ErrorText= "") { form.submit() }
                                                                 
                                                             </tr>
                                                             <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Gender:<span style="color:red"> *</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><input name="gender" id="genderMale" value="Male" type="radio">&nbsp;&nbsp;Male<br>
-                                                                    <input name="gender" id="genderFemale" value="Female" type="radio">&nbsp;&nbsp;Female
-                                                                    <span id="genderError" style="color: #ff6699;"> </span></td>        
+                                                                <td align="right" valign="top" style="padding-top:10px;">Gender:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
+                                                                <td valign="top"><select id="gender" name="gender">
+                                                                        <option value="" selected>I am...</option> 
+                                                                        <option value="Male">Male</option>
+                                                                        <option value="Female">Female</option>
+                                                                        </select>
+                                                                    <span id="genderError" style="color: #ff6699;"></span>
+                                                                </td>
                                                                 <td valign="top"></td>
                                                             </tr>
                                                             <tr>
