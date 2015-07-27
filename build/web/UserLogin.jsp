@@ -37,7 +37,7 @@
         Connection conn=null;
         PreparedStatement pst=null;
         ResultSet rs=null;
-        String db="jdbc:mysql:///project1c";
+        String db="jdbc:mysql:///project";
         String user="root";
         String password="";
         
@@ -45,7 +45,7 @@
            try{
             conn = DriverManager.getConnection(db,user,password); 
 
-            pst = conn.prepareStatement("select * from registration where Email_address=? and Password=?"); 
+            pst = conn.prepareStatement("select * from registration where Email_Address=? and Password=?"); 
             
            }catch(SQLException e){
                e.printStackTrace(); 

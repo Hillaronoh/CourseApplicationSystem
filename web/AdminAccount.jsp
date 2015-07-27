@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Applicant's Account</title>
+        <title>Admin Panel</title>
         <link rel="stylesheet" href="mycss/glyphicons/css/bootstrap.min.css">
         <link href="assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
         <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -41,16 +41,20 @@
                                     </li>
                                 </ul>
                                 <ul>
-                                    <li><a href="#"><button class="btn btn-info" style="width: 148px; height: 35px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-arrow-down"></i>Apply Course</button></a>
+                                    <li><a href="#"><button class="btn btn-info" style="width: 148px; height: 35px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-arrow-down"></i>View Applicants</button></a>
                                         <ul>
-                                            <li><a href="ApplicationForm.jsp">Under Graduate</a></li>
-                                            <li><a href="#">Post Graduate</a></li>
+                                            <li><a href="#">Degree Applicants</a></li>
+                                            <li><a href="#">Diploma Applicants</a></li>
+                                            <li><a href="#">Cert Applicants</a></li>
                                         </ul>
                                     </li>
                                 </ul>
                                 <ul>
-                                    <li><a href="Announcements.jsp"><button class="btn btn-info" style="width: 148px; height: 35px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-bell"></i>Announcements</button></a>
-                                        
+                                    <li><a href="#"><button class="btn btn-info" style="width: 148px; height: 35px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-bell"></i>Announcements</button></a>
+                                        <ul>
+                                            <li><a href="#">Post</a></li>
+                                            <li><a href="#">Delete</a></li>
+                                        </ul>
                                     </li>
                                 </ul>
                                 <ul>

@@ -26,7 +26,7 @@ public final class UserRegistrationb_jsp extends org.apache.jasper.runtime.HttpJ
 
             pst = conn.prepareStatement("insert into registration values(?,?,?,?,?)");
             
-            pst1 = conn.prepareStatement("select * from registration where Email=?");
+            pst1 = conn.prepareStatement("select * from registration where Email_address=?");
             
            }catch(SQLException e){
                e.printStackTrace(); 
