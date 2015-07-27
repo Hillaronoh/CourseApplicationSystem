@@ -1,0 +1,8 @@
+C:\Users\MUTETHIA\Desktop\DropMiathene\wrapper_bg.png
+C:\Users\MUTETHIA\Desktop\DropMiathene\wrapper_simple_bg.png
+C:\Users\MUTETHIA\Desktop\DropMiathene\menuitemhot_bg.png
+C:\Users\MUTETHIA\Desktop\DropMiathene\ebab_mbu2u1.png
+C:\Users\MUTETHIA\Desktop\DropMiathene\ebab_mbu2u1_c.png
+C:\Users\MUTETHIA\Desktop\DropMiathene\mbjsmbu2u1.js
+C:\Users\MUTETHIA\Desktop\DropMiathene\mbcsmbu2u1.css
+C:\Users\MUTETHIA\Desktop\DropMiathene\filelist_u2u1.txt

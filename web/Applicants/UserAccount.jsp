@@ -1,16 +1,15 @@
 <%-- 
-    Document   : AdminAccount
-    Created on : Jul 23, 2015, 1:40:35 PM
-    Author     : hillary
+    Document   : UserAccount
+    Created on : Jul 10, 2015, 9:32:23 AM
+    Author     : Kipngetich
 --%>
-
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admin Panel</title>
+        <title>Applicant's Account</title>
         <link rel="stylesheet" href="mycss/glyphicons/css/bootstrap.min.css">
         <link href="assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
         <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -31,7 +30,7 @@
                     <div class="login-panel panel panel-default"> 
                         
                         <div class="panel-heading">
-                            <h3 class="panel-title">You are Logged in as Administrator</h3>
+                            <h3 class="panel-title">Welcome Hillary Kipngetich to Your Account</h3>
                         </div>
                         <div class="panel-body" style=" height: 400px; padding: 0px;">
                             
@@ -41,20 +40,16 @@
                                     </li>
                                 </ul>
                                 <ul>
-                                    <li><a href="#"><button class="btn btn-info" style="width: 148px; height: 35px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-arrow-down"></i>View Applicants</button></a>
+                                    <li><a href="#"><button class="btn btn-info" style="width: 148px; height: 35px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-arrow-down"></i>Apply Course</button></a>
                                         <ul>
-                                            <li><a href="#">Degree Applicants</a></li>
-                                            <li><a href="#">Diploma Applicants</a></li>
-                                            <li><a href="#">Cert Applicants</a></li>
+                                            <li><a href="ApplicationForm.jsp">Under Graduate</a></li>
+                                            <li><a href="#">Post Graduate</a></li>
                                         </ul>
                                     </li>
                                 </ul>
                                 <ul>
-                                    <li><a href="#"><button class="btn btn-info" style="width: 148px; height: 35px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-bell"></i>Announcements</button></a>
-                                        <ul>
-                                            <li><a href="#">Post</a></li>
-                                            <li><a href="#">Delete</a></li>
-                                        </ul>
+                                    <li><a href="Announcements.jsp"><button class="btn btn-info" style="width: 148px; height: 35px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-bell"></i>Announcements</button></a>
+                                        
                                     </li>
                                 </ul>
                                 <ul>
@@ -106,4 +101,3 @@
         <script type="text/javascript" src="mycss/modal/bootstrapJsCust.js"></script>
     </body> 
 </html> 
-

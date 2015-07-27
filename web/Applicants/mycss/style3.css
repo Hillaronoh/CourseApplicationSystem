@@ -1,0 +1,69 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 26, 2015, 7:26:03 PM
+    Author     : Kipngetich
+*/
+
+.footerReg {
+	position:absolute;
+	width: 100%;
+	height:118px;
+	z-index:5;
+	left: 0px;
+        bottom: 0;
+        background-color: #cccccc;
+}
+.registration_details {
+	position:absolute;
+	width:360px;
+	height:390px;
+	z-index:3;
+	left: 469px;
+	top: 189px;
+	background-color: #FFFFFF;
+	border:2px solid;
+}
+.degreeApp{
+    position: absolute;
+    width: 400px;
+    height: 590px;
+    z-index: 3;
+    left: 469px;
+    top: 189px;
+    background-color: #FFFFFF;
+    border: 2px solid;
+}
+.footerApp{
+    position: absolute;
+    width: 100%;
+    height: 115px;
+    z-index: 5;
+    left: 0px;
+    bottom: 0px;
+    background-color: #cccccc;
+}
+.wrapper2{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 900px;
+    z-index: 1;
+    left: 0;
+    top: 1px;
+    background-color: #ccffcc;
+}
+#textField{
+    text-transform: uppercase;
+    background-color: #ccffff;
+    border: 2px solid #ccccff;
+    color: #003333;
+}
+#textField2{
+    background-color: #ccffff;
+    border: 2px solid #ccccff;
+    color: #003333;
+}

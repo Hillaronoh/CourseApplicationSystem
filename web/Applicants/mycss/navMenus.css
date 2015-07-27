@@ -1,0 +1,57 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 10, 2015, 9:33:15 AM
+    Author     : Kipngetich
+*/
+
+#navMenu{
+    margin: 0;
+    padding: 0;
+}
+#navMenu ul{
+    margin: 0;
+    padding: 0;
+    line-height: 35px;
+}
+#navMenu li{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: left;
+    position: relative;
+    background-color: #ccccff;
+}
+#navMenu ul li a{
+    text-align: center;
+    font-family:"Comic Sans MS", cursive;
+    text-decoration: none;
+    height: 35px;
+    width: 150px;
+    color: black;
+    display: block;
+    border: 1px solid #ffffff;
+    text_shadow: 1px 1px 1px #ccccff;
+}
+#navMenu ul ul{
+    position: absolute;
+    visibility: hidden;
+    top: 35px;
+}
+#navMenu ul li:hover ul{
+    visibility: visible;
+}
+
+#navMenu li:hover{
+    background: #ccffcc;
+}
+#navMenu ul li:hover ul li a:hover{
+    background: #ffcccc;
+    color: #0000cc;
+}
+#navMenu a:hover{
+    color: #0000ff;
+}
