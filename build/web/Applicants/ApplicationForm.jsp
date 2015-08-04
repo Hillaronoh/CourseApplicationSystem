@@ -17,23 +17,11 @@
         <link rel="stylesheet" type="text/css" media="all" href="jsDatePick_ltr.min.css" />
         <script type="text/javascript" src="jsDatePick.min.1.3.js"></script>
         
-        <script LANGUAGE="JavaScript">
-function ValidateGender(form){
-ErrorText= "";
-if ( ( form.gender[0].checked == false ) && ( form.gender[1].checked == false ) )
-{
-alert ( "Please choose your Gender: Male or Female" );
-return false;
-}
-if (ErrorText= "") { form.submit() }
-}
-</script>
-        
         <script type="text/javascript">
             window.onload = function(){
                 new JsDatePick({
                     useMode:2,
-                    target:"inputField",
+                    target:"dob",
                     dateFormat:"%Y-%m-%d"
                     /*selectedDate:{				This is an example of what the full configuration offers.
                                         day:5,						For full documentation about these settings please see the full version of the code.
@@ -50,18 +38,6 @@ if (ErrorText= "") { form.submit() }
             };
         </script>        
         <!--end date picker--> 
-        
-        <script type="text/javaScript">
-function ValidateG(form){
-ErrorText= "";
-if ( ( form.gender[0].checked == false ) && ( form.gender[1].checked == false ) )
-{
-alert ( "Please choose your Gender: Male or Female" );
-return false;
-}
-if (ErrorText= "") { form.submit() }
-}
-</script>
         
         <!--start navigation menus-->
         <link rel="stylesheet" href="mycss/glyphicons/css/bootstrap.min.css">
@@ -88,6 +64,11 @@ if (ErrorText= "") { form.submit() }
         <script type="text/javascript" src="mycss/eBackgroundValidate.js"></script>
         <script type="text/javascript" src="mycss/cApplicationDetailsValidate.js"></script>
         
+        <style>
+            .error{
+                color: red;
+            }
+        </style>
     </head>
     <body style="overflow-x: hidden; background-color: #EFEEEE;"> 
         
@@ -155,81 +136,70 @@ if (ErrorText= "") { form.submit() }
                                         <a class="accordion-section-title" href="#accordion-1">SECTION A: Applicant's Personal Details.</a>
                                         <div id="accordion-1" class="accordion-section-content"> 
                                             
-                                            <form name="personalDetails" method="post" action="" onsubmit="return validatePersonaldetailsForm(this)">
+                                            <form method="post" action="" id="myForm1" onsubmit="return validatePersonaldetailsForm1(this)">
                                                 <fieldset>
                                                     
-                                                    <table style="width: 100%; height: 450px;">
-                                                        <tbody>
-                                                            
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">First Name:<span style="color:red"> *</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><input placeholder="First Name" autocomplete="off" name="fname" type="text" readonly>
-                                                                </td>
-                                                                <td valign="top"></td>
-                                                                
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Middle Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>   
-                                                                <td valign="top"><input placeholder="Middle Name" name="mname" type="text" readonly></td>
-                                                                <td valign="top"></td>
-                                                                
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Last Name:<span style="color:red"> *</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><input placeholder="Last Name" name="lname" type="text" readonly>
-                                                                    <span id="lnameError" style="color: red;"></span></td>
-                                                                <td valign="top"></td>
-                                                                
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Gender:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><select id="gender" name="gender">
-                                                                        <option value="" selected>I am...</option> 
-                                                                        <option value="Male">Male</option>
-                                                                        <option value="Female">Female</option>
-                                                                        </select>
-                                                                    <span id="genderError" style="color: #ff6699;"></span>
-                                                                </td>
-                                                                <td valign="top"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Date of Birth:<span style="color:red"> *</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><input placeholder="yyyy-mm-dd" id="inputField" name="dob" type="text" autocomplete="off">
-                                                                    <span id="dobError" style="color: red;"></span></td>
-                                                                <td valign="top"></td>
-                                                                
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Postal address:<span style="color:red"> *</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><input placeholder="e.g P.O Box 48, Chebunyo" name="postaladdress" type="text">
-                                                                    <span id="postaladdressError" style="color: red;"></span></td>
-                                                                <td valign="top"></td>
-                                                                
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Mobile:<span style="color:red"> *</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><input placeholder="Mobile Number (07...)" name="mobile" type="text">
-                                                                    <span id="mobileError" style="color: red;"></span></td>
-                                                                <td valign="top"></td>
-                                                                
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Nationality:<span style="color:red"> *</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><input placeholder="Country of Residence" name="country" type="text">
-                                                                    <span id="countryError" style="color: red;"></span></td>
-                                                                <td valign="top"></td>
-                                                                
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top"></td>
-                                                                <td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <input type="submit" name="submit1" class="btn btn-success" value="Submit" onclick=""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <input name="reset" class="btn btn-info" value="Reset" type="reset" id="reset"> <br/></td>
-                                                                <td valign="top"></td>
-                                                                
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                                    <div class="row" id="firstNameRow">   
+                                                        <div class="form-group col-sm-3">
+                                                            <label for="fname">First Name:<span style="color:red"> *</span></label>
+                                                            <input type="text" class="form-control input" id="fname" name="fname" placeholder="First Name"/>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-sm-3">
+                                                            <label for="mname">Middle Name:</label>
+                                                            <input type="text" class="form-control input" id="mname" name="mname" placeholder="Middle Name"/>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-sm-3">
+                                                            <label for="fname">Last Name:<span style="color:red"> *</span></label>
+                                                            <input type="text" class="form-control input" id="lname" name="lname" placeholder="Last Name"/>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-sm-3">
+                                                            <label for="dob">Date of Birth:<span style="color:red"> *</span></label>
+                                                            <input type="text" class="form-control input" id="dob" name="dob" placeholder="yyyy-mm-dd"/>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                    <div class="row" id="dobRow"> 
+                                                        <div class="form-group col-sm-3">
+                                                            <label for="gender">Gender:<span style="color:red"> *</span></label>
+                                                            <select id="gender" name="gender" class="form-control input">
+                                                                <option value="" selected>I am...</option> 
+                                                                <option value="Male">Male</option>
+                                                                <option value="Female">Female</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-sm-3">
+                                                            <label for="address">Postal Address:<span style="color:red"> *</span></label>
+                                                            <input type="text" class="form-control input" id="address" name="address" placeholder="e.g. P.O Box 48, Chebunyo"/>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-sm-3">
+                                                            <label for="mobile">Mobile:<span style="color:red"> *</span></label>
+                                                            <input type="text" class="form-control input" id="mobile" name="mobile" placeholder="07...."/>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-sm-3">
+                                                            <label for="country">Nationality:<span style="color:red"> *</span></label>
+                                                            <input type="text" class="form-control input" id="country" name="country" placeholder="country of residence"/>
+                                                        </div>     
+                                                    </div>
+                                                    
+                                                    <div class="row" id="buttons1">
+                                                        <div class="col-sm-4"></div>
+                                                        <div class="form-group col-sm-2">
+                                                            <button type="submit" name="submit1" class="btn btn-success" style="width: 120px;">Submit</button>
+                                                        </div>
+                                                        <div class="form-group col-sm-2">
+                                                            <button type="reset" name="reset" class="btn btn-info pull-right" style="width: 120px;">Reset</button>
+                                                        </div>
+                                                        <div class="col-sm-4"></div>
+                                                    </div>
+                                                    
+                                                    
                                                 </fieldset>
                                             </form>
                                         </div><!--end .accordion-section-content-->
@@ -245,134 +215,124 @@ if (ErrorText= "") { form.submit() }
                                         <a class="accordion-section-title" href="#accordion-2">SECTION B: Applicant's Education Background.</a>
                                         <div id="accordion-2" class="accordion-section-content">
                                             
-                                            <form role="form" method="post" action="" onsubmit="return validateEducationBackgroundForm(this)">
+                                            <form role="form" method="post" action="" id="myForm2" onsubmit="return validateEducationBackgroundForm1(this)">
                                                 <fieldset>
                                                     
-                                                    <table style="width: 650px; height: 350px;">
-                                                        <tbody>
-                                                            
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">K.C.S.E Physics Grade:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><select id="physicsgrade" name="physicsgrade">
-                                                                        <option value="" selected>~select grade~</option> 
-                                                                        <option value="A">A</option>
-                                                                        <option value="A-">A-</option>
-                                                                        <option value="B+">B+</option>
-                                                                        <option value="B">B</option>
-                                                                        <option value="B-">B-</option>
-                                                                        <option value="C+">C+</option>
-                                                                        <option value="C">C</option>
-                                                                        <option value="C-">C-</option>
-                                                                        <option value="D+">D+</option>
-                                                                        <option value="D">D</option>
-                                                                        <option value="D-">D-</option>
-                                                                        <option value="E">E</option>
-                                                                    </select>
-                                                                    <span id="physicsgradeError" style="color: #ff6699;"></span>
-                                                                </td>
-                                                                <td valign="top"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">K.C.S.E Maths Grade:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><select name="mathsgrade">
-                                                                        <option value="" selected>~select grade~</option> 
-                                                                        <option value="A">A</option>
-                                                                        <option value="A-">A-</option>
-                                                                        <option value="B+">B+</option>
-                                                                        <option value="B">B</option>
-                                                                        <option value="B-">B-</option>
-                                                                        <option value="C+">C+</option>
-                                                                        <option value="C">C</option>
-                                                                        <option value="C-">C-</option>
-                                                                        <option value="D+">D+</option>
-                                                                        <option value="D">D</option>
-                                                                        <option value="D-">D-</option>
-                                                                        <option value="E">E</option>
-                                                                    </select>
-                                                                    <span id="mathsgradeError" style="color: #ff6699;"></span>
-                                                                </td>
-                                                                <td valign="top"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">GROUP II or any GROUP III Grade:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><select name="subj3">
-                                                                        <option value="" selected>~select grade~</option> 
-                                                                        <option value="A">A</option>
-                                                                        <option value="A-">A-</option>
-                                                                        <option value="B+">B+</option>
-                                                                        <option value="B">B</option>
-                                                                        <option value="B-">B-</option>
-                                                                        <option value="C+">C+</option>
-                                                                        <option value="C">C</option>
-                                                                        <option value="C-">C-</option>
-                                                                        <option value="D+">D+</option>
-                                                                        <option value="D">D</option>
-                                                                        <option value="D-">D-</option>
-                                                                        <option value="E">E</option>
-                                                                    </select>
-                                                                    <span id="subj3Error" style="color: #ff6699;"></span>
-                                                                </td>
-                                                                <td valign="top"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">GROUP II/GROUP III/GROUP IV/GROUP V Grade:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><select name="subj4">
-                                                                        <option value="" selected>~select grade~</option> 
-                                                                        <option value="A">A</option>
-                                                                        <option value="A-">A-</option>
-                                                                        <option value="B+">B+</option>
-                                                                        <option value="B">B</option>
-                                                                        <option value="B-">B-</option>
-                                                                        <option value="C+">C+</option>
-                                                                        <option value="C">C</option>
-                                                                        <option value="C-">C-</option>
-                                                                        <option value="D+">D+</option>
-                                                                        <option value="D">D</option>
-                                                                        <option value="D-">D-</option>
-                                                                        <option value="E">E</option>
-                                                                    </select>
-                                                                    <span id="subj4Error" style="color: #ff6699;"></span>
-                                                                </td>
-                                                                <td valign="top"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">K.C.S.E Mean Grade:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><select name="meangrade">
-                                                                        <option value="" selected>~select grade~</option> 
-                                                                        <option value="A">A</option>
-                                                                        <option value="A-">A-</option>
-                                                                        <option value="B+">B+</option>
-                                                                        <option value="B">B</option>
-                                                                        <option value="B-">B-</option>
-                                                                        <option value="C+">C+</option>
-                                                                        <option value="C">C</option>
-                                                                        <option value="C-">C-</option>
-                                                                        <option value="D+">D+</option>
-                                                                        <option value="D">D</option>
-                                                                        <option value="D-">D-</option>
-                                                                        <option value="E">E</option>
-                                                                    </select>
-                                                                    <span id="meangradeError" style="color: #ff6699;"></span>
-                                                                </td>
-                                                                <td valign="top"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">K.C.S.E Aggregate Points:<span style="color:red"> *</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><input style="width: 150px;" placeholder="Total Aggregate Points" name="aggregatepoints" type="text" autocomplete="off">
-                                                                    <span id="aggregatepointsError" style="color: #ff6699;"></span></td>
-                                                                <td valign="top"></td>
-                                                                
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top"></td>
-                                                                <td valign="top">
-                                                                    <input type="submit" name="submit2" class="btn btn-success" value="Submit">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <input name="reset" class="btn btn-info" value="Reset" type="reset"> <br/></td>
-                                                                <td valign="top"></td>
-                                                                
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                                    <div class="row" id="physicsRow">
+                                                        <div class="form-group col-sm-4">
+                                                            <label for="physics">K.C.S.E Physics Grade:<span style="color:red"> *</span></label>
+                                                            <select id="physics" name="physics" class="form-control input">
+                                                                <option value="" selected>~select grade~</option> 
+                                                                <option value="A">A</option>
+                                                                <option value="A-">A-</option>
+                                                                <option value="B+">B+</option>
+                                                                <option value="B">B</option>
+                                                                <option value="B-">B-</option>
+                                                                <option value="C+">C+</option>
+                                                                <option value="C">C</option>
+                                                                <option value="C-">C-</option>
+                                                                <option value="D+">D+</option>
+                                                                <option value="D">D</option>
+                                                                <option value="D-">D-</option>
+                                                                <option value="E">E</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-sm-4">
+                                                            <label for="maths">K.C.S.E Maths Grade:<span style="color:red"> *</span></label>
+                                                            <select id="maths" name="maths" class="form-control input">
+                                                                <option value="" selected>~select grade~</option> 
+                                                                <option value="A">A</option>
+                                                                <option value="A-">A-</option>
+                                                                <option value="B+">B+</option>
+                                                                <option value="B">B</option>
+                                                                <option value="B-">B-</option>
+                                                                <option value="C+">C+</option>
+                                                                <option value="C">C</option>
+                                                                <option value="C-">C-</option>
+                                                                <option value="D+">D+</option>
+                                                                <option value="D">D</option>
+                                                                <option value="D-">D-</option>
+                                                                <option value="E">E</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-sm-4">
+                                                            <label for="subj3">Group II or any Group III Grade:<span style="color:red"> *</span></label>
+                                                            <select id="subj3" name="subj3" class="form-control input">
+                                                                <option value="" selected>~select grade~</option> 
+                                                                <option value="A">A</option>
+                                                                <option value="A-">A-</option>
+                                                                <option value="B+">B+</option>
+                                                                <option value="B">B</option>
+                                                                <option value="B-">B-</option>
+                                                                <option value="C+">C+</option>
+                                                                <option value="C">C</option>
+                                                                <option value="C-">C-</option>
+                                                                <option value="D+">D+</option>
+                                                                <option value="D">D</option>
+                                                                <option value="D-">D-</option>
+                                                                <option value="E">E</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="row" id="subj4Row">
+                                                        <div class="form-group col-sm-4">
+                                                            <label for="subj4">Group II/Group III/Group IV/Group V Grade:<span style="color:red"> *</span></label>
+                                                            <select id="subj4" name="subj4" class="form-control input">
+                                                                <option value="" selected>~select grade~</option> 
+                                                                <option value="A">A</option>
+                                                                <option value="A-">A-</option>
+                                                                <option value="B+">B+</option>
+                                                                <option value="B">B</option>
+                                                                <option value="B-">B-</option>
+                                                                <option value="C+">C+</option>
+                                                                <option value="C">C</option>
+                                                                <option value="C-">C-</option>
+                                                                <option value="D+">D+</option>
+                                                                <option value="D">D</option>
+                                                                <option value="D-">D-</option>
+                                                                <option value="E">E</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-sm-4">
+                                                            <label for="meanGrade">K.C.S.E Mean Grade:<span style="color:red"> *</span></label>
+                                                            <select id="meanGrade" name="meanGrade" class="form-control input">
+                                                                <option value="" selected>~select grade~</option> 
+                                                                <option value="A">A</option>
+                                                                <option value="A-">A-</option>
+                                                                <option value="B+">B+</option>
+                                                                <option value="B">B</option>
+                                                                <option value="B-">B-</option>
+                                                                <option value="C+">C+</option>
+                                                                <option value="C">C</option>
+                                                                <option value="C-">C-</option>
+                                                                <option value="D+">D+</option>
+                                                                <option value="D">D</option>
+                                                                <option value="D-">D-</option>
+                                                                <option value="E">E</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-sm-4">
+                                                            <label for="aggregatePoints">K.C.S.E Aggregate Points:<span style="color:red"> *</span></label>
+                                                            <input type="text" class="form-control input" id="aggregatePoints" name="aggregatePoints" placeholder="Total Aggregate Points"/>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="row" id="buttons2">
+                                                        <div class="col-sm-4"></div>
+                                                        <div class="form-group col-sm-2">
+                                                            <button type="submit" name="submit2" class="btn btn-success" style="width: 120px;">Submit</button>
+                                                        </div>
+                                                        <div class="form-group col-sm-2">
+                                                            <button type="reset" name="reset" class="btn btn-info pull-right" style="width: 120px;">Reset</button>
+                                                        </div>
+                                                        <div class="col-sm-4"></div>
+                                                    </div>
+                                                    
                                                 </fieldset>
                                             </form>
                                             
@@ -389,73 +349,72 @@ if (ErrorText= "") { form.submit() }
                                         <a class="accordion-section-title" href="#accordion-3">SECTION C: Course Application Details.</a>
                                         <div id="accordion-3" class="accordion-section-content">
                                             
-                                            <form role="form" method="post" action="" onsubmit="return validateCourseApplicationDetailsForm(this)">
+                                            <form role="form" method="post" action="" id="myForm3" onsubmit="return validateCourseApplicationDetailsForm1(this)">
                                                 <fieldset>
                                                     
-                                                    <table style="width: 650px; height: 250px;">
-                                                        <tbody>
-                                                            
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Programme Level:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><select name="programmelevel" style="width: 205px;">
-                                                                        <option value="" selected>~select programme level~</option> 
-                                                                        <option value="Degree">Degree</option>
-                                                                        <option value="Diploma">Diploma</option>
-                                                                        <option value="Certificate">Certificate</option>
-                                                                    </select>
-                                                                    <span id="programmelevelError" style="color: #ff6699;"></span>
-                                                                </td>
-                                                                <td valign="top"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Programme Name:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><select name="programmename" style="width: 205px;">
-                                                                        <option value="" selected>~select programme name~</option> 
-                                                                        <option value="Computer Science">Computer Science</option>
-                                                                        <option value="Information Technology">Information Technology</option>
-                                                                        <option value="Computer Studies">Computer Studies</option>
-                                                                        <option value="Computer Forensics">Computer Forensics</option>
-                                                                    </select>
-                                                                    <span id="programmenameError" style="color: #ff6699;"></span>
-                                                                </td>
-                                                                <td valign="top"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Mode of Study:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><select name="modeofstudy" style="width: 205px;">
-                                                                        <option value="" selected>~select mode of study~</option> 
-                                                                        <option value="Full Time">Full Time</option>
-                                                                        <option value="Part Time">Part Time</option>
-                                                                        <option value="Evening">Evening Classes</option>
-                                                                        <option value="Weekend Classes">Weekend Classes</option>
-                                                                    </select>
-                                                                    <span id="modeofstudyError" style="color: #ff6699;"></span>
-                                                                </td>
-                                                                <td valign="top"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top" style="padding-top:10px;">Campus/Study Center:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
-                                                                <td valign="top"><select name="campus" style="width: 205px;">
-                                                                        <option value="" selected>~select campus~</option> 
-                                                                        <option value="Main Campus">Main Campus</option>
-                                                                        <option value="KiBuCo">Kibabii University College</option>
-                                                                        <option value="BuC">Bungoma Campus</option>
-                                                                        <option value="Kaps">Kapsabet Campus</option>
-                                                                    </select>
-                                                                    <span id="campusError" style="color: #ff6699;"></span>
-                                                                </td>
-                                                                <td valign="top"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" valign="top"></td>
-                                                                <td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <input type="submit" name="submit2" class="btn btn-success" value="Submit">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <input name="reset" class="btn btn-info" value="Reset" type="reset"> <br/></td>
-                                                                <td valign="top"></td>
-                                                                
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                                    <div class="row" id="programmeLevelRow">
+                                                        <div class="col-sm-2"></div>
+                                                        <div class="form-group col-sm-4">
+                                                            <label for="level">Programme Level:<span style="color:red"> *</span></label>
+                                                            <select id="programmeLevel" name="programmeLevel" class="form-control input">
+                                                                <option value="" selected>~select programme level~</option> 
+                                                                <option value="Degree">Degree</option>
+                                                                <option value="Diploma">Diploma</option>
+                                                                <option value="Certificate">Certificate</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        
+                                                        <div class="form-group col-sm-4">
+                                                            <label for="programmeName">Programme Name:<span style="color:red"> *</span></label>
+                                                            <select id="programmeName" name="programmeName" class="form-control input">
+                                                                <option value="" selected>~select programme name~</option> 
+                                                                <option value="Computer Science">Computer Science</option>
+                                                                <option value="Information Technology">Information Technology</option>
+                                                                <option value="Computer Studies">Computer Studies</option>
+                                                                <option value="Computer Forensics">Computer Forensics</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-2"></div>
+                                                    </div>
+                                                    
+                                                    <div class="row" id="modeOfStudyRow">
+                                                        <div class="col-sm-2"></div>
+                                                        <div class="form-group col-sm-4">
+                                                            <label for="modeOfStudy">Mode of StudyRow:<span style="color:red"> *</span></label>
+                                                            <select id="modeOfStudy" name="modeOfStudy" class="form-control input">
+                                                                <option value="" selected>~select mode of study</option> 
+                                                                <option value="Full Time">Full Time</option>
+                                                                <option value="Part Time">Part Time</option>
+                                                                <option value="Evening">Evening Classes</option>
+                                                                <option value="Weekend Classes">Weekend Classes</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-sm-4">
+                                                            <label for="campus">Campus/Study Center:<span style="color:red"> *</span></label>
+                                                            <select id="campus" name="campus" class="form-control input">
+                                                                <option value="" selected>~select mode of study</option> 
+                                                                <option value="Full Time">Full Time</option>
+                                                                <option value="Part Time">Part Time</option>
+                                                                <option value="Evening">Evening Classes</option>
+                                                                <option value="Weekend Classes">Weekend Classes</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-2"></div>
+                                                    </div>
+                                                    
+                                                    <div class="row" id="buttons3">
+                                                        <div class="col-sm-4"></div>
+                                                        <div class="form-group col-sm-2">
+                                                            <button type="submit" name="submit3" class="btn btn-success" style="width: 120px;">Submit</button>
+                                                        </div>
+                                                        <div class="form-group col-sm-2">
+                                                            <button type="reset" name="reset" class="btn btn-info pull-right" style="width: 120px;">Reset</button>
+                                                        </div>
+                                                        <div class="col-sm-4"></div>
+                                                    </div>
+                                                    
                                                 </fieldset>
                                             </form>
                                             
@@ -513,5 +472,9 @@ if (ErrorText= "") { form.submit() }
         <script src="mycss/dateValidator.js"></script> 
         <script type="text/javascript" src="mycss/modal/jquery.minCust.js"></script>
         <script type="text/javascript" src="mycss/modal/bootstrapJsCust.js"></script>
+        <script type="text/javascript" src="mycss/validation/jquery.js"></script>
+        <script type="text/javascript" src="mycss/validation/jquery.validate.js"></script>
+        <script type="text/javascript" src="mycss/validation/additional-methods.js"></script>
+        <script src="mycss/validation/custom.js"></script>
     </body>
 </html>

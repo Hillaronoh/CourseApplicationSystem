@@ -1,0 +1,184 @@
+.wrapper {
+	position:absolute;
+	width:100%;
+	height:702px;
+	z-index:1;
+	left: 0px;
+	top: 1px;
+        background-color: #ccffcc;
+       }
+
+.header {
+	position:absolute;
+	width:100%;
+	height: 140px;
+	z-index:2;
+	left: 1px;
+	top: 1px;
+        text-align: center;
+        background-color: #456896;
+	
+        
+}
+.login_details {
+	position:absolute;
+	width:360px;
+	height:328px;
+	z-index:3;
+	left: 469px;
+	top: 189px;
+	background-color: #FFFFFF;
+	border:2px solid;
+}
+.separate_header_login {
+	position:absolute;
+	width:100%;
+	height:6px;
+	z-index:4;
+	left: 0px;
+	top: 182px;
+	background-color:#669966;
+}
+.footer {
+	position:absolute;
+	width: 100%;
+	height:182px;
+	z-index:5;
+	left: 0px;
+	top: 521px;
+        background-color: #cccccc;
+	
+}
+.imagelogo {
+	position:absolute;
+	width:auto;
+	height:auto;
+	z-index:1;
+	top: -1px;
+}
+.mmust_title {
+	position:absolute;
+	width:865px;
+	height:47px;
+	z-index:2;
+	left: 228px;
+	top: 12px;
+}
+.style1 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 24px;
+}
+.style2 {font-family: "Courier New", Courier, monospace; font-size: 24px; }
+.title_logincredentials {
+	position:absolute;
+	width:360px;
+	height:33px;
+	z-index:2;
+	left: 3px;
+	top: 4px;
+	color:#66CCCC;
+}
+.after_user_login_credentials{
+	position:absolute;
+	width:359px;
+	height:247px;
+	z-index:3;
+	left: 3px;
+	top: 60px;
+}
+.forgot_pwd_register {
+	position:absolute;
+	width:294px;
+	height:63px;
+	z-index:1;
+	left: 35px;
+	top: 183px;
+	text-decoration:none;
+        text-align: center;
+        background-color: #ccffff;
+}
+h2{
+    text-align: center;
+}
+table{
+    width: 342px;
+    height: 123px; 
+    border: 0;
+}
+.btnsubmit{
+    border-radius: 2em;
+    margin: 0;
+    width: 80px;
+    background-color: #006666;
+    color: #ff9999;
+    font-family: cursive;
+  
+}
+.user_account {
+	position:absolute;
+	width:1065px;
+	height:328px;
+	z-index:3;
+	left: 135px;
+	top: 189px;
+	background-color: #FFFFFF;
+	border:2px solid;
+}
+#wrapper{
+    
+}
+.clearFloat{
+    clear: both;
+    margin: 0;
+    padding: 0;
+}
+.notification{
+    position: absolute;
+    width: 400px;
+    height: auto;
+    background-color: #ccccff;
+    color: #3333ff;
+    
+}
+.hero-unit-4-formReg{
+    margin-left:auto;
+    margin-right:auto;
+    background-color: #fafafa;
+    background-image: -moz-linear-gradient(top, #f2f2f2, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f2f2), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #f2f2f2, #f2f2f2);
+    background-image: -o-linear-gradient(top, #f2f2f2, #f2f2f2);
+    background-image: linear-gradient(to bottom, #f2f2f2, #f2f2f2);
+    background-repeat: repeat-x;
+    border: 1px solid #d4d4d4;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+	padding-left:0px;
+	min-height:100px;
+	height:auto;
+	padding-bottom:20px;
+	width:1000px;
+	margin-top:180px;
+
+	overflow:hidden;
+}
+.hero-unit-3Announcements{
+    margin-left: 2px;
+
+    background-color: #fafafa;
+    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
+    background-repeat: repeat-x;
+    border: 1px solid #d4d4d4;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 1px;
+	width:402px;
+	height:auto;
+        padding: 2%;
+      
+}

@@ -15,7 +15,7 @@
         <%
         session.setAttribute("userid",null);
         session.invalidate();
-        response.sendRedirect("UserLogin.jsp");
+        response.sendRedirect("../Login.jsp");
         %>
     </body>
 </html>

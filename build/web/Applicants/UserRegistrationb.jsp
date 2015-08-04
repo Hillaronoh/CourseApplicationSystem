@@ -22,18 +22,24 @@
     
  <link rel="stylesheet" href="layout/bootstrap/css/bootstrap.css" type="text/css">
  <script type="text/javascript" src="mycss/validate.js"></script>
-
+<style>
+    .error{
+        color: red;
+    }
+    .login-panel{
+        margin-top: 19%;
+        width: 90%;
+        margin-left: 7%;
+        height: 350px;
+    }
+</style>
 </head>
 <body style="overflow-x: hidden; background-color: #EFEEEE;"> 
     
     <jsp:include page="Header.jsp"></jsp:include>
     
     <div class="container">
-        
-            
-        <div class="row2">
-            <div class="col-md-5 col-md-offset-5">
-			
+
                 <div class="login-panel panel panel-default">
    
                 <%if(request.getParameter("register")!=null){%>                 
@@ -127,85 +133,77 @@
                         <h3 class="panel-title" style="text-align: center;">Welcome New User! Sign Up Below.</h3>
                     </div>
             <%}%> 
-            <div class="panel-body">
+            <div class="panel-body" style="padding-left: 3%;">
                         
-                <form name="registration" method="post" action="" onsubmit="return validateForm(this)"><br>
-                   
+                <form name="registration" method="post" action="" id="myForm4" onsubmit="return validateForm(this)"><br>
+                    
                     <fieldset>
-
-                        <table style="width: 600px; height: 350px;">
-                            <tbody>
-                                <tr>
-                                    <td align="right" valign="top" style="padding-top:10px;">First Name:<span style="color:red"> *</span> &nbsp;&nbsp;&nbsp;</td>
-                                    <td valign="top"><input  autocomplete="off" name="fname" id="fname" type="text" autofocus>
-                                        <span id="fnameError" style="color: #ff6699;"></span>
-                                    </td>
-                                    <td valign="top"></td>
-                                </tr>
-                                <tr>
-                                    <td align="right" valign="top" style="padding-top:10px;">Middle Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                    <td valign="top"><input autocomplete="off" name="mname" id="mname" type="text">
-                                        <span id="mnameError"> </span>
-                                    </td>
-                                    <td valign="top"></td>
-                                </tr>
-                                <tr>
-                                    <td align="right" valign="top" style="padding-top:10px;">Last Name:<span style="color:red"> *</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                    <td valign="top"><input autocomplete="off" name="lname" id="lname" type="text">
-                                        <span id="lnameError" style="color: #ff6699;"> </span>
-                                    </td>
-                                    <td valign="top"></td>
-                                </tr>
-
-                                <tr>
-                                    <td align="right" valign="top" style="padding-top:10px;">Email Address:<span style="color:red"> *</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                    <td valign="top"><input autocomplete="off" name="email" id="idnum" type="email">
-                                        <span id="emailError" style="color: #ff6699;"> </span>
-                                    </td>
-                                    <td valign="top"></td>
-                                </tr>
-                                <tr >
-                                    <td align="right" valign="top" style="padding-top:10px;">Password:<span style="color:red"> *</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                    <td valign="top"><input autocomplete="off" name="password1" id="pwd" type="password" >
-                                        <span id="password1Error" style="color: #ff6699;"> </span>
-                                    </td>
-                                    <td valign="top"></td>
-                                </tr>
-
-                                <tr>
-                                    <td align="right" valign="top" style="padding-top:10px;">Confirm Password:<span style="color:red">*</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                    <td valign="top"><input autocomplete="off" name="password2" id="mobnumber" type="password">
-                                        <span id="password2Error" style="color: #ff6699;"> </span>
-                                    </td>
-                                    <td valign="top"></td>
-                                </tr>
-
-                                <tr>
-                                    <td align="right" valign="top"></td>
-                                    <td valign="top"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <input type="submit" name="register" class="btn btn-success" style="width:25%;" value="Register" id="submit"></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <strong><input name="reset" class="btn btn-info" style="width:25%;" value="Reset" id="clear" type="reset"></strong> <br/></td>
-                                    <td valign="top"></td>
-	
-                                </tr>
-
-                            </tbody>
-                        </table>  
-                    </fieldset>
-                    <a href="UserLogin.jsp" style="float: right;">Sign In Here</a>
-                </form>
                         
+                        <div class="row" id="firstNameRow">     
+                            <div class="form-group col-sm-4">
+                                <label for="fname">First Name:<span style="color:red"> *</span></label>
+                                <input type="text" class="form-control input" id="fname" name="fname" placeholder="First Name"/>
+                            </div>
+                       
+                            <div class="form-group col-sm-4">
+                                <label for="mname">Middle Name:</label>
+                                <input type="text" class="form-control input" id="mname" name="mname" placeholder="Middle Name"/>
+                            </div>
+                          
+                            <div class="form-group col-sm-4">
+                                <label for="lname">Last Name:<span style="color:red"> *</span></label>
+                                <input type="text" class="form-control input" id="lname" name="lname" placeholder="Last Name"/>
+                            </div>    
+                        </div>
+                        
+                        <div class="row" id="emailRow">    
+                            <div class="form-group col-sm-4">
+                                <label for="email">Email Address:<span style="color:red"> *</span></label>
+                                <input type="text" class="form-control input" id="email" name="email" placeholder="Email Address"/>
+                            </div>
+                    
+                            <div class="form-group col-sm-4">
+                                <label for="password1">Password:<span style="color:red"> *</span></label>
+                                <input type="password" class="form-control input" id="password1" name="password1" placeholder="Password"/>
+                            </div>
+                        
+                            <div class="form-group col-sm-4">
+                                <label for="password2">Confirm Password:<span style="color:red"> *</span></label>
+                                <input type="password" class="form-control input" id="password2" name="password2" placeholder="Confirm Password"/>
+                            </div>        
+                        </div>
+                        
+                        <div class="row" id="buttons1">
+                            <div class="col-sm-3"></div>
+                            <div class="form-group col-sm-3">
+                                <button type="submit" name="submit1" class="btn btn-success" style="width: 150px;">Submit</button>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <button type="reset" name="reset" class="btn btn-info pull-right" style="width: 150px;">Reset</button>
+                            </div>
+                            <div class="col-sm-3"></div>
+                        </div>
+                            
+                       
+                    </fieldset>
+                    <div class="row">
+                        <div class="col-sm-9"></div>
+                        <div class="col-sm-3">
+                    <a href="../Login.jsp" style="float: right;">Sign In</a>
+                        </div>
+                    </div>
+                </form>
+                    
             </div>
                 </div>
-            </div>
-        </div>
-            
     </div>
-
-     <!-- Core Scripts - Include with every page -->
+        
+    <!-- Core Scripts - Include with every page -->
     <script src="assets/plugins/jquery-1.10.2.js"></script>
     <script src="assets/plugins/bootstrap/bootstrap.min.js"></script>
     <script src="assets/plugins/metisMenu/jquery.metisMenu.js"></script>
-
+    <script type="text/javascript" src="mycss/validation/jquery.validate.js"></script>
+    <script type="text/javascript" src="mycss/validation/additional-methods.js"></script>
+    <script src="mycss/validation/custom.js"></script>
 </body>
 </html>

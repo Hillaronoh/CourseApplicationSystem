@@ -13,6 +13,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="images/favicon.ico">
         
         <title> Ranking | Diploma </title>
         
@@ -51,7 +52,7 @@
                     <div class="left_col scroll-view">
                         
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Admin</span></a>
+                            <a href="AdminPanel.jsp" class="site_title"><i class="fa fa-user-md"></i> <span>Admin</span></a>
                         </div>
                         <div class="clearfix"></div>
                         
@@ -69,7 +70,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-edit"></i> View Applicants <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-desktop"></i> View Applicants <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
                                             <li><a href="ViewDegApplicants.jsp">Degree Applicants</a>
                                             </li>
@@ -79,9 +80,9 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-desktop"></i> Announcements <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-bell-o"></i> Announcements <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
-                                            <li><a href="PostAnn.jsp">Post</a>
+                                            <li><a href="#postAnnouncement" data-toggle="modal">Post</a>
                                             </li>
                                             <li><a href="DeleteAnn.jsp">Delete</a>
                                             </li>
@@ -97,7 +98,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-bar-chart-o"></i> Inquiries <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-inbox"></i> Inquiries <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
                                             <li><a href="UnrepliedInquiries.jsp">Unreplied</a>
                                             </li>
@@ -125,7 +126,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="images/img.jpg" alt="">Hillary
+                                        <img src="images/username2.png" alt="">Hillary
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
@@ -133,14 +134,14 @@
                                         <li>
                                             <a href="#">Change Password</a>
                                         </li>
-                                        <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                        <li><a href="../Applicants/UserLogout.jsp"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                         </li>
                                     </ul>
                                 </li>
                                 
                                 <li role="presentation" class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-envelope-o"></i>
+                                        <i class="fa fa-globe"></i>
                                         <span class="badge bg-green">6</span>
                                     </a>
                                     <ul id="menu1" class="dropdown-menu list-unstyled msg_list animated fadeInDown" role="menu">
@@ -242,11 +243,63 @@
                                     </div>
                                     <div class="x_content">
                                         <br />
-                                        content
+                                        
+                                        <div class="row">
+                                            <form class="form-horizontal">
+                                                <div class="col-sm-5 panel panel-default" style="padding: 15px 15px;">
+                                                    <legend>Specify the number of applicants as follows:</legend>
+                                                    <label for="cs">Computer Science:</label>
+                                                    <input type="text" class="form-control input" id="cs" name="cs" placeholder="Number of computer science applicants"/><br/>
+                                                    
+                                                    <label for="it">Information Technology:</label>
+                                                    <input type="text" class="form-control input" id="it" name="it" placeholder="Number of IT applicants"/><br/>
+                                                    
+                                                    <label for="info">Informatics:</label>
+                                                    <input type="text" class="form-control input" id="info" name="info" placeholder="Number of informatics applicants"/><br/>    
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-3 panel panel-default">
+                                                    <legend>Actions</legend>
+                                                    <button type="submit" class="btn btn-success btn-block"><i class="fa fa-check-square-o"></i>Rank</button><br/>
+                                                    <button type="reset" class="btn btn-info btn-block"><i class="fa fa-close"></i>Reset</button><br/>
+                                                    <button type="submit" class="btn btn-danger btn-block"><i class="fa fa-undo"></i>Undo Ranking</button><br/>
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-2 panel panel-default">
+                                                    <legend>Note</legend>
+                                                    <p>Specifying zero in any field means you don't want to rank the concerned applicants</p>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="modal fade" id="postAnnouncement" role="dialog">
+                            <div class="modal-dialog" style="width: 500px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" >Post Announcement</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        
+                                        <form method="post" action="">
+                                            <textarea placeholder="New Announcement..." style="width: 468px; height: 100px;"></textarea>
+                                            
+                                            <div class="well modal-footer">
+                                                <button type="reset" class="btn btn-default">Clear</button>
+                                                <button type="submit" class="btn btn-primary" name="save">Post</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                        
                     </div>
                     <!-- /page content -->
                     

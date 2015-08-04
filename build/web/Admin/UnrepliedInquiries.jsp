@@ -13,6 +13,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="images/favicon.ico">
         
         <title> Inquiries | Unreplied </title>
         
@@ -51,7 +52,7 @@
                     <div class="left_col scroll-view">
                         
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Admin</span></a>
+                            <a href="AdminPanel.jsp" class="site_title"><i class="fa fa-user-md"></i> <span>Admin</span></a>
                         </div>
                         <div class="clearfix"></div>
                         
@@ -69,7 +70,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-edit"></i> View Applicants <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-desktop"></i> View Applicants <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
                                             <li><a href="ViewDegApplicants.jsp">Degree Applicants</a>
                                             </li>
@@ -79,9 +80,9 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-desktop"></i> Announcements <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-bell-o"></i> Announcements <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
-                                            <li><a href="general_elements.html">Post</a>
+                                            <li><a href="#postAnnouncement" data-toggle="modal">Post</a>
                                             </li>
                                             <li><a href="DeleteAnn.jsp">Delete</a>
                                             </li>
@@ -97,7 +98,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-bar-chart-o"></i> Inquiries <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-inbox"></i> Inquiries <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
                                             <li><a href="UnrepliedInquiries.jsp">Unreplied</a>
                                             </li>
@@ -125,7 +126,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="images/img.jpg" alt="">Hillary
+                                        <img src="images/username2.png" alt="">Hillary
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
@@ -133,14 +134,14 @@
                                         <li>
                                             <a href="#">Change Password</a>
                                         </li>
-                                        <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                        <li><a href="../Applicants/UserLogout.jsp"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                         </li>
                                     </ul>
                                 </li>
                                 
                                 <li role="presentation" class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-envelope-o"></i>
+                                        <i class="fa fa-globe"></i>
                                         <span class="badge bg-green">6</span>
                                     </a>
                                     <ul id="menu1" class="dropdown-menu list-unstyled msg_list animated fadeInDown" role="menu">
@@ -248,10 +249,11 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
-                                                    <th>First Name</th>
-                                                    <th>Last Name</th>
-                                                    <th>Username</th>
+                                                    <th>Id</th>
+                                                    <th>Sender</th>
+                                                    <th>Message</th>
+                                                    <th>Date Sent</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -259,19 +261,37 @@
                                                     <th scope="row">1</th>
                                                     <td>Mark</td>
                                                     <td>Otto</td>
-                                                    <td>@mdo</td>
+                                                    <td>Mark</td>
+                                                    <td style="width: 154px; padding-right: 0px;">
+                                                        <a href="#reply" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;">
+                                                            <i class="fa fa-reply">Reply</i></a>
+                                                        <a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -3px; outline: none;">
+                                                            <i class="fa fa-exclamation-circle">Ignore</i></a>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">2</th>
                                                     <td>Jacob</td>
                                                     <td>Thornton</td>
-                                                    <td>@fat</td>
+                                                    <td>Mark</td>
+                                                    <td style="width: 154px; padding-right: 0px;">
+                                                        <a href="#reply" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;">
+                                                            <i class="fa fa-reply">Reply</i></a>
+                                                        <a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -3px; outline: none;">
+                                                            <i class="fa fa-exclamation-circle">Ignore</i></a>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">3</th>
                                                     <td>Larry</td>
                                                     <td>the Bird</td>
-                                                    <td>@twitter</td>
+                                                    <td>Mark</td>
+                                                    <td style="width: 154px; padding-right: 0px;">
+                                                        <a href="#reply" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;">
+                                                            <i class="fa fa-reply">Reply</i></a>
+                                                        <a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -3px; outline: none;">
+                                                            <i class="fa fa-exclamation-circle">Ignore</i></a>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -282,55 +302,132 @@
                             </div>
                         </div>
                         
+                        <div class="modal fade" id="reply" role="dialog">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" >Inquiry</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        
+                                        <div class="portlet portlet-default" style="border: 1px solid; ">
+                                            
+                                            <div id="chat" class="panel-collapse collapse in">
+                                                <div>
+                                                    <div class="portlet-body" style="overflow-y: auto; overflow-x: hidden; height: 180px; padding-right: 3px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <p class="text-center text-muted small"><%= (new java.util.Date()).toLocaleString()%></p> 
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="media">
+                                                                    <a class="pull-left" href="#">
+                                                                        <i class="fa fa-user"></i>
+                                                                    </a>
+                                                                    <div class="media-body">
+                                                                        <h4 class="media-heading">Kipngetich Hillary
+                                                                            <span class="small pull-right">12:23 PM</span>
+                                                                        </h4>
+                                                                        <p>Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?
+                                                                            Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?
+                                                                            Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?
+                                                                            Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?
+                                                                            Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="well portlet-footer">
+                                                    <form role="form" method="post">
+                                                        <div class="form-group">
+                                                            <textarea class="form-control" placeholder="Enter reply..."></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="submit" class="btn btn-success pull-right" value="Send">
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                            
+                            
+                            
+                        </div>
+                        <!-- /page content -->
+                        
                     </div>
-                    <!-- /page content -->
                     
+                    <div class="modal fade" id="deleteConfirm" role="dialog">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" >Confirm</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>Are you sure you want to ignore?</h5>
+                                    <form method="post" action="">
+                                        <div class="">
+                                            <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                            <button type="submit" name="delete" class="btn btn-danger">Ignore</button> 
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
                     
                 </div>
-                
             </div>
-        </div>
-        
-        <div id="custom_notifications" class="custom-notifications dsp_none">
-            <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
-            </ul>
-            <div class="clearfix"></div>
-            <div id="notif-group" class="tabbed_notifications"></div>
-        </div>
-        
-        <script src="js/bootstrap.min.js"></script>
-        
-        <!-- chart js -->
-        <script src="js/chartjs/chart.min.js"></script>
-        <!-- bootstrap progress js -->
-        <script src="js/progressbar/bootstrap-progressbar.min.js"></script>
-        <script src="js/nicescroll/jquery.nicescroll.min.js"></script>
-        <!-- icheck -->
-        <script src="js/icheck/icheck.min.js"></script>
-        <!-- tags -->
-        <script src="js/tags/jquery.tagsinput.min.js"></script>
-        <!-- switchery -->
-        <script src="js/switchery/switchery.min.js"></script>
-        <!-- daterangepicker -->
-        <script type="text/javascript" src="js/moment.min2.js"></script>
-        <script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
-        <!-- richtext editor -->
-        <script src="js/editor/bootstrap-wysiwyg.js"></script>
-        <script src="js/editor/external/jquery.hotkeys.js"></script>
-        <script src="js/editor/external/google-code-prettify/prettify.js"></script>
-        <!-- select2 -->
-        <script src="js/select/select2.full.js"></script>
-        <!-- form validation -->
-        <script type="text/javascript" src="js/parsley/parsley.min.js"></script>
-        <!-- textarea resize -->
-        <script src="js/textarea/autosize.min.js"></script>
-        <!-- Autocomplete -->
-        <script type="text/javascript" src="js/autocomplete/countries.js"></script>
-        <script src="js/autocomplete/jquery.autocomplete.js"></script>
-        
-        <script src="js/custom.js"></script>
-        
-        
+            
+            
+            <script src="js/bootstrap.min.js"></script>
+            
+            <!-- chart js -->
+            <script src="js/chartjs/chart.min.js"></script>
+            <!-- bootstrap progress js -->
+            <script src="js/progressbar/bootstrap-progressbar.min.js"></script>
+            <script src="js/nicescroll/jquery.nicescroll.min.js"></script>
+            <!-- icheck -->
+            <script src="js/icheck/icheck.min.js"></script>
+            <!-- tags -->
+            <script src="js/tags/jquery.tagsinput.min.js"></script>
+            <!-- switchery -->
+            <script src="js/switchery/switchery.min.js"></script>
+            <!-- daterangepicker -->
+            <script type="text/javascript" src="js/moment.min2.js"></script>
+            <script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
+            <!-- richtext editor -->
+            <script src="js/editor/bootstrap-wysiwyg.js"></script>
+            <script src="js/editor/external/jquery.hotkeys.js"></script>
+            <script src="js/editor/external/google-code-prettify/prettify.js"></script>
+            <!-- select2 -->
+            <script src="js/select/select2.full.js"></script>
+            <!-- form validation -->
+            <script type="text/javascript" src="js/parsley/parsley.min.js"></script>
+            <!-- textarea resize -->
+            <script src="js/textarea/autosize.min.js"></script>
+            <!-- Autocomplete -->
+            <script type="text/javascript" src="js/autocomplete/countries.js"></script>
+            <script src="js/autocomplete/jquery.autocomplete.js"></script>
+            
+            <script src="js/custom.js"></script>
+            
+            
     </body>
     
 </html>

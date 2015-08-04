@@ -13,6 +13,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="images/favicon.ico">
         
         <title> Inquiries | Replied </title>
         
@@ -52,7 +53,7 @@
                     <div class="left_col scroll-view">
                         
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Admin</span></a>
+                            <a href="AdminPanel.jsp" class="site_title"><i class="fa fa-user-md"></i> <span>Admin</span></a>
                         </div>
                         <div class="clearfix"></div>
                         
@@ -70,9 +71,9 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-edit"></i> View Applicants <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-desktop"></i> View Applicants <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
-                                            <li><a href="ViewDEgApplicants.jsp">Degree Applicants</a>
+                                            <li><a href="ViewDegApplicants.jsp">Degree Applicants</a>
                                             </li>
                                             <li><a href="ViewDipApplicants.jsp">Diploma Applicants</a>
                                             </li>
@@ -80,9 +81,9 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-desktop"></i> Announcements <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-bell-o"></i> Announcements <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
-                                            <li><a href="PostAnn.jsp">Post</a>
+                                            <li><a href="#postAnnouncement" data-toggle="modal">Post</a>
                                             </li>
                                             <li><a href="DeleteAnn.jsp">Delete</a>
                                             </li>
@@ -90,7 +91,7 @@
                                     </li>
                                     <li><a><i class="fa fa-table"></i> Rank Applicants <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
-                                            <li><a href="RankDegApp.jsp">Degree Apllicants</a>
+                                            <li><a href="RankDegApp.jsp">Degree Applicants</a>
                                             </li>
                                             <li><a href="RankDipApp.jsp">Diploma Applicants</a>
                                             </li>
@@ -98,7 +99,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-bar-chart-o"></i> Inquiries <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-inbox"></i> Inquiries <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
                                             <li><a href="UnrepliedInquiries.jsp">Unreplied</a>
                                             </li>
@@ -126,7 +127,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="images/img.jpg" alt="">Hillary
+                                        <img src="images/username2.png" alt="">Hillary
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
@@ -134,14 +135,14 @@
                                         <li>
                                             <a href="#">Change Password</a>
                                         </li>
-                                        <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                        <li><a href="../Applicants/UserLogout.jsp"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                         </li>
                                     </ul>
                                 </li>
                                 
                                 <li role="presentation" class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-envelope-o"></i>
+                                        <i class="fa fa-globe"></i>
                                         <span class="badge bg-green">6</span>
                                     </a>
                                     <ul id="menu1" class="dropdown-menu list-unstyled msg_list animated fadeInDown" role="menu">
@@ -249,10 +250,11 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
-                                                    <th>First Name</th>
-                                                    <th>Last Name</th>
-                                                    <th>Username</th>
+                                                    <th>Id</th>
+                                                    <th>Sender</th>
+                                                    <th>Message</th>
+                                                    <th>Reply</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -260,19 +262,22 @@
                                                     <th scope="row">1</th>
                                                     <td>Mark</td>
                                                     <td>Otto</td>
-                                                    <td>@mdo</td>
+                                                    <td>Mark</td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">2</th>
                                                     <td>Jacob</td>
                                                     <td>Thornton</td>
-                                                    <td>@fat</td>
+                                                    <td>Mark</td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">3</th>
                                                     <td>Larry</td>
                                                     <td>the Bird</td>
-                                                    <td>@twitter</td>
+                                                    <td>Mark</td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -282,6 +287,50 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="modal fade" id="postAnnouncement" role="dialog">
+                            <div class="modal-dialog" style="width: 500px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" >Post Announcement</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        
+                                        <form method="post" action="">
+                                            <textarea placeholder="New Announcement..." style="width: 468px; height: 100px;"></textarea>
+                                            
+                                            <div class="well modal-footer">
+                                                <button type="reset" class="btn btn-default">Clear</button>
+                                                <button type="submit" class="btn btn-primary" name="save">Post</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                        
+                        <div class="modal fade" id="deleteConfirm" role="dialog">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" >Confirm</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5>Are you sure you want to delete?</h5>
+                                        <form method="post" action="">
+                                            <div class="">
+                                                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                                <button type="submit" name="delete" class="btn btn-danger">Delete</button> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
                         
                     </div>
                     <!-- /page content -->

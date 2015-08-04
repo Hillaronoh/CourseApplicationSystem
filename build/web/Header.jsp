@@ -12,14 +12,14 @@
         <title>Header</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
-        <link rel="stylesheet" href="mycss/style2.css" style type="text/css">
-        <link rel="stylesheet" href="mycss/style3.css" style type="text/css">
-        <link rel="shortcut icon" href="image/favicon.ico">
+        <link rel="stylesheet" href="css/style2.css" style type="text/css">
+        <link rel="stylesheet" href="css/style3.css" style type="text/css">
+        <link rel="shortcut icon" href="img/favicon.ico">
     </head>
     <body>
       
   <div class="header">
-      <div class="imagelogo" style="margin-left: 120px; margin-top: 10px;"><img src="image/mmustlogo.png" alt="logo" style="width: 100px; height: 100px;"/></div>
+      <div class="imagelogo" style="margin-left: 120px; margin-top: 10px;"><img src="img/mmustlogo.png" alt="logo" style="width: 100px; height: 100px;"/></div>
     
     <div class="mmust_title">
         <h1 class="style1">MASINDE MULIRO UNIVERSITY OF SCIENCE AND TECHNOLOGY</h1>
