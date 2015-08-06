@@ -3,7 +3,8 @@
     Created on : Jul 27, 2015, 2:04:35 PM
     Author     : hillary
 --%>
-
+<%@page import="java.sql.*" %>
+<%Class.forName("com.mysql.jdbc.Driver");%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -42,6 +43,65 @@
     
     
     <body class="nav-md">
+        
+        <%
+            String adminId=new String(); 
+            if(session.getAttribute("adminId")==null||(session.getAttribute("adminId")==""))
+            {
+                
+                response.sendRedirect("../Login.jsp"); 
+
+            }
+            else
+            { 
+                adminId=(String)session.getAttribute("adminId");          
+            }
+       
+            %>
+            
+            <%!
+        public class Admin{
+            Connection conn=null;
+            PreparedStatement pst=null;
+            String db="jdbc:mysql:///project1c";
+            String username="root";
+            String password="";
+            
+            public Admin(){
+                try{
+                   conn=DriverManager.getConnection(db,username,password);
+                   pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            
+            public ResultSet getAdmin(String email){
+                ResultSet rs=null;
+                try{
+                  pst.setString(1, email);
+                  pst.setInt(2, 1);
+                  rs=pst.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+        }
+        %>
+        
+        <%
+           Admin admin=new Admin();
+           String firstName=new String();
+           
+           ResultSet results=admin.getAdmin(adminId);
+           
+           if(results.next()){
+               firstName=results.getString("First_Name");
+           }
+        %>
         
         <div class="container body">
             
@@ -126,7 +186,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="images/username2.png" alt="">Hillary
+                                        <img src="images/username2.png" alt=""><%=firstName%> 
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">

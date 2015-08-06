@@ -3,10 +3,43 @@ package org.apache.jsp.Applicants;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import java.sql.*;
 
 public final class Messaging_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
+
+        public class Applicant{
+            Connection conn=null;
+            PreparedStatement pst=null;
+            String db="jdbc:mysql:///project1c";
+            String username="root";
+            String password="";
+            
+            public Applicant(){
+                try{
+                   conn=DriverManager.getConnection(db,username,password);
+                   pst=conn.prepareStatement("SELECT First_Name, Last_Name FROM registration WHERE Email_Address=? AND Role_id=?");
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            
+            public ResultSet getApplicant(String email){
+                ResultSet rs=null;
+                try{
+                  pst.setString(1, email);
+                  pst.setInt(2, 2);
+                  rs=pst.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+        }
+        
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
 
   private static java.util.List<String> _jspx_dependants;
@@ -41,7 +74,9 @@ public final class Messaging_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
-      out.write("\n");
+      out.write('\n');
+      out.write('\n');
+Class.forName("com.mysql.jdbc.Driver");
       out.write("\n");
       out.write("\n");
       out.write("<!DOCTYPE html>\n");
@@ -64,6 +99,42 @@ public final class Messaging_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <!--end navigation menus-->\n");
       out.write("    </head>\n");
       out.write("    <body style=\"overflow-x: hidden; background-color: #EFEEEE;\">\n");
+      out.write("        \n");
+      out.write("        ");
+
+            String applicantId=new String(); 
+            if(session.getAttribute("applicantId")==null||(session.getAttribute("applicantId")==""))
+            {
+                
+             response.sendRedirect("../Login.jsp"); 
+
+            }
+            else
+            { 
+            applicantId=(String)session.getAttribute("applicantId");          
+            }
+       
+            
+      out.write("\n");
+      out.write("            \n");
+      out.write("            ");
+      out.write("\n");
+      out.write("        \n");
+      out.write("        ");
+
+           Applicant user=new Applicant();
+           String firstName=new String();
+           String lastName=new String();
+           
+           ResultSet results=user.getApplicant(applicantId); 
+           
+           if(results.next()){
+               firstName=results.getString("First_Name");
+               lastName=results.getString("Last_Name");
+           }
+        
+      out.write("\n");
+      out.write("        \n");
       out.write("        ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "Header.jsp", out, false);
       out.write("\n");
@@ -107,7 +178,9 @@ public final class Messaging_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                </li>\n");
       out.write("                            </ul>\n");
       out.write("                            <ul>\n");
-      out.write("                                <li><a href=\"#\"><button class=\"btn btn-info\" style=\"width: 148px; height: 38px; padding-top: 0px; margin-top: -5px;\"><i class=\"fa fa-user\"></i>kip</button></a>\n");
+      out.write("                                <li><a href=\"#\"><button class=\"btn btn-info\" style=\"width: 148px; height: 38px; padding-top: 0px; margin-top: -5px;\"><i class=\"fa fa-user\"></i>");
+      out.print(firstName);
+      out.write("</button></a>\n");
       out.write("                                    <ul>\n");
       out.write("                                        <li><a href=\"ChangePwd.jsp\"><i class=\"fa fa-dropbox\"></i>Change Password</a></li>\n");
       out.write("                                        <li><a href=\"UserLogout.jsp\"><i class=\"fa fa-sign-out\"></i>Logout</a></li>\n");

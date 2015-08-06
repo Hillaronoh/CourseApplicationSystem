@@ -21,7 +21,21 @@
         <title>pdf</title>
     </head>
     <body>
+        
+      <%
+            String applicantId=new String(); 
+            if(session.getAttribute("applicantId")==null||(session.getAttribute("applicantId")==""))
+            {
+                
+             response.sendRedirect("../Login.jsp"); 
 
+            }
+            else
+            { 
+            applicantId=(String)session.getAttribute("applicantId");          
+            }
+       
+            %>
 
         <%!
         public class PdfGenerator{

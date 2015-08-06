@@ -3,7 +3,8 @@
     Created on : Jul 8, 2015, 11:07:27 AM
     Author     : Kipngetich
 --%>
-
+<%@page import="java.sql.*" %>
+<%Class.forName("com.mysql.jdbc.Driver");%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -25,6 +26,66 @@
         <!--end navigation menus-->
     </head>
     <body style="overflow-x: hidden; background-color: #EFEEEE;">
+        
+        <%
+            String applicantId=new String(); 
+            if(session.getAttribute("applicantId")==null||(session.getAttribute("applicantId")==""))
+            {
+                
+             response.sendRedirect("../Login.jsp"); 
+
+            }
+            else
+            { 
+            applicantId=(String)session.getAttribute("applicantId");          
+            }
+       
+            %>
+            
+            <%!
+        public class Applicant{
+            Connection conn=null;
+            PreparedStatement pst=null;
+            String db="jdbc:mysql:///project1c";
+            String username="root";
+            String password="";
+            
+            public Applicant(){
+                try{
+                   conn=DriverManager.getConnection(db,username,password);
+                   pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            
+            public ResultSet getApplicant(String email){
+                ResultSet rs=null;
+                try{
+                  pst.setString(1, email);
+                  pst.setInt(2, 2);
+                  rs=pst.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+        }
+        %>
+        
+        <%
+           Applicant user=new Applicant();
+           String firstName=new String();
+                      
+           ResultSet results=user.getApplicant(applicantId); 
+           
+           if(results.next()){
+               firstName=results.getString("First_Name");
+           }
+        %>
+        
         <jsp:include page="Header.jsp"></jsp:include>
         <div class="container" style="margin-top:180px;">
             
@@ -66,7 +127,7 @@
                                 </li>
                             </ul>
                             <ul>
-                                <li><a href="#"><button class="btn btn-info" style="width: 148px; height: 38px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-user"></i>kip</button></a>
+                                <li><a href="#"><button class="btn btn-info" style="width: 148px; height: 38px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-user"></i><%=firstName%></button></a>
                                     <ul>
                                         <li><a href="ChangePwd.jsp"><i class="fa fa-dropbox"></i>Change Password</a></li>
                                         <li><a href="UserLogout.jsp"><i class="fa fa-sign-out"></i>Logout</a></li>

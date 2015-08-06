@@ -3,7 +3,8 @@
     Created on : Jul 27, 2015, 1:56:21 PM
     Author     : hillary
 --%>
-
+<%@page import="java.sql.*" %>
+<%Class.forName("com.mysql.jdbc.Driver");%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -30,6 +31,70 @@
     </head>
     
     <body class="nav-md">
+        
+        <%
+           response.setHeader("Cache-Control","no-cache"); //Forces caches to obtain a new copy of the page from the origin server
+           response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
+           response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
+           response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
+     
+            String adminId=new String(); 
+            if(session.getAttribute("adminId")==null||(session.getAttribute("adminId")==""))
+            {
+                
+             response.sendRedirect("../Login.jsp"); 
+
+            }
+            else
+            { 
+            adminId=(String)session.getAttribute("adminId");          
+            }
+       
+            %>
+            
+            <%!
+        public class Admin{
+            Connection conn=null;
+            PreparedStatement pst=null;
+            String db="jdbc:mysql:///project1c";
+            String username="root";
+            String password="";
+            
+            public Admin(){
+                try{
+                   conn=DriverManager.getConnection(db,username,password);
+                   pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            
+            public ResultSet getAdmin(String email){
+                ResultSet rs=null;
+                try{
+                  pst.setString(1, email);
+                  pst.setInt(2, 1);
+                  rs=pst.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+        }
+        %>
+        
+        <%
+           Admin admin=new Admin();
+           String firstName=new String();
+           
+           ResultSet results=admin.getAdmin(adminId);
+           
+           if(results.next()){
+               firstName=results.getString("First_Name");
+           }
+        %>
         
         <div class="container body">
             
@@ -113,7 +178,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                     <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="images/username2.png" alt="admin">Hilllary
+                                        <img src="images/username2.png" alt="admin"><%=firstName%>
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">

@@ -40,7 +40,7 @@
     
     <div class="container">
 
-                <div class="login-panel panel panel-default">
+        <div class="login-panel panel panel-default">
    
                 <%if(request.getParameter("register")!=null){%>                 
                 <%!
@@ -48,9 +48,6 @@
         Connection conn=null;
         PreparedStatement pst=null;
         PreparedStatement pst1=null;
-        ResultSet rs=null;
-        int res1=0;
-        int res2=0; 
         String db="jdbc:mysql:///project1c";
         String user="root";
         String password="";
@@ -59,37 +56,40 @@
            try{
             conn = DriverManager.getConnection(db,user,password); 
 
-            pst = conn.prepareStatement("insert into registration values(?,?,?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO registration VALUES(?,?,?,?,?,?)");
             
-            pst1 = conn.prepareStatement("select * from registration where Email_address=?");
+            pst1 = conn.prepareStatement("SELECT * FROM registration WHERE Email_Address=?");
             
            }catch(SQLException e){
                e.printStackTrace(); 
            }
         }
         
-        public ResultSet checkIfRegistered(String email1){ 
+        public ResultSet checkIfRegistered(String email){
+            ResultSet rs1=null;
         try{   
-        pst1.setString(1, email1); 
-        rs=pst1.executeQuery(); 
+        pst1.setString(1, email); 
+        rs1=pst1.executeQuery(); 
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return rs;  
+        return rs1;  
         }
 
-        public int setUsers(String fname, String mname, String lname, String email, String pwd){ 
+        public int setUsers(String fname, String mname, String lname, String email, String pwd, int roleId){ 
+            int rs2=0;
         try{   
         pst.setString(1, fname);
         pst.setString(2, mname);
         pst.setString(3, lname);
         pst.setString(4, email);
         pst.setString(5, pwd);
-        res2=pst.executeUpdate(); 
+        pst.setInt(6, roleId);
+        rs2=pst.executeUpdate();  
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return res2;  
+        return rs2;  
         }
             
         }
@@ -102,10 +102,11 @@
     String mname=request.getParameter("mname");
     String lname=request.getParameter("lname");
     String email=request.getParameter("email");
-    String pwd=request.getParameter("password1"); 
+    String pwd=request.getParameter("password1");
+    int roleId=2;
     
     ResultSet results1=reg.checkIfRegistered(email);
-    int results2=reg.setUsers(fname, mname, lname, email, pwd);
+    int results2=reg.setUsers(fname, mname, lname, email, pwd, roleId);
 
     
         if(results1.next()){%>
@@ -176,7 +177,7 @@
                         <div class="row" id="buttons1">
                             <div class="col-sm-3"></div>
                             <div class="form-group col-sm-3">
-                                <button type="submit" name="submit1" class="btn btn-success" style="width: 150px;">Submit</button>
+                                <button type="submit" name="register" class="btn btn-success" style="width: 150px;">Submit</button>
                             </div>
                             <div class="form-group col-sm-3">
                                 <button type="reset" name="reset" class="btn btn-info pull-right" style="width: 150px;">Reset</button>

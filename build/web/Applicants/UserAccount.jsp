@@ -3,7 +3,8 @@
     Created on : Jul 10, 2015, 9:32:23 AM
     Author     : Kipngetich
 --%>
-
+<%@page import="java.sql.*" %>
+<%Class.forName("com.mysql.jdbc.Driver");%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,6 +20,73 @@
         <link rel="stylesheet" style type="text/css" href="mycss/navMenus.css">
     </head>
     <body style="overflow-x: hidden; background-color: #EFEEEE;">
+        
+        <%
+           response.setHeader("Cache-Control","no-cache"); //Forces caches to obtain a new copy of the page from the origin server
+           response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
+           response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
+           response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
+     
+            String applicantId=new String(); 
+            if(session.getAttribute("applicantId")==null||(session.getAttribute("applicantId")==""))
+            {
+                
+             response.sendRedirect("../Login.jsp"); 
+
+            }
+            else
+            { 
+            applicantId=(String)session.getAttribute("applicantId");           
+            }
+       
+        %>
+        
+        <%!
+        public class Applicant{
+            Connection conn=null;
+            PreparedStatement pst=null;
+            String db="jdbc:mysql:///project1c";
+            String username="root";
+            String password="";
+            
+            public Applicant(){
+                try{
+                   conn=DriverManager.getConnection(db,username,password);
+                   pst=conn.prepareStatement("SELECT First_Name, Last_Name FROM registration WHERE Email_Address=? AND Role_id=?");
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            
+            public ResultSet getApplicant(String email){
+                ResultSet rs=null;
+                try{
+                  pst.setString(1, email);
+                  pst.setInt(2, 2);
+                  rs=pst.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+        }
+        %>
+        
+        <%
+           Applicant user=new Applicant();
+           String firstName=new String();
+           String lastName=new String();
+           
+           ResultSet results=user.getApplicant(applicantId);
+           
+           if(results.next()){
+               firstName=results.getString("First_Name");
+               lastName=results.getString("Last_Name");
+           }
+        %>
+           
         <jsp:include page="Header.jsp"></jsp:include>
         
         <div class="container">
@@ -30,7 +98,7 @@
                     <div class="login-panel panel panel-default"> 
                         
                         <div class="panel-heading">
-                            <h3 class="panel-title">Welcome Hillary Kipngetich to Your Account</h3>
+                            <h3 class="panel-title">Welcome <%=firstName%> <%=lastName%> to Your Account</h3>
                         </div>
                         <div class="panel-body" style=" height: 400px; padding: 0px;">
                             
@@ -66,7 +134,7 @@
                                     </li>
                                 </ul>
                                 <ul>
-                                    <li><a href="#"><button class="btn btn-info" style="width: 148px; height: 35px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-user"></i>kip</button></a>
+                                    <li><a href="#"><button class="btn btn-info" style="width: 148px; height: 35px; padding-top: 0px; margin-top: -5px;"><i class="fa fa-user"></i><%=firstName%></button></a>
                                         <ul>
                                             <li><a href="ChangePwd.jsp"><i class="fa fa-dropbox"></i>Change Password</a></li>
                                             <li><a href="UserLogout.jsp"><i class="fa fa-sign-out"></i>Logout</a></li>
