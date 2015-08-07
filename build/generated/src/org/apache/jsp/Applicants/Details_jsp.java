@@ -3,10 +3,113 @@ package org.apache.jsp.Applicants;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import java.sql.*;
 
 public final class Details_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
+
+        public class Applicant{
+            Connection conn=null;
+            PreparedStatement pst=null;
+            PreparedStatement pst1=null;
+            PreparedStatement pst2=null;
+            PreparedStatement pst3=null;
+            PreparedStatement pst4=null;
+            PreparedStatement pst5=null;
+            String db="jdbc:mysql:///project1c";
+            String username="root";
+            String password="";
+            
+            public Applicant(){
+                try{
+                   conn=DriverManager.getConnection(db,username,password);
+                   pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
+                   pst1=conn.prepareStatement("SELECT * FROM applicants_details WHERE Email_Address=?");
+                   pst2=conn.prepareStatement("SELECT * FROM education_background WHERE Email_Address=?");
+                   pst3=conn.prepareStatement("SELECT * FROM course_details WHERE Email_Address=?");
+                   pst4=conn.prepareStatement("SELECT Level_Name FROM course_levels WHERE Level_id=?");
+                   pst5=conn.prepareStatement("SELECT Course_Name FROM courses WHERE Course_id=?");
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            
+            public ResultSet getApplicant(String email){
+                ResultSet rs=null;
+                try{
+                  pst.setString(1, email);
+                  pst.setInt(2, 2);
+                  rs=pst.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+            
+            public ResultSet getPersonalDetails(String email){
+                ResultSet rs=null;
+                try{
+                  pst1.setString(1, email);
+                  rs=pst1.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+            
+            public ResultSet getEducationBackground(String email){
+                ResultSet rs=null;
+                try{
+                  pst2.setString(1, email);
+                  rs=pst2.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+            
+            public ResultSet getCourseDetails(String email){
+                ResultSet rs=null;
+                try{
+                  pst3.setString(1, email);
+                  rs=pst3.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+            
+            public ResultSet getLevelName(int levelId){
+                ResultSet rs=null;
+                try{
+                  pst4.setInt(1, levelId);
+                  rs=pst4.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+            
+            public ResultSet getCourseName(int courseId){
+                ResultSet rs=null;
+                try{
+                  pst5.setInt(1, courseId);
+                  rs=pst5.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+        }
+        
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
 
   private static java.util.List<String> _jspx_dependants;
@@ -44,6 +147,8 @@ public final class Details_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("\n");
+Class.forName("com.mysql.jdbc.Driver");
+      out.write("\n");
       out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
@@ -67,6 +172,63 @@ public final class Details_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <link rel=\"stylesheet\" type=\"text/css\" href=\"mycss/style2.css\">\n");
       out.write("    </head>\n");
       out.write("    <body style=\"overflow-x: hidden; background-color: #EFEEEE;\">\n");
+      out.write("        \n");
+      out.write("        ");
+
+            String applicantId=new String(); 
+            if(session.getAttribute("applicantId")==null||(session.getAttribute("applicantId")==""))
+            {
+                
+             response.sendRedirect("../Login.jsp"); 
+
+            }
+            else
+            { 
+            applicantId=(String)session.getAttribute("applicantId");          
+            }
+       
+            
+      out.write("\n");
+      out.write("            \n");
+      out.write("            ");
+      out.write("\n");
+      out.write("        \n");
+      out.write("        ");
+
+           Applicant user=new Applicant();
+           String firstName=new String();
+                     
+           ResultSet results=user.getApplicant(applicantId); 
+           
+           if(results.next()){
+               firstName=results.getString("First_Name");
+           }
+           
+           ResultSet results1=user.getPersonalDetails("rok@gmail.com");
+           ResultSet results2=user.getEducationBackground("rok@gmail.com");
+           ResultSet results3=user.getCourseDetails("rok@gmail.com");
+           
+           String fName=new String();
+           String mName=new String();
+           String lName=new String();
+           String dob=new String();
+           String gender=new String();
+           String address=new String();
+           String mobile=new String();
+           String country=new String();
+           
+           String physicsGrade=new String();
+           String mathsGrade=new String();
+           String subj3Grade=new String();
+           String subj4Grade=new String();
+           String meanGrade=new String();
+           String aggregatePoints=new String();
+           String clusterPoints=new String();
+           
+           String []levelNames=null; 
+           
+      out.write("\n");
+      out.write("        \n");
       out.write("        ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "Header.jsp", out, false);
       out.write("\n");
@@ -110,7 +272,9 @@ public final class Details_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                </li>\n");
       out.write("                            </ul>\n");
       out.write("                            <ul>\n");
-      out.write("                                <li><a href=\"#\"><button class=\"btn btn-info\" style=\"width: 148px; height: 38px; padding-top: 0px; margin-top: -5px;\"><i class=\"fa fa-user\"></i>kip</button></a>\n");
+      out.write("                                <li><a href=\"#\"><button class=\"btn btn-info\" style=\"width: 148px; height: 38px; padding-top: 0px; margin-top: -5px;\"><i class=\"fa fa-user\"></i>");
+      out.print(firstName);
+      out.write("</button></a>\n");
       out.write("                                    <ul>\n");
       out.write("                                        <li><a href=\"ChangePwd.jsp\"><i class=\"fa fa-dropbox\"></i>Change Password</a></li>\n");
       out.write("                                        <li><a href=\"UserLogout.jsp\"><i class=\"fa fa-sign-out\"></i>Logout</a></li>\n");
@@ -137,21 +301,56 @@ public final class Details_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                            <th>First Name</th>\n");
       out.write("                                            <th>Middle Name</th>\n");
       out.write("                                            <th>Last Name</th>\n");
-      out.write("                                            <th>Gender</th>\n");
       out.write("                                            <th>Date of Birth</th>\n");
+      out.write("                                            <th>Gender</th>\n");
+      out.write("                                            <th>Postal Address</th>\n");
+      out.write("                                            <th>Mobile</th>\n");
       out.write("                                            <th>Nationality</th>\n");
       out.write("                                            <th>Action</th>\n");
       out.write("                                        </tr>\n");
       out.write("                                    </thead>\n");
       out.write("                                    <tbody>\n");
       out.write("                                        <tr>\n");
-      out.write("                                            <td>John</td>\n");
-      out.write("                                            <td>kiprono</td>\n");
-      out.write("                                            <td>Sigei</td>\n");
-      out.write("                                            <td>Male</td>\n");
-      out.write("                                            <td>1989-09-11</td>\n");
-      out.write("                                            <td>Kenya</td>\n");
+      out.write("                                            ");
+if(results1.next()){
+                                            fName=results1.getString("First_Name");
+                                            mName=results1.getString("Middle_Name");
+                                            lName=results1.getString("Last_Name");
+                                            dob=results1.getString("DoB");
+                                            gender=results1.getString("Gender");
+                                            address=results1.getString("Postal_Address");
+                                            mobile=results1.getString("Mobile");
+                                            country=results1.getString("Country");
+                                            
+      out.write("\n");
+      out.write("                                            <td>");
+      out.print(fName);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(mName);
+      out.write("</td> \n");
+      out.write("                                            <td>");
+      out.print(lName);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(dob);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(gender);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(address);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(mobile);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(country);
+      out.write("</td>\n");
       out.write("                                            <td style=\"width: 68px;\"><a href=\"#personalDetails\" data-toggle=\"modal\" style=\"background-color:#E6E2EB; padding:10px 12px; margin-left: -8px; outline: none;\"><i class=\"fa fa-edit\">Edit</i></a></td>\n");
+      out.write("                                            ");
+}
+      out.write("\n");
       out.write("                                        </tr>\n");
       out.write("                                    </tbody>\n");
       out.write("                                </table>\n");
@@ -169,18 +368,48 @@ public final class Details_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                            <th>Group II/Group III/Group IV/Group V Grade</th>\n");
       out.write("                                            <th>Mean Grade</th>\n");
       out.write("                                            <th>Aggregate Points</th>\n");
+      out.write("                                            <th>Cluster Points</th>\n");
       out.write("                                            <th>Action</th>\n");
       out.write("                                        </tr>\n");
       out.write("                                    </thead>\n");
       out.write("                                    <tbody>\n");
       out.write("                                        <tr>\n");
-      out.write("                                            <td>A</td>\n");
-      out.write("                                            <td>A</td>\n");
-      out.write("                                            <td>A</td>\n");
-      out.write("                                            <td>B</td>\n");
-      out.write("                                            <td>A-</td>\n");
-      out.write("                                            <td>78</td>\n");
-      out.write("                                             <td style=\"width: 68px;\"><a href=\"#personalDetails\" data-toggle=\"modal\" style=\"background-color:#E6E2EB; padding:10px 12px; margin-left: -8px; outline: none;\"><i class=\"fa fa-edit\">Edit</i></a></td>\n");
+      out.write("                                            ");
+if(results2.next()){
+                                            physicsGrade=results2.getString("Physics_Grade");
+                                            mathsGrade=results2.getString("Maths_Grade");
+                                            subj3Grade=results2.getString("Subject3_Grade");
+                                            subj4Grade=results2.getString("Subject4_Grade");
+                                            meanGrade=results2.getString("Mean_Grade");
+                                            aggregatePoints=results2.getString("Aggregate_Points");
+                                            clusterPoints=results2.getString("Cluster_Points");
+                                            
+      out.write("\n");
+      out.write("                                            <td>");
+      out.print(physicsGrade);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(mathsGrade);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(subj3Grade);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(subj4Grade);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(meanGrade);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(aggregatePoints);
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(clusterPoints);
+      out.write("</td>\n");
+      out.write("                                            <td style=\"width: 68px;\"><a href=\"#academicQualifications\" data-toggle=\"modal\" style=\"background-color:#E6E2EB; padding:10px 12px; margin-left: -8px; outline: none;\"><i class=\"fa fa-edit\">Edit</i></a></td>\n");
+      out.write("                                            ");
+}
+      out.write("\n");
       out.write("                                        </tr>\n");
       out.write("                                    </tbody>\n");
       out.write("                                </table>\n");
@@ -200,13 +429,41 @@ public final class Details_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                        </tr>\n");
       out.write("                                    </thead>\n");
       out.write("                                    <tbody>\n");
+      out.write("                                        ");
+while(results3.next()){int i=0;
+                                        ResultSet results4=user.getLevelName(results3.getInt("Level_id"));
+                                        ResultSet results5=user.getCourseName(results3.getInt("Course_id"));
+                                        
+      out.write("\n");
       out.write("                                        <tr>\n");
-      out.write("                                            <td>Degree</td>\n");
-      out.write("                                            <td>Computer Science</td>\n");
-      out.write("                                            <td>Full Time</td>\n");
-      out.write("                                            <td>Main Campus</td>\n");
-      out.write("                                             <td style=\"width: 68px;\"><a href=\"#personalDetails\" data-toggle=\"modal\" style=\"background-color:#E6E2EB; padding:10px 12px; margin-left: -8px; outline: none;\"><i class=\"fa fa-edit\">Edit</i></a></td>\n");
+      out.write("                                           ");
+ if(results4.next()){
+                                               levelNames[i]=results4.getString("Level_Name");
+                                           
+      out.write("\n");
+      out.write("                                            <td>");
+      out.print(results4.getString("Level_Name"));
+      out.write("</td>\n");
+      out.write("                                            ");
+} if(results5.next()){
+      out.write("\n");
+      out.write("                                            <td>");
+      out.print(results5.getString("Course_Name"));
+      out.write("</td>\n");
+      out.write("                                            ");
+}
+      out.write("\n");
+      out.write("                                            <td>");
+      out.print(results3.getString("Mode_Of_Study"));
+      out.write("</td>\n");
+      out.write("                                            <td>");
+      out.print(results3.getString("Campus"));
+      out.write("</td>\n");
+      out.write("                                            <td style=\"width: 68px;\"><a href=\"#courseDetails\" data-toggle=\"modal\" style=\"background-color:#E6E2EB; padding:10px 12px; margin-left: -8px; outline: none;\"><i class=\"fa fa-edit\">Edit</i></a></td>\n");
       out.write("                                        </tr>\n");
+      out.write("                                        ");
+i++;}
+      out.write("\n");
       out.write("                                    </tbody>\n");
       out.write("                                </table>\n");
       out.write("                                \n");
@@ -247,27 +504,51 @@ public final class Details_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                        <form method=\"post\" action=\"\">\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"firstName\">First Name</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"firstName\" placeholder=\"First Name\" name=\"firstName\" readonly>\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"firstName\" placeholder=\"First Name\" name=\"firstName\" value=\"");
+      out.print(fName);
+      out.write("\" readonly>\n");
       out.write("                            </div>\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"middleName\">Middle Name</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"middleName\" placeholder=\"Middle Name\" name=\"middleName\" readonly>\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"middleName\" placeholder=\"Middle Name\" name=\"middleName\" value=\"");
+      out.print(mName);
+      out.write("\" readonly>\n");
       out.write("                            </div>\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"lastName\">Last Name</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"lastName\" placeholder=\"Last Name\" name=\"lastName\" readonly>\n");
-      out.write("                            </div>\n");
-      out.write("                            <div class=\"form-group\">\n");
-      out.write("                                <label for=\"gender\">Gender</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"gender\" placeholder=\"Gender\" name=\"gender\">\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"lastName\" placeholder=\"Last Name\" name=\"lastName\" value=\"");
+      out.print(lName);
+      out.write("\" readonly>\n");
       out.write("                            </div>\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"dob\">Date Of Birth</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"dob\" placeholder=\"Date of Birth\" name=\"dob\">\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"dob\" placeholder=\"Date of Birth\" name=\"dob\" value=\"");
+      out.print(dob);
+      out.write("\">\n");
+      out.write("                            </div>\n");
+      out.write("                            <div class=\"form-group\">\n");
+      out.write("                                <label for=\"gender\">Gender</label>\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"gender\" placeholder=\"Gender\" name=\"gender\" value=\"");
+      out.print(gender);
+      out.write("\">\n");
+      out.write("                            </div>\n");
+      out.write("                            <div class=\"form-group\">\n");
+      out.write("                                <label for=\"gender\">Postal Address</label>\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"address\" placeholder=\"Postal Address\" name=\"address\" value=\"");
+      out.print(address);
+      out.write("\">\n");
+      out.write("                            </div>\n");
+      out.write("                            <div class=\"form-group\">\n");
+      out.write("                                <label for=\"gender\">Mobile</label>\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"mobile\" placeholder=\"Mobile\" name=\"mobile\" value=\"");
+      out.print(mobile);
+      out.write("\">\n");
       out.write("                            </div>\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"country\">Nationality</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"country\" placeholder=\"Nationality\" name=\"country\">\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"country\" placeholder=\"Nationality\" name=\"country\" value=\"");
+      out.print(country);
+      out.write("\">\n");
       out.write("                            </div>\n");
       out.write("                            \n");
       out.write("                            <div class=\"well modal-footer\">\n");
@@ -293,27 +574,46 @@ public final class Details_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                        <form method=\"post\" action=\"\">\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"physicsGrade\">Physics Grade</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"physicsGrade\" placeholder=\"Physics Grade\" name=\"physicsGrade\">\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"physicsGrade\" placeholder=\"Physics Grade\" name=\"physicsGrade\" value=\"");
+      out.print(physicsGrade);
+      out.write("\">\n");
       out.write("                            </div>\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"mathsGrade\">Maths Grade</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"mathsGrade\" placeholder=\"Maths Grade\" name=\"mathsGrade\">\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"mathsGrade\" placeholder=\"Maths Grade\" name=\"mathsGrade\" value=\"");
+      out.print(mathsGrade);
+      out.write("\">\n");
       out.write("                            </div>\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"subj3Grade\">Group II/Group III Grade</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"subj3Grade\" placeholder=\"Subject3 Grade\" name=\"subj3Grade\">\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"subj3Grade\" placeholder=\"Subject3 Grade\" name=\"subj3Grade\" value=\"");
+      out.print(subj3Grade);
+      out.write("\">\n");
       out.write("                            </div>\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"subj4Grade\">Group II/Group III/Group IV/Group V Grade</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"subj4Grade\" placeholder=\"subject4 Grade\" name=\"subj4Grade\">\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"subj4Grade\" placeholder=\"subject4 Grade\" name=\"subj4Grade\" value=\"");
+      out.print(subj4Grade);
+      out.write("\">\n");
       out.write("                            </div>\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"meanGrade\">Mean Grade</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"meanGrade\" placeholder=\"Mean Grade\" name=\"meanGrade\">\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"meanGrade\" placeholder=\"Mean Grade\" name=\"meanGrade\" value=\"");
+      out.print(meanGrade);
+      out.write("\">\n");
       out.write("                            </div>\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"aggregatePoints\">Aggregate Points</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"aggregatePoints\" placeholder=\"Aggregate Points\" name=\"aggregatePoints\">\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"aggregatePoints\" placeholder=\"Aggregate Points\" name=\"aggregatePoints\" value=\"");
+      out.print(aggregatePoints);
+      out.write("\">\n");
+      out.write("                            </div>\n");
+      out.write("                            \n");
+      out.write("                            <div class=\"form-group\">\n");
+      out.write("                                <label for=\"clusterPoints\">Cluster Points</label>\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"clusterPoints\" placeholder=\"Cluster Points\" name=\"clusterPoints\" value=\"");
+      out.print(clusterPoints);
+      out.write("\" readonly=\"readonly\">\n");
       out.write("                            </div>\n");
       out.write("                            \n");
       out.write("                            <div class=\"well modal-footer\">\n");
@@ -339,7 +639,9 @@ public final class Details_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                        <form method=\"post\" action=\"\">\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"programmeLevel\">Programme Level</label>\n");
-      out.write("                                <input type=\"text\" class=\"form-control\" id=\"programmeLevel\" placeholder=\"Programme Level\" name=\"programmeLevel\">\n");
+      out.write("                                <input type=\"text\" class=\"form-control\" id=\"programmeLevel\" placeholder=\"Programme Level\" name=\"programmeLevel\" value=\"");
+      out.print(levelNames[0]);
+      out.write("\">\n");
       out.write("                            </div>\n");
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <label for=\"programmeName\">Programme Name</label>\n");

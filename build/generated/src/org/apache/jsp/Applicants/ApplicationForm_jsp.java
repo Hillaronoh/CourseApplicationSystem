@@ -3,11 +3,135 @@ package org.apache.jsp.Applicants;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import java.text.DecimalFormat;
 import java.sql.*;
 
 public final class ApplicationForm_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
+
+        public class Applicant{
+            Connection conn=null;
+            PreparedStatement pst=null;
+            PreparedStatement pst1=null;
+            PreparedStatement pst2=null;
+            String db="jdbc:mysql:///project1c";
+            String username="root";
+            String password="";
+            
+            public Applicant(){
+                try{
+                   conn=DriverManager.getConnection(db,username,password);
+                   pst=conn.prepareStatement("SELECT First_Name,Middle_Name,Last_Name FROM registration WHERE Email_Address=? AND Role_id=?");
+                   pst1=conn.prepareStatement("INSERT INTO applicants_details VALUES(?,?,?,?,?,?,?,?,?)");
+                   pst2=conn.prepareStatement("INSERT INTO education_background VALUES(?,?,?,?,?,?,?,?)");
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+                       
+            public ResultSet getApplicantDetails(String email){
+                ResultSet rs=null;
+                try{
+                pst.setString(1, email);
+                pst.setInt(2, 2);
+                rs=pst.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+            
+            public int setApplicants(String email, String fName, String mName, String lName, String dob, String gender,String pAddress, String mobile, String country){
+                int i=0;
+                try{
+                pst1.setString(1, email);
+                pst1.setString(2, fName);
+                pst1.setString(3, mName);
+                pst1.setString(4, lName);
+                pst1.setString(5, dob);
+                pst1.setString(6, gender);
+                pst1.setString(7, pAddress);
+                pst1.setString(8, mobile);
+                pst1.setString(9, country);
+                i=pst1.executeUpdate();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return i;
+            }
+            
+            public int setEducationBackground(String email, String physicsGrade, String mathsGrade, String subj3Grade, String subj4Grade, String meanGrade,double aggregatePoints, double clusterPoints){
+                int j=0;
+                try{
+                pst2.setString(1, email);
+                pst2.setString(2, physicsGrade);
+                pst2.setString(3, mathsGrade);
+                pst2.setString(4, subj3Grade);
+                pst2.setString(5, subj4Grade);
+                pst2.setString(6, meanGrade);
+                pst2.setDouble(7, aggregatePoints);
+                pst2.setDouble(8, clusterPoints);
+                j=pst2.executeUpdate();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return j;
+            }
+            
+             public double calculateClusterPoints(double physics, double maths, double subj3, double subj4, double aggregatePoints){
+                double res1=(physics+maths+subj3+subj4);
+                double res2=(res1/48); 
+                double res3=(aggregatePoints/84);
+                double res4=(res2*res3);
+                double res5=(Math.sqrt(res4));
+                double w=(res5*48);
+                DecimalFormat df = new DecimalFormat("#.##");
+                String w1 = df.format(w);
+                return Double.parseDouble(w1);
+            }
+             
+             public double convertGradestoPoints(String grade){ 
+               double points=0.00;  
+                if(grade.equals("A")){
+                    points=12;
+                }
+                else if(grade.equals("A-")){
+                    points=11;
+                }
+                else if(grade.equals("B+")){
+                    points=10;
+                }
+                else if(grade.equals("B")){
+                    points=9;
+                }
+                else if(grade.equals("B-")){
+                    points=8; 
+                }
+                else if(grade.equals("C+")){
+                    points=7;
+                }
+                else if(grade.equals("C")){
+                    points=6;
+                }
+                else if(grade.equals("C-")){
+                    points=5;
+                }
+                else if(grade.equals("D+")){
+                    points=4;
+                }
+                else{
+                    points=3; 
+                }
+                return points;
+            }
+        }
+         
+        
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
 
   private static java.util.List<String> _jspx_dependants;
@@ -42,8 +166,9 @@ public final class ApplicationForm_jsp extends org.apache.jasper.runtime.HttpJsp
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
-      out.write('\n');
-      out.write('\n');
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
 Class.forName("com.mysql.jdbc.Driver"); 
       out.write("\n");
       out.write("\n");
@@ -114,6 +239,43 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("    <body style=\"overflow-x: hidden; background-color: #EFEEEE;\"> \n");
       out.write("        \n");
       out.write("        ");
+
+            String applicantId=new String(); 
+            if(session.getAttribute("applicantId")==null||(session.getAttribute("applicantId")==""))
+            {
+                
+             response.sendRedirect("../Login.jsp"); 
+
+            }
+            else
+            { 
+            applicantId=(String)session.getAttribute("applicantId");          
+            }
+       
+            
+      out.write("\n");
+      out.write("            \n");
+      out.write("            ");
+      out.write("\n");
+      out.write("        \n");
+      out.write("        ");
+
+           Applicant user=new Applicant();
+           String firstName=new String();
+           String middleName=new String();
+           String lastName=new String();
+                      
+           ResultSet results=user.getApplicantDetails(applicantId); 
+                      
+           if(results.next()){
+               firstName=results.getString("First_Name");
+               middleName=results.getString("Middle_Name");
+               lastName=results.getString("Last_Name");
+           }
+           
+      out.write("\n");
+      out.write("        \n");
+      out.write("        ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "Header.jsp", out, false);
       out.write("\n");
       out.write("        \n");
@@ -156,7 +318,9 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                </li>\n");
       out.write("                            </ul>\n");
       out.write("                            <ul>\n");
-      out.write("                                <li><a href=\"#\"><button class=\"btn btn-info\" style=\"width: 148px; height: 38px; padding-top: 0px; margin-top: -5px;\"><i class=\"fa fa-user\"></i>kip</button></a>\n");
+      out.write("                                <li><a href=\"#\"><button class=\"btn btn-info\" style=\"width: 148px; height: 38px; padding-top: 0px; margin-top: -5px;\"><i class=\"fa fa-user\"></i>");
+      out.print(firstName);
+      out.write("</button></a>\n");
       out.write("                                    <ul>\n");
       out.write("                                        <li><a href=\"ChangePwd.jsp\"><i class=\"fa fa-dropbox\"></i>Change Password</a></li>\n");
       out.write("                                        <li><a href=\"UserLogout.jsp\"><i class=\"fa fa-sign-out\"></i>Logout</a></li>\n");
@@ -176,42 +340,73 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                            <div class=\"main\">\n");
       out.write("                                <div class=\"accordion\">\n");
       out.write("                                    <div class=\"accordion-section\">\n");
+      out.write("                                        ");
+
+                                       if(request.getParameter("submit1")!=null){
+                                       
+                                           String email="rok@gmail.com";
+                                           String fName=request.getParameter("fname");
+                                           String mName=request.getParameter("mname");
+                                           String lName=request.getParameter("lname");
+                                           String dob=request.getParameter("dob");
+                                           String gender=request.getParameter("gender");
+                                           String pAddress=request.getParameter("address");
+                                           String mobile=request.getParameter("mobile");
+                                           String country=request.getParameter("country");
+           
+                                           int results2=user.setApplicants(email, fName, mName, lName, dob, gender, pAddress, mobile, country);    
+                                       
+                                        if(results2>0){
+      out.write(" \n");
+      out.write("                                        <a class=\"accordion-section-title alert alert-success\" style=\"margin-bottom:0px;\" href=\"#accordion-1\"><i class=\"fa fa-check-circle\"></i>Your Personal Details has been saved successfully..Proceed to the next section.</a>\n");
+      out.write("                                        ");
+}
+                                        else{
+      out.write("\n");
+      out.write("                                        <a class=\"accordion-section-title alert alert-error\" style=\"margin-bottom:0px;\" href=\"#accordion-1\"><i class=\"fa fa-exclamation-triangle\"></i>There was an error saving your details. Please try again.</a>\n");
+      out.write("                                        ");
+}} else{
+      out.write("\n");
       out.write("                                        <a class=\"accordion-section-title\" href=\"#accordion-1\">SECTION A: Applicant's Personal Details.</a>\n");
+      out.write("                                        ");
+}
+      out.write("\n");
       out.write("                                        <div id=\"accordion-1\" class=\"accordion-section-content\"> \n");
       out.write("                                            \n");
       out.write("                                            <form method=\"post\" action=\"\" id=\"myForm1\" onsubmit=\"return validatePersonaldetailsForm1(this)\">\n");
       out.write("                                                <fieldset>\n");
       out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"firstNameRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                        <div class=\"form-group col-sm-4\">\n");
+      out.write("                                                    <div class=\"row\" id=\"firstNameRow\">   \n");
+      out.write("                                                        <div class=\"form-group col-sm-3\">\n");
       out.write("                                                            <label for=\"fname\">First Name:<span style=\"color:red\"> *</span></label>\n");
-      out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"fname\" name=\"fname\" placeholder=\"First Name\"/>\n");
+      out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"fname\" name=\"fname\" value=\"");
+      out.print(firstName);
+      out.write("\" placeholder=\"First Name\" readonly=\"readonly\"/>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"middleNameRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                        <div class=\"form-group col-sm-4\">\n");
+      out.write("                                                        \n");
+      out.write("                                                        <div class=\"form-group col-sm-3\">\n");
       out.write("                                                            <label for=\"mname\">Middle Name:</label>\n");
-      out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"mname\" name=\"mname\" placeholder=\"Middle Name\"/>\n");
+      out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"mname\" name=\"mname\" value=\"");
+      out.print(middleName);
+      out.write("\" placeholder=\"Middle Name\" readonly=\"readonly\"/>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"lastNameRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                        <div class=\"form-group col-sm-4\">\n");
+      out.write("                                                        \n");
+      out.write("                                                        <div class=\"form-group col-sm-3\">\n");
       out.write("                                                            <label for=\"fname\">Last Name:<span style=\"color:red\"> *</span></label>\n");
-      out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"lname\" name=\"lname\" placeholder=\"Last Name\"/>\n");
+      out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"lname\" name=\"lname\" value=\"");
+      out.print(lastName);
+      out.write("\" placeholder=\"Last Name\" readonly=\"readonly\"/>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        \n");
+      out.write("                                                        <div class=\"form-group col-sm-3\">\n");
+      out.write("                                                            <label for=\"dob\">Date of Birth:<span style=\"color:red\"> *</span></label>\n");
+      out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"dob\" name=\"dob\" placeholder=\"yyyy-mm-dd\"/>\n");
+      out.write("                                                        </div>\n");
+      out.write("                                                        \n");
       out.write("                                                    </div>\n");
       out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"genderRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                        <div class=\"form-group col-sm-4\">\n");
+      out.write("                                                    <div class=\"row\" id=\"dobRow\"> \n");
+      out.write("                                                        <div class=\"form-group col-sm-3\">\n");
       out.write("                                                            <label for=\"gender\">Gender:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <select id=\"gender\" name=\"gender\" class=\"form-control input\">\n");
       out.write("                                                                <option value=\"\" selected>I am...</option> \n");
@@ -219,43 +414,21 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                                <option value=\"Female\">Female</option>\n");
       out.write("                                                            </select>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"dobRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                        <div class=\"form-group col-sm-4\">\n");
-      out.write("                                                            <label for=\"dob\">Date of Birth:<span style=\"color:red\"> *</span></label>\n");
-      out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"dob\" name=\"dob\" placeholder=\"yyyy-mm-dd\"/>\n");
-      out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"addressRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                        <div class=\"form-group col-sm-4\">\n");
+      out.write("                                                        \n");
+      out.write("                                                        <div class=\"form-group col-sm-3\">\n");
       out.write("                                                            <label for=\"address\">Postal Address:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"address\" name=\"address\" placeholder=\"e.g. P.O Box 48, Chebunyo\"/>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"mobileRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                        <div class=\"form-group col-sm-4\">\n");
+      out.write("                                                        \n");
+      out.write("                                                        <div class=\"form-group col-sm-3\">\n");
       out.write("                                                            <label for=\"mobile\">Mobile:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"mobile\" name=\"mobile\" placeholder=\"07....\"/>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"countryRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                        <div class=\"form-group col-sm-4\">\n");
+      out.write("                                                        \n");
+      out.write("                                                        <div class=\"form-group col-sm-3\">\n");
       out.write("                                                            <label for=\"country\">Nationality:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"country\" name=\"country\" placeholder=\"country of residence\"/>\n");
-      out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        </div>     \n");
       out.write("                                                    </div>\n");
       out.write("                                                    \n");
       out.write("                                                    <div class=\"row\" id=\"buttons1\">\n");
@@ -282,14 +455,47 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                            <div class=\"main\">\n");
       out.write("                                <div class=\"accordion\">\n");
       out.write("                                    <div class=\"accordion-section\">\n");
-      out.write("                                        <a class=\"accordion-section-title\" href=\"#accordion-2\">SECTION B: Applicant's Education Background.</a>\n");
-      out.write("                                        <div id=\"accordion-2\" class=\"accordion-section-content\">\n");
+      out.write("                                        ");
+
+                                       if(request.getParameter("submit2")!=null){
+                                       
+                                           String email="rok@gmail.com";
+                                           String physicsGrade=request.getParameter("physics");
+                                           String mathsGrade=request.getParameter("maths");
+                                           String subj3Grade =request.getParameter("subj3");
+                                           String subj4Grade=request.getParameter("subj4");
+                                           String meanGrade=request.getParameter("meanGrade");
+                                           String aggregatePointsString=request.getParameter("aggregatePoints");
+                                           double aggregatePointsDouble=Double.parseDouble(aggregatePointsString); 
+                                                                                      
+                                           double physicsConverted=user.convertGradestoPoints(physicsGrade);
+                                           double mathsConverted=user.convertGradestoPoints(mathsGrade);
+                                           double subj3Converted=user.convertGradestoPoints(subj3Grade);
+                                           double subj4Converted=user.convertGradestoPoints(subj4Grade); 
+                                           double clusterPoints=user.calculateClusterPoints(physicsConverted, mathsConverted, subj3Converted, subj4Converted, aggregatePointsDouble);  
+                                           
+                                           int results3=user.setEducationBackground(email, physicsGrade, mathsGrade, subj3Grade, subj4Grade, meanGrade, aggregatePointsDouble, clusterPoints);
+                                           if(results3>0){
+                                           
+      out.write("\n");
+      out.write("                                           <a class=\"accordion-section-title\" href=\"#accordion-2\">SECTION B: Applicant's Education Background.good</a>\n");
+      out.write("                                           ");
+} else{
+      out.write("\n");
+      out.write("                                           <a class=\"accordion-section-title\" href=\"#accordion-2\">SECTION B: Applicant's Education Background.bad</a>\n");
+      out.write("                                           ");
+}} else{
+      out.write("\n");
+      out.write("                                           <a class=\"accordion-section-title\" href=\"#accordion-2\">SECTION B: Applicant's Education Background.</a>\n");
+      out.write("                                           ");
+}
+      out.write("\n");
+      out.write("                                           <div id=\"accordion-2\" class=\"accordion-section-content\">\n");
       out.write("                                            \n");
-      out.write("                                            <form role=\"form\" method=\"post\" action=\"\" id=\"myForm2\" onsubmit=\"return validateEducationBackgroundForm1(this)\">\n");
-      out.write("                                                <fieldset>\n");
+      out.write("                                               <form role=\"form\" method=\"post\" action=\"\" id=\"myForm2\" onsubmit=\"return validateEducationBackgroundForm1(this)\">\n");
+      out.write("                                                   <fieldset>\n");
       out.write("                                                    \n");
       out.write("                                                    <div class=\"row\" id=\"physicsRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
       out.write("                                                        <div class=\"form-group col-sm-4\">\n");
       out.write("                                                            <label for=\"physics\">K.C.S.E Physics Grade:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <select id=\"physics\" name=\"physics\" class=\"form-control input\">\n");
@@ -308,11 +514,7 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                                <option value=\"E\">E</option>\n");
       out.write("                                                            </select>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"mathsRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        \n");
       out.write("                                                        <div class=\"form-group col-sm-4\">\n");
       out.write("                                                            <label for=\"maths\">K.C.S.E Maths Grade:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <select id=\"maths\" name=\"maths\" class=\"form-control input\">\n");
@@ -331,13 +533,9 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                                <option value=\"E\">E</option>\n");
       out.write("                                                            </select>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"subj3Row\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        \n");
       out.write("                                                        <div class=\"form-group col-sm-4\">\n");
-      out.write("                                                            <label for=\"subj3\">GROUP II or any GROUP III Grade:<span style=\"color:red\"> *</span></label>\n");
+      out.write("                                                            <label for=\"subj3\">Group II or any Group III Grade:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <select id=\"subj3\" name=\"subj3\" class=\"form-control input\">\n");
       out.write("                                                                <option value=\"\" selected>~select grade~</option> \n");
       out.write("                                                                <option value=\"A\">A</option>\n");
@@ -354,13 +552,11 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                                <option value=\"E\">E</option>\n");
       out.write("                                                            </select>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
       out.write("                                                    </div>\n");
       out.write("                                                    \n");
       out.write("                                                    <div class=\"row\" id=\"subj4Row\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
       out.write("                                                        <div class=\"form-group col-sm-4\">\n");
-      out.write("                                                            <label for=\"subj4\">GROUP II/GROUP III/GROUP IV/GROUP V Grade:<span style=\"color:red\"> *</span></label>\n");
+      out.write("                                                            <label for=\"subj4\">Group II/Group III/Group IV/Group V Grade:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <select id=\"subj4\" name=\"subj4\" class=\"form-control input\">\n");
       out.write("                                                                <option value=\"\" selected>~select grade~</option> \n");
       out.write("                                                                <option value=\"A\">A</option>\n");
@@ -377,11 +573,7 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                                <option value=\"E\">E</option>\n");
       out.write("                                                            </select>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"meanGradeRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        \n");
       out.write("                                                        <div class=\"form-group col-sm-4\">\n");
       out.write("                                                            <label for=\"meanGrade\">K.C.S.E Mean Grade:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <select id=\"meanGrade\" name=\"meanGrade\" class=\"form-control input\">\n");
@@ -400,16 +592,11 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                                <option value=\"E\">E</option>\n");
       out.write("                                                            </select>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"pointsRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        \n");
       out.write("                                                        <div class=\"form-group col-sm-4\">\n");
       out.write("                                                            <label for=\"aggregatePoints\">K.C.S.E Aggregate Points:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <input type=\"text\" class=\"form-control input\" id=\"aggregatePoints\" name=\"aggregatePoints\" placeholder=\"Total Aggregate Points\"/>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
       out.write("                                                    </div>\n");
       out.write("                                                    \n");
       out.write("                                                    <div class=\"row\" id=\"buttons2\">\n");
@@ -443,7 +630,7 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                <fieldset>\n");
       out.write("                                                    \n");
       out.write("                                                    <div class=\"row\" id=\"programmeLevelRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        <div class=\"col-sm-2\"></div>\n");
       out.write("                                                        <div class=\"form-group col-sm-4\">\n");
       out.write("                                                            <label for=\"level\">Programme Level:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <select id=\"programmeLevel\" name=\"programmeLevel\" class=\"form-control input\">\n");
@@ -453,11 +640,8 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                                <option value=\"Certificate\">Certificate</option>\n");
       out.write("                                                            </select>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"programmeNameRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        \n");
+      out.write("                                                        \n");
       out.write("                                                        <div class=\"form-group col-sm-4\">\n");
       out.write("                                                            <label for=\"programmeName\">Programme Name:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <select id=\"programmeName\" name=\"programmeName\" class=\"form-control input\">\n");
@@ -468,11 +652,11 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                                <option value=\"Computer Forensics\">Computer Forensics</option>\n");
       out.write("                                                            </select>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        <div class=\"col-sm-2\"></div>\n");
       out.write("                                                    </div>\n");
       out.write("                                                    \n");
       out.write("                                                    <div class=\"row\" id=\"modeOfStudyRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        <div class=\"col-sm-2\"></div>\n");
       out.write("                                                        <div class=\"form-group col-sm-4\">\n");
       out.write("                                                            <label for=\"modeOfStudy\">Mode of StudyRow:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <select id=\"modeOfStudy\" name=\"modeOfStudy\" class=\"form-control input\">\n");
@@ -483,11 +667,7 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                                <option value=\"Weekend Classes\">Weekend Classes</option>\n");
       out.write("                                                            </select>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    \n");
-      out.write("                                                    <div class=\"row\" id=\"campusRow\">\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        \n");
       out.write("                                                        <div class=\"form-group col-sm-4\">\n");
       out.write("                                                            <label for=\"campus\">Campus/Study Center:<span style=\"color:red\"> *</span></label>\n");
       out.write("                                                            <select id=\"campus\" name=\"campus\" class=\"form-control input\">\n");
@@ -498,7 +678,7 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                                <option value=\"Weekend Classes\">Weekend Classes</option>\n");
       out.write("                                                            </select>\n");
       out.write("                                                        </div>\n");
-      out.write("                                                        <div class=\"col-sm-4\"></div>\n");
+      out.write("                                                        <div class=\"col-sm-2\"></div>\n");
       out.write("                                                    </div>\n");
       out.write("                                                    \n");
       out.write("                                                    <div class=\"row\" id=\"buttons3\">\n");

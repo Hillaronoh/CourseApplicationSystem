@@ -94,6 +94,11 @@
             PreparedStatement pst=null;
             PreparedStatement pst1=null;
             PreparedStatement pst2=null;
+            PreparedStatement pst3=null;
+            PreparedStatement pst4=null;
+            PreparedStatement pst5=null;
+            PreparedStatement pst6=null;
+            PreparedStatement pst7=null; 
             String db="jdbc:mysql:///project1c";
             String username="root";
             String password="";
@@ -103,7 +108,12 @@
                    conn=DriverManager.getConnection(db,username,password);
                    pst=conn.prepareStatement("SELECT First_Name,Middle_Name,Last_Name FROM registration WHERE Email_Address=? AND Role_id=?");
                    pst1=conn.prepareStatement("INSERT INTO applicants_details VALUES(?,?,?,?,?,?,?,?,?)");
-                   pst2=conn.prepareStatement("INSERT INTO education_background VALUES(?,?,?,?,?,?,?,?)");
+                   pst2=conn.prepareStatement("UPDATE education_background SET Physics_Grade=?, Maths_Grade=?, Subject3_Grade=?, Subject4_Grade=?, Mean_Grade=?, Aggregate_Points=?, Cluster_Points=? WHERE Email_Address=?");
+                   pst3=conn.prepareStatement("INSERT INTO course_details VALUES(?,?,?,?,?)");
+                   pst4=conn.prepareStatement("SELECT * FROM campuses");
+                   pst5=conn.prepareStatement("SELECT * FROM courses");
+                   pst6=conn.prepareStatement("SELECT Course_id FROM courses WHERE Course_Name=?");
+                   pst7=conn.prepareStatement("SELECT Level_id FROM course_levels WHERE Level_Name=?");
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -143,23 +153,39 @@
                 return i;
             }
             
-            public int setEducationBackground(String email, String physicsGrade, String mathsGrade, String subj3Grade, String subj4Grade, String meanGrade,double aggregatePoints, double clusterPoints){
+            public int setEducationBackground(String physicsGrade, String mathsGrade, String subj3Grade, String subj4Grade, String meanGrade,double aggregatePoints, double clusterPoints, String email){
                 int j=0;
                 try{
-                pst2.setString(1, email);
-                pst2.setString(2, physicsGrade);
-                pst2.setString(3, mathsGrade);
-                pst2.setString(4, subj3Grade);
-                pst2.setString(5, subj4Grade);
-                pst2.setString(6, meanGrade);
-                pst2.setDouble(7, aggregatePoints);
-                pst2.setDouble(8, clusterPoints);
+                pst2.setString(1, physicsGrade);
+                pst2.setString(2, mathsGrade);
+                pst2.setString(3, subj3Grade);
+                pst2.setString(4, subj4Grade);
+                pst2.setString(5, meanGrade);
+                pst2.setDouble(6, aggregatePoints);
+                pst2.setDouble(7, clusterPoints);
+                pst2.setString(8, email);
                 j=pst2.executeUpdate();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
                 }
                 return j;
+            }
+            
+            public int setCourseDetails(String email, int levelId, int courseId, String mos, String campus){
+                int k=0;
+                try{
+                pst3.setString(1, email);
+                pst3.setInt(2, levelId);
+                pst3.setInt(3, courseId);
+                pst3.setString(4, mos);
+                pst3.setString(5, campus);
+                k=pst3.executeUpdate();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return k;
             }
             
              public double calculateClusterPoints(double physics, double maths, double subj3, double subj4, double aggregatePoints){
@@ -172,6 +198,52 @@
                 DecimalFormat df = new DecimalFormat("#.##");
                 String w1 = df.format(w);
                 return Double.parseDouble(w1);
+            }
+             
+             public ResultSet getCampuses(){
+                ResultSet rs=null;
+                try{
+                rs=pst4.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+             
+             public ResultSet getCourses(){
+                ResultSet rs=null;
+                try{
+                rs=pst5.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+             
+             public ResultSet getCourseId(String courseName){
+                ResultSet rs=null;
+                try{
+                 pst6.setString(1, courseName);
+                 rs=pst6.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+             
+             public ResultSet getLevelId(String levelName){
+                ResultSet rs=null;
+                try{
+                 pst7.setString(1, levelName);
+                 rs=pst7.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
             }
              
              public double convertGradestoPoints(String grade){ 
@@ -291,7 +363,6 @@
                                         <%
                                        if(request.getParameter("submit1")!=null){
                                        
-                                           String email="rok@gmail.com";
                                            String fName=request.getParameter("fname");
                                            String mName=request.getParameter("mname");
                                            String lName=request.getParameter("lname");
@@ -301,13 +372,13 @@
                                            String mobile=request.getParameter("mobile");
                                            String country=request.getParameter("country");
            
-                                           int results2=user.setApplicants(email, fName, mName, lName, dob, gender, pAddress, mobile, country);    
+                                           int results2=user.setApplicants(applicantId, fName, mName, lName, dob, gender, pAddress, mobile, country);    
                                        
                                         if(results2>0){%> 
                                         <a class="accordion-section-title alert alert-success" style="margin-bottom:0px;" href="#accordion-1"><i class="fa fa-check-circle"></i>Your Personal Details has been saved successfully..Proceed to the next section.</a>
                                         <%}
                                         else{%>
-                                        <a class="accordion-section-title alert alert-error" style="margin-bottom:0px;" href="#accordion-1"><i class="fa fa-exclamation-triangle"></i>There was an error saving your details. Please try again.</a>
+                                        <a class="accordion-section-title alert alert-error" style="margin-bottom:0px;" href="#accordion-1"><i class="fa fa-exclamation-triangle"></i>There was an error saving your details..Please try again.</a>
                                         <%}} else{%>
                                         <a class="accordion-section-title" href="#accordion-1">SECTION A: Applicant's Personal Details.</a>
                                         <%}%>
@@ -392,7 +463,6 @@
                                         <%
                                        if(request.getParameter("submit2")!=null){
                                        
-                                           String email="rok@gmail.com";
                                            String physicsGrade=request.getParameter("physics");
                                            String mathsGrade=request.getParameter("maths");
                                            String subj3Grade =request.getParameter("subj3");
@@ -400,19 +470,19 @@
                                            String meanGrade=request.getParameter("meanGrade");
                                            String aggregatePointsString=request.getParameter("aggregatePoints");
                                            double aggregatePointsDouble=Double.parseDouble(aggregatePointsString); 
-                                                                                      
+                                                                                                                                 
                                            double physicsConverted=user.convertGradestoPoints(physicsGrade);
                                            double mathsConverted=user.convertGradestoPoints(mathsGrade);
                                            double subj3Converted=user.convertGradestoPoints(subj3Grade);
                                            double subj4Converted=user.convertGradestoPoints(subj4Grade); 
                                            double clusterPoints=user.calculateClusterPoints(physicsConverted, mathsConverted, subj3Converted, subj4Converted, aggregatePointsDouble);  
                                            
-                                           int results3=user.setEducationBackground(email, physicsGrade, mathsGrade, subj3Grade, subj4Grade, meanGrade, aggregatePointsDouble, clusterPoints);
+                                           int results3=user.setEducationBackground(physicsGrade, mathsGrade, subj3Grade, subj4Grade, meanGrade, aggregatePointsDouble, clusterPoints, applicantId); 
                                            if(results3>0){
                                            %>
-                                           <a class="accordion-section-title" href="#accordion-2">SECTION B: Applicant's Education Background.good</a>
+                                           <a class="accordion-section-title alert alert-success" style="margin-bottom:0px;" href="#accordion-2"><i class="fa fa-check-circle"></i>Your details has been saved successfully..Proceed to the next section.</a>
                                            <%} else{%>
-                                           <a class="accordion-section-title" href="#accordion-2">SECTION B: Applicant's Education Background.bad</a>
+                                           <a class="accordion-section-title alert alert-error" style="margin-bottom:0px;" href="#accordion-2"><i class="fa fa-exclamation-triangle"></i>There was an error saving your details..Please try again.</a>
                                            <%}} else{%>
                                            <a class="accordion-section-title" href="#accordion-2">SECTION B: Applicant's Education Background.</a>
                                            <%}%>
@@ -549,7 +619,37 @@
                             <div class="main">
                                 <div class="accordion">
                                     <div class="accordion-section">
+                                        <%
+                                       int courseId=0;
+                                       int levelId=0;
+                                       ResultSet results5=user.getCampuses();
+                                       ResultSet results6=user.getCourses();
+                                       if(request.getParameter("submit3")!=null){
+                                           String courseName=request.getParameter("programmeName");
+                                           String levelName=request.getParameter("programmeLevel");
+                                           
+                                           ResultSet results7=user.getCourseId(courseName);
+                                           if(results7.next()){
+                                               courseId=results7.getInt("Course_id");
+                                           }
+                                           
+                                            ResultSet results8=user.getLevelId(levelName);
+                                           if(results8.next()){
+                                               levelId=results8.getInt("Level_id");
+                                           }
+                                           String mos=request.getParameter("modeOfStudy");
+                                           String campus=request.getParameter("campus");
+                                           
+                                           int results4=user.setCourseDetails(applicantId, levelId, courseId, mos, campus);
+                                       
+                                        if(results4>0){%> 
+                                        <a class="accordion-section-title alert alert-success" style="margin-bottom:0px;" href="#accordion-3"><i class="fa fa-check-circle"></i>Your details has been saved successfully..Proceed to the next section.</a>
+                                        <%} else{%>
+                                        <a class="accordion-section-title alert alert-error" style="margin-bottom:0px;" href="#accordion-3"><i class="fa fa-exclamation-triangle"></i>There was an error saving your details..Please try again.</a>
+                                        <%} 
+                                       } else{%>
                                         <a class="accordion-section-title" href="#accordion-3">SECTION C: Course Application Details.</a>
+                                        <%}%>
                                         <div id="accordion-3" class="accordion-section-content">
                                             
                                             <form role="form" method="post" action="" id="myForm3" onsubmit="return validateCourseApplicationDetailsForm1(this)">
@@ -572,10 +672,9 @@
                                                             <label for="programmeName">Programme Name:<span style="color:red"> *</span></label>
                                                             <select id="programmeName" name="programmeName" class="form-control input">
                                                                 <option value="" selected>~select programme name~</option> 
-                                                                <option value="Computer Science">Computer Science</option>
-                                                                <option value="Information Technology">Information Technology</option>
-                                                                <option value="Computer Studies">Computer Studies</option>
-                                                                <option value="Computer Forensics">Computer Forensics</option>
+                                                                <%while(results6.next()){%>
+                                                                <option value="<%=results6.getString("course_Name")%>"><%=results6.getString("course_Name")%></option>
+                                                                <%}%>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-2"></div>
@@ -584,12 +683,12 @@
                                                     <div class="row" id="modeOfStudyRow">
                                                         <div class="col-sm-2"></div>
                                                         <div class="form-group col-sm-4">
-                                                            <label for="modeOfStudy">Mode of StudyRow:<span style="color:red"> *</span></label>
+                                                            <label for="modeOfStudy">Mode of Study:<span style="color:red"> *</span></label>
                                                             <select id="modeOfStudy" name="modeOfStudy" class="form-control input">
-                                                                <option value="" selected>~select mode of study</option> 
+                                                                <option value="" selected>~select mode of study~</option> 
                                                                 <option value="Full Time">Full Time</option>
                                                                 <option value="Part Time">Part Time</option>
-                                                                <option value="Evening">Evening Classes</option>
+                                                                <option value="Evening Classes">Evening Classes</option>
                                                                 <option value="Weekend Classes">Weekend Classes</option>
                                                             </select>
                                                         </div>
@@ -597,11 +696,10 @@
                                                         <div class="form-group col-sm-4">
                                                             <label for="campus">Campus/Study Center:<span style="color:red"> *</span></label>
                                                             <select id="campus" name="campus" class="form-control input">
-                                                                <option value="" selected>~select mode of study</option> 
-                                                                <option value="Full Time">Full Time</option>
-                                                                <option value="Part Time">Part Time</option>
-                                                                <option value="Evening">Evening Classes</option>
-                                                                <option value="Weekend Classes">Weekend Classes</option>
+                                                                <option value="" selected>~select campus~</option> 
+                                                                <%while(results5.next()){%>
+                                                                <option value="<%=results5.getString("campus_Name")%>"><%=results5.getString("campus_Name")%></option>
+                                                                <%}%>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-2"></div>
