@@ -4,6 +4,7 @@
     Author     : hillary
 --%>
 <%@page import="java.sql.*" %>
+<%@page import="myproject.*" %>
 <%Class.forName("com.mysql.jdbc.Driver");%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -52,7 +53,7 @@
        
             %>
             
-            <%!
+            <%!/*
         public class Admin{
             Connection conn=null;
             PreparedStatement pst=null;
@@ -97,7 +98,7 @@
                 }
                 return i;
             }
-        }
+        }*/
         %>
         
         <%

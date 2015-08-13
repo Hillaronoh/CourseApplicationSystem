@@ -63,6 +63,10 @@
     <body style="overflow-x: hidden; background-color: #EFEEEE;">
         
         <%
+            response.setHeader("Cache-Control","no-cache"); //Forces caches to obtain a new copy of the page from the origin server
+            response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
+            response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page 
+            response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
             String applicantId=new String(); 
             if(session.getAttribute("applicantId")==null||(session.getAttribute("applicantId")==""))
             {
@@ -412,125 +416,121 @@
                                         j++;
                                         check++;
                                         }%>
-                                        
-        <div class="modal fade" id="personalDetails" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" >Edit Personal Details</h4>
-                    </div></tbody>
-                                        </table>
-                                            
+                                      
                             </div>
                         </div>
-                            
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="ApplicationStatus" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Application Status</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>You successfully secured a placement in bachelor of science in computer science
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">close</button>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-                
-                                        <div class="modal-body">
-                                            
-                                            <form method="post" action="" id="myForm1">
-                                                <div class="form-group">
-                                                    <label for="firstName">First Name</label>
-                                                    <input type="text" class="form-control" id="firstName" placeholder="First Name" name="firstName" value="<%=fName%>" readonly>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="middleName">Middle Name</label>
-                                                    <input type="text" class="form-control" id="middleName" placeholder="Middle Name" name="middleName" value="<%=mName%>" readonly>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="lastName">Last Name</label>
-                                                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" name="lastName" value="<%=lName%>" readonly>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="dob">Date Of Birth</label>
-                                                    <input type="text" class="form-control" id="dob" placeholder="Date of Birth" name="dob" value="<%=dob%>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="gender">Gender</label>
-                                                    <select id="gender" name="gender" class="form-control input">
-                                                        <option value="<%=gender%>" selected><%=gender%></option> 
-                                                        <option value="Male">Male</option>
-                                                        <option value="Female">Female</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="gender">Postal Address</label>
-                                                    <input type="text" class="form-control" id="address" placeholder="Postal Address" name="address" value="<%=address%>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="gender">Mobile</label>
-                                                    <input type="text" class="form-control" id="mobile" placeholder="Mobile" name="mobile" value="<%=mobile%>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="country">Nationality</label>
-                                                    <input type="text" class="form-control" id="country" placeholder="Nationality" name="country" value="<%=country%>">
-                                                </div>
-                                                    
-                                                <div class="well modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                    <button type="submit" name="save1" class="btn btn-primary">Save changes</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                            
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-                
-            <div class="modal fade" id="academicQualifications" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" >Edit Academic Credentials</h4>
-                        </div>
-                        <div class="modal-body">
-                            
-                            <form method="post" action="" id="myForm2">
-                                <div class="form-group">
-                                    <label for="physicsGrade">Physics Grade</label>
-                                    <select id="physics" name="physicsGrade" class="form-control input">
-                                        <option value="<%=physicsGrade%>" selected><%=physicsGrade%></option> 
-                                        <option value="A">A</option>
-                                        <option value="A-">A-</option>
-                                        <option value="B+">B+</option>
-                                        <option value="B">B</option>
-                                        <option value="B-">B-</option>
-                                        <option value="C+">C+</option>
-                                        <option value="C">C</option>
-                                        <option value="C-">C-</option>
-                                        <option value="D+">D+</option>
-                                        <option value="D">D</option>
-                                        <option value="D-">D-</option>
-                                        <option value="E">E</option>
-                                    </select>
+                        <div class="modal fade" id="ApplicationStatus" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">Application Status</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>You successfully secured a placement in bachelor of science in computer science
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">close</button>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="mathsGrade">Maths Grade</label>
-                                    <select id="maths" name="mathsGrade" class="form-control input">
-                                        <option value="<%=mathsGrade%>" selected><%=mathsGrade%></option> 
-                                        <option value="A">A</option>
+                            </div>
+                        </div> 
+                        
+                        <div class="modal fade" id="personalDetails" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" >Edit Personal Details</h4>
+                                    </div>
+                                        
+                                        
+                                    <div class="modal-body">
+                                            
+                                        <form method="post" action="" id="myForm1">
+                                            <div class="form-group">
+                                                <label for="firstName">First Name</label>
+                                                <input type="text" class="form-control" id="firstName" placeholder="First Name" name="firstName" value="<%=fName%>" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="middleName">Middle Name</label>
+                                                <input type="text" class="form-control" id="middleName" placeholder="Middle Name" name="middleName" value="<%=mName%>" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="lastName">Last Name</label>
+                                                <input type="text" class="form-control" id="lastName" placeholder="Last Name" name="lastName" value="<%=lName%>" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="dob">Date Of Birth</label>
+                                                <input type="text" class="form-control" id="dob" placeholder="Date of Birth" name="dob" value="<%=dob%>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="gender">Gender</label>
+                                                <select id="gender" name="gender" class="form-control input">
+                                                    <option value="<%=gender%>" selected><%=gender%></option> 
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="gender">Postal Address</label>
+                                                <input type="text" class="form-control" id="address" placeholder="Postal Address" name="address" value="<%=address%>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="gender">Mobile</label>
+                                                <input type="text" class="form-control" id="mobile" placeholder="Mobile" name="mobile" value="<%=mobile%>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="country">Nationality</label>
+                                                <input type="text" class="form-control" id="country" placeholder="Nationality" name="country" value="<%=country%>">
+                                            </div>
+                                    
+                                            <div class="well modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="submit" name="save1" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                            
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                
+                        <div class="modal fade" id="academicQualifications" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" >Edit Academic Credentials</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        
+                                        <form method="post" action="" id="myForm2">
+                                            <div class="form-group">
+                                                <label for="physicsGrade">Physics Grade</label>
+                                                <select id="physics" name="physicsGrade" class="form-control input">
+                                                    <option value="<%=physicsGrade%>" selected><%=physicsGrade%></option> 
+                                                    <option value="A">A</option>
+                                                    <option value="A-">A-</option>
+                                                    <option value="B+">B+</option>
+                                                    <option value="B">B</option>
+                                                    <option value="B-">B-</option>
+                                                    <option value="C+">C+</option>
+                                                    <option value="C">C</option>
+                                                    <option value="C-">C-</option>
+                                                    <option value="D+">D+</option>
+                                                    <option value="D">D</option>
+                                                    <option value="D-">D-</option>
+                                                    <option value="E">E</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="mathsGrade">Maths Grade</label>
+                                                <select id="maths" name="mathsGrade" class="form-control input">
+                                                    <option value="<%=mathsGrade%>" selected><%=mathsGrade%></option> 
+                                                    <option value="A">A</option>
                                         <option value="A-">A-</option>
                                         <option value="B+">B+</option>
                                         <option value="B">B</option>

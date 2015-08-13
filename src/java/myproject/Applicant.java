@@ -11,11 +11,8 @@ import java.text.DecimalFormat;
  * @author hillary
  */
 public class Applicant {
-    Connection conn=null;
-    String db="jdbc:mysql:///project1c";
-    String user="root";
-    String password="";
-    //registration
+    Connection conn=Common.conn;
+    
     PreparedStatement pst=null;
     PreparedStatement pst1=null;
     //application
@@ -47,10 +44,9 @@ public class Applicant {
     PreparedStatement pst27=null;
     PreparedStatement pst28=null;
     //constructor
-    public Applicant(){
+    public Applicant() throws ClassNotFoundException{
+        Common connection=new Common();
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(db,user,password);
             //registration
             pst = conn.prepareStatement("INSERT INTO registration VALUES(?,?,?,?,?,?)");
             pst1 = conn.prepareStatement("SELECT * FROM registration WHERE Email_Address=?");
@@ -82,7 +78,7 @@ public class Applicant {
             //inquiries
             pst27=conn.prepareStatement("INSERT INTO inquiries(Sender,Message) VALUES(?,?)");
             pst28=conn.prepareStatement("SELECT Message, Reply FROM inquiries WHERE Sender=?");
-        }catch(ClassNotFoundException | SQLException e){
+        }catch(SQLException e){
             e.printStackTrace(System.out);
         }
     }
