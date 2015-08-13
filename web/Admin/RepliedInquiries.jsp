@@ -64,6 +64,9 @@
         public class Admin{
             Connection conn=null;
             PreparedStatement pst=null;
+            PreparedStatement pst1=null;
+            PreparedStatement pst2=null;
+            PreparedStatement pst3=null;
             String db="jdbc:mysql:///project1c";
             String username="root";
             String password="";
@@ -72,6 +75,9 @@
                 try{
                    conn=DriverManager.getConnection(db,username,password);
                    pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
+                   pst1=conn.prepareStatement("SELECT * FROM inquiries WHERE Reply IS NOT NULL");
+                   pst2=conn.prepareStatement("DELETE FROM inquiries WHERE Sender=? AND Message=? AND Reply=?");
+                   pst3=conn.prepareStatement("SELECT Sender, Message, Reply FROM inquiries WHERE Sender=?");
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -90,6 +96,43 @@
                 }
                 return rs;
             }
+            
+            public ResultSet getRepliedInquiries(){
+                ResultSet rs=null;
+                try{
+                   rs=pst1.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+            
+            public int deleteInquiry(String email, String message, String reply){
+                int i=0;
+                try{
+                   pst2.setString(1, email);
+                   pst2.setString(2, message);
+                   pst2.setString(3, reply);
+                   i=pst2.executeUpdate();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return i;
+            }
+            
+            public ResultSet getSender(String email){
+            ResultSet rs=null;
+            try{
+               pst2.setString(1, email);  
+               rs=pst2.executeQuery();
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+            return rs;
+        }
         }
         %>
         
@@ -102,6 +145,8 @@
            if(results.next()){
                firstName=results.getString("First_Name");
            }
+           
+           ResultSet results1=admin.getRepliedInquiries();
         %>
         
         <div class="container body">
@@ -318,27 +363,49 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <%
+                                                String message=new String();
+                                                String reply=new String();
+                                                String email=new String();
+                                                int check=1;
+                                                while(results1.next()){
+                                                    email=results1.getString("Sender");
+                                                    message=results1.getString("Message");
+                                                    reply=results1.getString("Reply");
+                                                    %>
                                                 <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>Mark</td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                    <th scope="row"><%=results1.getInt("id")%></th>
+                                                    <td><%=results1.getString("Sender")%></td>
+                                                    <td><%=results1.getString("Message")%></td>
+                                                    <td><%=results1.getString("Reply")%></td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
-                                                    <td>Mark</td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">3</th>
-                                                    <td>Larry</td>
-                                                    <td>the Bird</td>
-                                                    <td>Mark</td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
-                                                </tr>
+                                                
+                                            <div class="modal fade" id="deleteConfirm<%=check%>" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" >Confirm</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h5>Are you sure you want to delete?</h5>
+                                                            <form method="post" action="">
+                                                                <div class="">
+                                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" name="delete<%=check%>" class="btn btn-danger">Delete</button> 
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                        
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                                <%
+                                                if(request.getParameter("delete"+check)!=null){
+                                                    int results2=admin.deleteInquiry(email, message, reply);
+                                                }
+                                            check++;}%>
                                             </tbody>
                                         </table>
                                         
@@ -358,7 +425,8 @@
                                     <div class="modal-body">
                                         
                                         <form method="post" action="">
-                                            <textarea placeholder="New Announcement..." style="width: 468px; height: 100px;"></textarea>
+                                            <input type="text" name="title" placeholder="Announcement Title..." size="56">
+                                            <textarea placeholder="Announcement Body..." style="width: 468px; height: 100px;"></textarea>
                                             
                                             <div class="well modal-footer">
                                                 <button type="reset" class="btn btn-default">Clear</button>
@@ -370,28 +438,8 @@
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
                         </div><!-- /.modal -->
-                        
-                        <div class="modal fade" id="deleteConfirm" role="dialog">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" >Confirm</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h5>Are you sure you want to delete?</h5>
-                                        <form method="post" action="">
-                                            <div class="">
-                                                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                                                <button type="submit" name="delete" class="btn btn-danger">Delete</button> 
-                                            </div>
-                                        </form>
-                                    </div>
-                                    
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
-                        
+                       
+                                               
                     </div>
                     <!-- /page content -->
                     

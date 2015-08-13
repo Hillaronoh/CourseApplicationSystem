@@ -12,6 +12,8 @@ public final class Messaging_jsp extends org.apache.jasper.runtime.HttpJspBase
         public class Applicant{
             Connection conn=null;
             PreparedStatement pst=null;
+            PreparedStatement pst1=null;
+            PreparedStatement pst2=null;
             String db="jdbc:mysql:///project1c";
             String username="root";
             String password="";
@@ -20,6 +22,8 @@ public final class Messaging_jsp extends org.apache.jasper.runtime.HttpJspBase
                 try{
                    conn=DriverManager.getConnection(db,username,password);
                    pst=conn.prepareStatement("SELECT First_Name, Last_Name FROM registration WHERE Email_Address=? AND Role_id=?");
+                   pst1=conn.prepareStatement("INSERT INTO inquiries(Sender,Message) VALUES(?,?)");
+                   pst2=conn.prepareStatement("SELECT Message, Reply FROM inquiries WHERE Sender=?");
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -32,6 +36,32 @@ public final class Messaging_jsp extends org.apache.jasper.runtime.HttpJspBase
                   pst.setString(1, email);
                   pst.setInt(2, 2);
                   rs=pst.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+            
+            public int setInquiries(String email, String message){
+                int i=0;
+                try{
+                   pst1.setString(1, email);
+                   pst1.setString(2, message);
+                   //pst1.setDate(3, date);
+                   i=pst1.executeUpdate();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return i;
+            }
+            
+            public ResultSet getMessage(String email){
+                ResultSet rs=null;
+                try{
+                   pst2.setString(1, email);
+                   rs=pst2.executeQuery();
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -125,13 +155,18 @@ Class.forName("com.mysql.jdbc.Driver");
            Applicant user=new Applicant();
            String firstName=new String();
            String lastName=new String();
-           
+                      
            ResultSet results=user.getApplicant(applicantId); 
            
            if(results.next()){
                firstName=results.getString("First_Name");
                lastName=results.getString("Last_Name");
            }
+           if(request.getParameter("send")!=null){
+           String message=request.getParameter("message");
+           int results1=user.setInquiries(applicantId, message);
+           }
+           ResultSet results2=user.getMessage(applicantId);
         
       out.write("\n");
       out.write("        \n");
@@ -197,7 +232,11 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                    <div class=\"portlet portlet-default\">\n");
       out.write("                                        <div class=\"portlet-heading\">\n");
       out.write("                                            <div class=\"portlet-title\">\n");
-      out.write("                                                <h4> Kipngetich Hillary </h4>\n");
+      out.write("                                                <h4> ");
+      out.print(firstName);
+      out.write(' ');
+      out.print(lastName);
+      out.write(" </h4>\n");
       out.write("                                            </div>\n");
       out.write("                                            <div class=\"clearfix\"></div>\n");
       out.write("                                        </div>\n");
@@ -211,7 +250,15 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("</p> \n");
       out.write("                                                        </div>\n");
       out.write("                                                    </div>\n");
-      out.write("                                                    \n");
+      out.write("                                                     ");
+
+                                                     String message=new String();
+                                                     String reply=new String();
+                                                     while(results2.next()){
+                                                         message=results2.getString("Message");
+                                                         reply=results2.getString("Reply");
+                                                     
+      out.write("\n");
       out.write("                                                    <div class=\"row\">\n");
       out.write("                                                        <div class=\"col-lg-12\">\n");
       out.write("                                                            <div class=\"media\">\n");
@@ -219,46 +266,58 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                                                                    <img class=\"media-object img-circle\" src=\"image/username2.png\" alt=\"\" style=\"width: 20px; height: 20px;\">\n");
       out.write("                                                                </a>\n");
       out.write("                                                                <div class=\"media-body\">\n");
-      out.write("                                                                    <h4 class=\"media-heading\">Kipngetich Hillary\n");
+      out.write("                                                                    <h4 class=\"media-heading\">");
+      out.print(firstName);
+      out.write("\n");
       out.write("                                                                        <span class=\"small pull-right\">12:23 PM</span>\n");
       out.write("                                                                    </h4>\n");
-      out.write("                                                                    <p>Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?</p>\n");
+      out.write("                                                                       \n");
+      out.write("                                                                    <p>");
+      out.print(message);
+      out.write("</p>\n");
+      out.write("                                                                        \n");
       out.write("                                                                </div>\n");
       out.write("                                                            </div>\n");
       out.write("                                                        </div>\n");
       out.write("                                                    </div>\n");
       out.write("                                                    <hr>\n");
-      out.write("                                                    <div class=\"row\">\n");
-      out.write("                                                        <div class=\"col-lg-12\">\n");
-      out.write("                                                            <p class=\"text-center text-muted small\">January 1, 2014 at 12:23 PM</p>\n");
-      out.write("                                                        </div>\n");
-      out.write("                                                    </div>\n");
-      out.write("                                                    <div class=\"row\">\n");
+      out.write("                                                    ");
+if(reply!=null){
+      out.write("\n");
+      out.write("                                                        <div class=\"row\">\n");
       out.write("                                                        <div class=\"col-lg-12\">\n");
       out.write("                                                            <div class=\"media\">\n");
       out.write("                                                                <a class=\"pull-left\" href=\"#\">\n");
       out.write("                                                                    <img class=\"media-object img-circle\" src=\"image/username2.png\" alt=\"\" style=\"width: 20px; height: 20px;\">\n");
       out.write("                                                                </a>\n");
       out.write("                                                                <div class=\"media-body\">\n");
-      out.write("                                                                    <h4 class=\"media-heading\">Kipngetich Hillary\n");
+      out.write("                                                                    <h4 class=\"media-heading\">mmust\n");
       out.write("                                                                        <span class=\"small pull-right\">12:23 PM</span>\n");
       out.write("                                                                    </h4>\n");
-      out.write("                                                                    <p>Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?</p>\n");
+      out.write("                                                                       \n");
+      out.write("                                                                    <p>");
+      out.print(reply);
+      out.write("</p>\n");
+      out.write("                                                                        \n");
       out.write("                                                                </div>\n");
       out.write("                                                            </div>\n");
       out.write("                                                        </div>\n");
       out.write("                                                    </div>\n");
       out.write("                                                    <hr>\n");
+      out.write("                                                    ");
+}
+                                                    }
+      out.write("\n");
       out.write("                                                    \n");
       out.write("                                                </div>\n");
       out.write("                                            </div>\n");
       out.write("                                            <div class=\"portlet-footer\">\n");
       out.write("                                                <form role=\"form\">\n");
       out.write("                                                    <div class=\"form-group\">\n");
-      out.write("                                                        <textarea class=\"form-control\" placeholder=\"Enter message...\"></textarea>\n");
+      out.write("                                                        <textarea class=\"form-control\" name=\"message\" placeholder=\"Enter message...\"></textarea>\n");
       out.write("                                                    </div>\n");
       out.write("                                                    <div class=\"form-group\">\n");
-      out.write("                                                        <input type=\"submit\" class=\"btn btn-default pull-right\" value=\"Send\">\n");
+      out.write("                                                        <input type=\"submit\" class=\"btn btn-default pull-right\" value=\"Send\" name=\"send\">\n");
       out.write("                                                        <div class=\"clearfix\"></div>\n");
       out.write("                                                    </div>\n");
       out.write("                                                </form>\n");

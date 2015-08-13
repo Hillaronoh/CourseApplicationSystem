@@ -401,7 +401,8 @@
                     <div class="modal-body">
                         
                         <form method="post" action="">
-                            <textarea placeholder="New Announcement..." style="width: 468px; height: 100px;"></textarea>
+                            <input type="text" name="title" placeholder="Announcement Title..." size="56">
+                                            <textarea placeholder="Announcement Body..." style="width: 468px; height: 100px;"></textarea>
                             
                             <div class="well modal-footer">
                                 <button type="reset" class="btn btn-default">Clear</button>

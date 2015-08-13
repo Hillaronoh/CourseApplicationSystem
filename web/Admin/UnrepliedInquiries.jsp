@@ -63,6 +63,11 @@
         public class Admin{
             Connection conn=null;
             PreparedStatement pst=null;
+            PreparedStatement pst1=null;
+            PreparedStatement pst2=null;
+            PreparedStatement pst3=null;
+            PreparedStatement pst4=null;
+            PreparedStatement pst5=null;
             String db="jdbc:mysql:///project1c";
             String username="root";
             String password="";
@@ -71,6 +76,11 @@
                 try{
                    conn=DriverManager.getConnection(db,username,password);
                    pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
+                   pst1=conn.prepareStatement("SELECT * FROM inquiries");
+                   pst2=conn.prepareStatement("SELECT First_Name, Last_Name FROM applicants_details WHERE Email_Address=?");
+                   pst3=conn.prepareStatement("UPDATE inquiries SET Reply=? WHERE Sender=? AND Message=?");
+                   pst4=conn.prepareStatement("SELECT Message, Reply FROM inquiries WHERE Sender=?");
+                   pst5=conn.prepareStatement("UPDATE inquiries SET Reply=? WHERE Sender=? AND Message=?");
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -89,7 +99,71 @@
                 }
                 return rs;
             }
+            
+            public ResultSet getUnrepliedInquiries(){
+                ResultSet rs=null;
+                try{
+                  rs=pst1.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace(); 
+                }
+                return rs;
+            }
+            
+            public ResultSet getSender(String email){
+            ResultSet rs=null;
+            try{
+               pst2.setString(1, email);  
+               rs=pst2.executeQuery();
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+            return rs;
         }
+            
+            public int setReply(String reply,String email,String message){
+            int i=0;
+            try{
+               pst3.setString(1, reply);
+               pst3.setString(2, email);
+               pst3.setString(3, message);
+               i=pst3.executeUpdate();
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+            return i;
+        }
+            
+            public int setIgnore(String reply,String email,String message){
+            int i=0;
+            try{
+               pst3.setString(1, reply);
+               pst3.setString(2, email);
+               pst3.setString(3, message);
+               i=pst3.executeUpdate();
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+            return i;
+        }
+            
+            public ResultSet getChats(String email){
+                ResultSet rs=null;
+                try{
+                   pst4.setString(1, email);
+                   rs=pst4.executeQuery();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return rs;
+            }
+        }
+        
         %>
         
         <%
@@ -101,6 +175,8 @@
            if(results.next()){
                firstName=results.getString("First_Name");
            }
+           
+           ResultSet results1=admin.getUnrepliedInquiries();
         %>
         
         <div class="container body">
@@ -317,42 +393,150 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <%
+                                                int check=1;
+                                                String email=new String();
+                                                String fname=new String();
+                                                String lname=new String();
+                                                String message=new String();
+                                                String rep=new String();
+                                                String rep1=new String();
+                                                while(results1.next()){
+                                                email=results1.getString("Sender");
+                                                //message=results1.getString("Message");
+                                                rep1=results1.getString("Reply");
+                                                ResultSet results2=admin.getSender(email);
+                                                if(results2.next()){
+                                                    fname=results2.getString("First_Name");
+                                                    lname=results2.getString("Last_Name");
+                                                }
+                                                ResultSet results4=admin.getChats(email);
+                                                
+                                                if(rep1==null){
+                                                %>
                                                 <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>Mark</td>
+                                                    <th scope="row"><%=results1.getInt("id")%></th>
+                                                    <td><%=results1.getString("Sender")%></td>
+                                                    <td><%=results1.getString("Message")%></td>
+                                                    <td><%=results1.getDate("Sent_Date")%></td>
                                                     <td style="width: 154px; padding-right: 0px;">
-                                                        <a href="#reply" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;">
+                                                        <a href="#reply<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;">
                                                             <i class="fa fa-reply">Reply</i></a>
-                                                        <a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -3px; outline: none;">
+                                                        <a href="#ignoreConfirm<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -3px; outline: none;">
                                                             <i class="fa fa-exclamation-circle">Ignore</i></a>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
-                                                    <td>Mark</td>
-                                                    <td style="width: 154px; padding-right: 0px;">
-                                                        <a href="#reply" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;">
-                                                            <i class="fa fa-reply">Reply</i></a>
-                                                        <a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -3px; outline: none;">
-                                                            <i class="fa fa-exclamation-circle">Ignore</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">3</th>
-                                                    <td>Larry</td>
-                                                    <td>the Bird</td>
-                                                    <td>Mark</td>
-                                                    <td style="width: 154px; padding-right: 0px;">
-                                                        <a href="#reply" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;">
-                                                            <i class="fa fa-reply">Reply</i></a>
-                                                        <a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -3px; outline: none;">
-                                                            <i class="fa fa-exclamation-circle">Ignore</i></a>
-                                                    </td>
-                                                </tr>
+                                                <%}%>
+                                            <div class="modal fade" id="reply<%=check%>" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" >Inquiry</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            
+                                                            <div class="portlet portlet-default" style="border: 1px solid; ">
+                                                                
+                                                                <div id="chat" class="panel-collapse collapse in">
+                                                                    <div>
+                                                                        <div class="portlet-body" style="overflow-y: auto; overflow-x: hidden; height: 180px; padding-right: 3px;">
+                                                                            <div class="row">
+                                                                                <div class="col-lg-12">
+                                                                                    <p class="text-center text-muted small"><%= (new java.util.Date()).toLocaleString()%></p> 
+                                                                                </div>
+                                                                            </div>
+                                                                                    <%while(results4.next()){
+                                                                                        message=results4.getString("Message"); 
+                                                                                        rep=results4.getString("Reply");%>
+                                                
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-12">
+                                                                                                <div class="media">
+                                                                                                    <a class="pull-left" href="#">
+                                                                                                        <i class="fa fa-user"></i>
+                                                                                                    </a>
+                                                                                                    <div class="media-body">
+                                                                                                        <h4 class="media-heading"><%=fname%> <%=lname%>
+                                                                                                            <span class="small pull-right">12:23 PM</span>
+                                                                                                        </h4>
+                                                                                                        <p><%=message%></p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <hr>
+                                                                                        <%if(rep!=null){%>
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-12">
+                                                                                                <div class="media">
+                                                                                                    <a class="pull-left" href="#">
+                                                                                                        <img class="media-object img-circle" src="images/favicon.ico" alt="" style="width: 15px; height: 15px;">
+                                                                                                    </a>
+                                                                                                    <div class="media-body">
+                                                                                                        <h4 class="media-heading">mmust
+                                                                                                            <span class="small pull-right">12:23 PM</span>
+                                                                                                        </h4>
+                                                                                                        <p><%=rep%></p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                                        <hr><%}}%>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="well portlet-footer">
+                                                                        <form role="form" method="post">
+                                                                            <div class="form-group">
+                                                                                <textarea class="form-control" name="reply" placeholder="Enter reply..."></textarea>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <input type="submit" class="btn btn-success pull-right" value="Send" name="send<%=check%>">
+                                                                                <div class="clearfix"></div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                
+                                                            </div>
+                                            
+                                                        </div><!-- /.modal-content -->
+                                                    </div><!-- /.modal-dialog -->
+                                                </div><!-- /.modal -->
+                                            </div>
+                                            
+                                            <div class="modal fade" id="ignoreConfirm<%=check%>" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" >Confirm</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h5>Are you sure you want to ignore?</h5>
+                                                            <form method="post" action="">
+                                                                <div class="">
+                                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" name="ignore<%=check%>" class="btn btn-danger">Ignore</button> 
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                    
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                                <%
+                                                if(request.getParameter("send"+check)!=null){
+                                                    String reply=request.getParameter("reply");
+                                                    int results3=admin.setReply(reply, email, message);
+                                                }
+                                                if(request.getParameter("ignore"+check)!=null){
+                                                    String reply="Ignored";
+                                                    int results3=admin.setIgnore(reply, email, message);
+                                                }
+                                                check++;
+                                               }%>
+                                                
                                             </tbody>
                                         </table>
                                         
@@ -362,94 +546,36 @@
                             </div>
                         </div>
                         
-                        <div class="modal fade" id="reply" role="dialog">
-                            <div class="modal-dialog modal-sm">
+                        <div class="modal fade" id="postAnnouncement" role="dialog">
+                            <div class="modal-dialog" style="width: 500px;">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" >Inquiry</h4>
+                                        <h4 class="modal-title" >Post Announcement</h4>
                                     </div>
                                     <div class="modal-body">
                                         
-                                        <div class="portlet portlet-default" style="border: 1px solid; ">
+                                        <form method="post" action="">
+                                            <input type="text" name="title" placeholder="Announcement Title..." size="56">
+                                            <textarea placeholder="Announcement Body..." style="width: 468px; height: 100px;"></textarea>
                                             
-                                            <div id="chat" class="panel-collapse collapse in">
-                                                <div>
-                                                    <div class="portlet-body" style="overflow-y: auto; overflow-x: hidden; height: 180px; padding-right: 3px;">
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <p class="text-center text-muted small"><%= (new java.util.Date()).toLocaleString()%></p> 
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <div class="media">
-                                                                    <a class="pull-left" href="#">
-                                                                        <i class="fa fa-user"></i>
-                                                                    </a>
-                                                                    <div class="media-body">
-                                                                        <h4 class="media-heading">Kipngetich Hillary
-                                                                            <span class="small pull-right">12:23 PM</span>
-                                                                        </h4>
-                                                                        <p>Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?
-                                                                            Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?
-                                                                            Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?
-                                                                            Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?
-                                                                            Hi, I wanted to make sure you got the latest product report. Did Roddy get it to you?</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
-                                                <div class="well portlet-footer">
-                                                    <form role="form" method="post">
-                                                        <div class="form-group">
-                                                            <textarea class="form-control" placeholder="Enter reply..."></textarea>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <input type="submit" class="btn btn-success pull-right" value="Send">
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                            <div class="well modal-footer">
+                                                <button type="reset" class="btn btn-default">Clear</button>
+                                                <button type="submit" class="btn btn-primary" name="save">Post</button>
                                             </div>
-                                            
-                                        </div>
-                                        
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
-                            
-                            
-                            
+                                        </form>
+                                    </div>
+                                    
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                                                      
                         </div>
                         <!-- /page content -->
                         
                     </div>
                     
-                    <div class="modal fade" id="deleteConfirm" role="dialog">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" >Confirm</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <h5>Are you sure you want to ignore?</h5>
-                                    <form method="post" action="">
-                                        <div class="">
-                                            <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                                            <button type="submit" name="delete" class="btn btn-danger">Ignore</button> 
-                                        </div>
-                                    </form>
-                                </div>
-                                
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- /.modal -->
+                   
                     
                 </div>
             </div>

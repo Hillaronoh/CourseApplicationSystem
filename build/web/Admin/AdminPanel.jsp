@@ -56,6 +56,7 @@
         public class Admin{
             Connection conn=null;
             PreparedStatement pst=null;
+            PreparedStatement pst1=null;
             String db="jdbc:mysql:///project1c";
             String username="root";
             String password="";
@@ -64,6 +65,7 @@
                 try{
                    conn=DriverManager.getConnection(db,username,password);
                    pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
+                   pst1=conn.prepareStatement("INSERT INTO announcements(Title,Body) VALUES(?,?)");
                 }
                 catch(SQLException e){
                     e.printStackTrace();
@@ -82,6 +84,19 @@
                 }
                 return rs;
             }
+            
+            public int setAnnouncement(String title, String body){
+                int i=0;
+                try{
+                   pst1.setString(1, title);
+                   pst1.setString(2, body);
+                   i=pst1.executeUpdate();
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+                return i;
+            }
         }
         %>
         
@@ -93,6 +108,12 @@
            
            if(results.next()){
                firstName=results.getString("First_Name");
+           }
+           
+           if(request.getParameter("post")!=null){
+               String title=request.getParameter("title");
+               String body=request.getParameter("body");
+               int results1=admin.setAnnouncement(title, body);
            }
         %>
         
@@ -349,11 +370,12 @@
                     <div class="modal-body">
                         
                         <form method="post" action="">
-                            <textarea placeholder="New Announcement..." style="width: 468px; height: 100px;"></textarea>
+                            <input type="text" name="title" placeholder="Announcement Title..." size="56">
+                            <textarea name="body" placeholder="Announcement Body..." style="width: 468px; height: 100px;"></textarea>
                             
                             <div class="well modal-footer">
                                 <button type="reset" class="btn btn-default">Clear</button>
-                                <button type="submit" class="btn btn-primary" name="save">Post</button>
+                                <button type="submit" class="btn btn-primary" name="post">Post</button>
                             </div>
                         </form>
                     </div>
