@@ -4,7 +4,7 @@
     Author     : Kipngetich
 --%>
 <%@page import="java.sql.*" %>
-<%Class.forName("com.mysql.jdbc.Driver");%>
+<%@page import="myproject.*" %> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -39,6 +39,9 @@
                 background: rgba(0,0,0,0.15);
                 border-radius: 3px 0 0 3px;
             }
+            .error{
+                color: red;
+            }
         </style>
     </head>
     <body style="overflow-x: hidden; background-color: #EFEEEE;">
@@ -62,48 +65,19 @@
        
             %>
             
-            <%!
-        public class Applicant{
-            Connection conn=null;
-            PreparedStatement pst=null;
-            String db="jdbc:mysql:///project1c";
-            String username="root";
-            String password="";
             
-            public Applicant(){
-                try{
-                   conn=DriverManager.getConnection(db,username,password);
-                   pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-            }
-            
-            public ResultSet getApplicant(String email){
-                ResultSet rs=null;
-                try{
-                  pst.setString(1, email);
-                  pst.setInt(2, 2);
-                  rs=pst.executeQuery();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return rs;
-            }
-        }
-        %>
-        
         <%
            Applicant user=new Applicant();
            String firstName=new String();
                     
-           ResultSet results=user.getApplicant(applicantId); 
+           ResultSet results=user.getApplicantDetails(applicantId);
            
            if(results.next()){
                firstName=results.getString("First_Name");
            }
+           
+           
+           
         %>
         
         <jsp:include page="Header.jsp"></jsp:include>
@@ -159,16 +133,40 @@
                         <!--end navigation menus-->
                         
                         <div class="panel-body" style="padding-left:170px;">
-                            <form action=""> 
+                            <form action="" method="post" id="myForm4"> 
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-2">
                                         <div class="panel panel-primary"  style="margin-top:20px;">
+                                            <%
+                                            String oldPwd=new String();
+                                            String newPwd=new String();
+                                            if(request.getParameter("save")!=null){
+                                                oldPwd=request.getParameter("oldPwd"); 
+                                                newPwd=request.getParameter("password1");
+                                            
+                                            int results2=user.changePwd(newPwd, applicantId, oldPwd);
+                                            if(results2>0){%>
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title alert alert-success" style="color: #5CB85C;">
+                                                    <i class="fa fa-check-circle"></i>
+                                                    Your password has been changed successfully  
+                                                </h3>
+                                            </div>
+                                            <%} else{%>
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title alert alert-danger" style="color: #e86b5a;">
+                                                    <i class="fa fa-exclamation-triangle"></i>
+                                                    An error occurred..Please try again.  
+                                                </h3>
+                                            </div>
+                                            <%}} else{%>
                                             <div class="panel-heading">
                                                 <h3 class="panel-title">
                                                     <i class="fa fa-th"></i>
-                                                    Change password   
+                                                    Change password  
                                                 </h3>
                                             </div>
+                                            <%}%>
                                             <div class="panel-body">
                                                 
                                                 <div class="row">
@@ -176,19 +174,19 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                                                <input class="form-control" type="password" placeholder="Current Password">
+                                                                <input class="form-control" type="password" placeholder="Current Password" name="oldPwd">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="input-group-addon"><i class="fa fa-question-circle"></i></div>
-                                                                <input class="form-control" type="password" placeholder="New Password">
+                                                                <input class="form-control" type="password" placeholder="New Password" name="password1" id="password1">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="input-group-addon"><i class="fa fa-check-circle"></i></div>
-                                                                <input class="form-control" type="password" placeholder="Confirm New Password">
+                                                                <input class="form-control" type="password" placeholder="Confirm New Password" name="password2" id="password2">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -199,7 +197,7 @@
                                                 <div class="row">
                                                     
                                                     <div class="col-xs-6 col-sm-6 col-md-6" style="padding-left: 70px;">
-                                                        <button class="btn icon-btn-save btn-success" type="submit">
+                                                        <button class="btn icon-btn-save btn-success" type="submit" name="save">
                                                             <span class="btn-save-label"><i class="fa fa-thumbs-o-up"></i></span>Save</button>
                                                     </div>
                                                     <div class="col-xs-6 col-sm-6 col-md-6"> <button class="btn icon-btn-save btn-success" type="reset">
@@ -237,5 +235,9 @@
         
         <script type="text/javascript" src="mycss/modal/jquery.minCust.js"></script>
         <script type="text/javascript" src="mycss/modal/bootstrapJsCust.js"></script>
+        <script type="text/javascript" src="mycss/validation/jquery.js"></script>
+        <script type="text/javascript" src="mycss/validation/jquery.validate.js"></script>
+        <script type="text/javascript" src="mycss/validation/additional-methods.js"></script>
+        <script src="mycss/validation/custom.js"></script>
     </body>
 </html>

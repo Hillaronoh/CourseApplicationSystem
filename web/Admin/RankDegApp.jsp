@@ -5,6 +5,8 @@
 --%>
 <%@page import="java.sql.*" %>
 <%@page import="myproject.*" %>
+<%@page import="java.util.Calendar" %>
+<%@page import="java.util.GregorianCalendar" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -63,16 +65,31 @@
        
             %>
         
-        <%
-           Admin admin=new Admin();
-           String firstName=new String();
+            <%
+            String months[] = {
+                "January", "February", "March", "April",
+                "May", "June", "July", "August",
+                "September", "October", "November", "December"};
+            GregorianCalendar gcalendar = new GregorianCalendar();
+            String month=months[gcalendar.get(Calendar.MONTH)];
+            int day=gcalendar.get(Calendar.DATE);
+            int year=gcalendar.get(Calendar.YEAR);
+            
+            Admin admin=new Admin();
+            String firstName=new String();
            
-           ResultSet results=admin.getAdmin(adminId);
+            ResultSet results=admin.getAdmin(adminId);
            
-           if(results.next()){
-               firstName=results.getString("First_Name");
-           }
-        %>
+            if(results.next()){
+                firstName=results.getString("First_Name");
+            }
+            
+            if(request.getParameter("post")!=null){
+                String title=request.getParameter("title");
+                String body=request.getParameter("body");
+                int results1=admin.setAnnouncement(title, body); 
+            }
+            %>
         
         <div class="container body">
             
@@ -244,7 +261,7 @@
                                 </li>
                                 <li>
                                     <a href="#"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                        <span>December 30, 2014</span></a>
+                                        <span><%= month%> <%= day%>, <%= year%></span></a>
                                 </li>
                             </ul>
                         </nav>
@@ -278,7 +295,7 @@
                                         <div class="row">
                                             <form class="form-horizontal">
                                                 <div class="col-sm-5 panel panel-default" style="padding: 15px 15px;">
-                                                    <legend>Specify the number of applicants as follows:</legend>
+                                                    <fieldset><legend>Specify the number of applicants as follows:</legend></fieldset>
                                                     <label for="cs">Computer Science:</label>
                                                     <input type="text" class="form-control input" id="cs" name="cs" placeholder="Number of computer science applicants"/><br/>
                                                     
@@ -290,14 +307,14 @@
                                                 </div>
                                                 <div class="col-sm-1"></div>
                                                 <div class="col-sm-3 panel panel-default">
-                                                    <legend>Actions</legend>
+                                                    <fieldset><legend>Actions</legend></fieldset>
                                                     <button type="submit" class="btn btn-success btn-block"><i class="fa fa-check-square-o"></i>Rank</button><br/>
                                                     <button type="reset" class="btn btn-info btn-block"><i class="fa fa-close"></i>Reset</button><br/>
                                                     <button type="submit" class="btn btn-danger btn-block"><i class="fa fa-undo"></i>Undo Ranking</button><br/>
                                                 </div>
                                                 <div class="col-sm-1"></div>
                                                 <div class="col-sm-2 panel panel-default">
-                                                    <legend>Note</legend>
+                                                    <fieldset><legend>Note</legend></fieldset>
                                                     <p>Specifying zero in any field means you don't want to rank the concerned applicants</p>
                                                 </div>
                                             </form>
@@ -319,15 +336,15 @@
                                         
                                         <form method="post" action="">
                                             <input type="text" name="title" placeholder="Announcement Title..." size="56">
-                                            <textarea placeholder="Announcement Body..." style="width: 468px; height: 100px;"></textarea>
-                                            
+                                            <textarea name="body" placeholder="Announcement Body..." style="width: 468px; height: 100px;"></textarea>
+                                
                                             <div class="well modal-footer">
                                                 <button type="reset" class="btn btn-default">Clear</button>
-                                                <button type="submit" class="btn btn-primary" name="save">Post</button>
+                                                <button type="submit" class="btn btn-primary" name="post">Post</button>
                                             </div>
                                         </form>
                                     </div>
-                                    
+                        
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
                         </div><!-- /.modal -->

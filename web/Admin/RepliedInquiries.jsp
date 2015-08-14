@@ -5,6 +5,8 @@
 --%>
 <%@page import="java.sql.*" %>
 <%@page import="myproject.*" %>
+<%@page import="java.util.Calendar" %>
+<%@page import="java.util.GregorianCalendar" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -64,18 +66,33 @@
        
            %>
            
-        <%
-           Admin admin=new Admin();
-           String firstName=new String();
+           <%
+           String months[] = {
+                "January", "February", "March", "April",
+                "May", "June", "July", "August",
+                "September", "October", "November", "December"};
+            GregorianCalendar gcalendar = new GregorianCalendar();
+            String month=months[gcalendar.get(Calendar.MONTH)];
+            int day=gcalendar.get(Calendar.DATE);
+            int year=gcalendar.get(Calendar.YEAR);
            
-           ResultSet results=admin.getAdmin(adminId);
+            Admin admin=new Admin();
+            String firstName=new String();
            
-           if(results.next()){
-               firstName=results.getString("First_Name");
-           }
+            ResultSet results=admin.getAdmin(adminId);
            
-           ResultSet results1=admin.getRepliedInquiries();
-        %>
+            if(results.next()){
+                firstName=results.getString("First_Name");
+            }
+           
+            ResultSet results1=admin.getRepliedInquiries();
+            
+            if(request.getParameter("post")!=null){
+                String title=request.getParameter("title");
+                String body=request.getParameter("body");
+                int results2=admin.setAnnouncement(title, body); 
+            }
+            %>
         
         <div class="container body">
             
@@ -96,7 +113,7 @@
                         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                             
                             <div class="menu_section">
-                                <h3>General</h3>
+                                <h3>menu</h3>
                                 <ul class="nav side-menu">
                                     <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
@@ -247,7 +264,7 @@
                                 </li>
                                 <li>
                                     <a href="#"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                        <span>December 30, 2014</span></a>
+                                        <span><%= month%> <%= day%>, <%= year%></span></a>
                                 </li>
                             </ul>
                         </nav>
@@ -354,15 +371,15 @@
                                         
                                         <form method="post" action="">
                                             <input type="text" name="title" placeholder="Announcement Title..." size="56">
-                                            <textarea placeholder="Announcement Body..." style="width: 468px; height: 100px;"></textarea>
-                                            
+                                            <textarea name="body" placeholder="Announcement Body..." style="width: 468px; height: 100px;"></textarea>
+                                
                                             <div class="well modal-footer">
                                                 <button type="reset" class="btn btn-default">Clear</button>
-                                                <button type="submit" class="btn btn-primary" name="save">Post</button>
+                                                <button type="submit" class="btn btn-primary" name="post">Post</button>
                                             </div>
                                         </form>
                                     </div>
-                                    
+                        
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
                         </div><!-- /.modal -->

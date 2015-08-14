@@ -43,6 +43,8 @@ public class Applicant {
     //inquiries
     PreparedStatement pst27=null;
     PreparedStatement pst28=null;
+    //change pwd
+    PreparedStatement pst29=null;
     //constructor
     public Applicant() throws ClassNotFoundException{
         Common connection=new Common();
@@ -78,6 +80,8 @@ public class Applicant {
             //inquiries
             pst27=conn.prepareStatement("INSERT INTO inquiries(Sender,Message) VALUES(?,?)");
             pst28=conn.prepareStatement("SELECT Message, Reply FROM inquiries WHERE Sender=?");
+            //change pwd
+            pst29=conn.prepareStatement("UPDATE registration SET Password=? WHERE Email_Address=? AND Password=?");
         }catch(SQLException e){
             e.printStackTrace(System.out);
         }
@@ -434,5 +438,19 @@ public class Applicant {
             e.printStackTrace(System.out);
         }
         return rs;
+    }
+    //for changing pwd
+    public int changePwd(String newPwd, String email, String oldPwd){
+       int i=0;
+       try{
+          pst29.setString(1, newPwd);
+          pst29.setString(2, email);
+          pst29.setString(3, oldPwd);
+          i=pst29.executeUpdate();
+       }
+       catch(SQLException e){
+           e.printStackTrace(System.out);
+       }
+       return i;
     }
 }

@@ -4,8 +4,9 @@
     Author     : hillary
 --%>
 <%@page import="java.sql.*" %>
+<%@page import="java.util.Calendar" %>
+<%@page import="java.util.GregorianCalendar" %>
 <%@page import="myproject.*" %>
-<%Class.forName("com.mysql.jdbc.Driver");%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -53,22 +54,31 @@
        
             %>
      
-        <%
-           Admin admin=new Admin();
-           String firstName=new String();
+            <%
+            String months[] = {
+                "January", "February", "March", "April",
+                "May", "June", "July", "August",
+                "September", "October", "November", "December"};
+            GregorianCalendar gcalendar = new GregorianCalendar();
+            String month=months[gcalendar.get(Calendar.MONTH)];
+            int day=gcalendar.get(Calendar.DATE);
+            int year=gcalendar.get(Calendar.YEAR); 
            
-           ResultSet results=admin.getAdmin(adminId);
+            Admin admin=new Admin();
+            String firstName=new String();
            
-           if(results.next()){
-               firstName=results.getString("First_Name");
-           }
+            ResultSet results=admin.getAdmin(adminId);
            
-           if(request.getParameter("post")!=null){
-               String title=request.getParameter("title");
-               String body=request.getParameter("body");
-               int results1=admin.setAnnouncement(title, body);
-           }
-        %>
+            if(results.next()){
+                firstName=results.getString("First_Name");
+            }
+           
+            if(request.getParameter("post")!=null){
+                String title=request.getParameter("title");
+                String body=request.getParameter("body");
+                int results1=admin.setAnnouncement(title, body); 
+            }
+            %>
         
         <div class="container body">
             
@@ -238,7 +248,7 @@
                                 </li>
                                 <li>
                                     <a href="#"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                        <span>December 30, 2014</span></a>
+                                        <span><%= month%> <%= day%>, <%= year%></span></a>
                                 </li>
                             </ul>
                         </nav>

@@ -170,9 +170,11 @@ $("#myForm4").validate({
         password2:{
             required:true,
             equalTo:"#password1"
+        },
+        
+        oldPwd:{
+            required:true
         }
-       
-
     },
     
     messages:{
@@ -195,7 +197,7 @@ $("#myForm4").validate({
         password2:{
             required:"Confirm your password!",
             equalTo:"Passwords should match!"
-        }
+        },
+        oldPwd: "Enter your current password!"
     }
 });
-

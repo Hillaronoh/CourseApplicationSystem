@@ -128,19 +128,14 @@
                                                 <div>
                                                     <div class="portlet-body" style="overflow-y: auto; width: auto; height: 350px;">
                                                         <%while(results1.next()){%>
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <p class="text-center text-muted small">January 1, 2014 at 12:23 PM</p>
-                                                            </div>
-                                                        </div>
-                                                            
+                                                       
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <div class="media">
                                                                     
                                                                     <div class="media-body">
                                                                         <h4 class="media-heading"><%=results1.getString("Title")%>
-                                                                            <span class="small pull-right">12:23 PM</span>
+                                                                            <span class="small pull-right"><%=results1.getString("Post_Date")%></span>
                                                                         </h4>
                                                                         <p><%=results1.getString("Body")%></p>
                                                                     </div>

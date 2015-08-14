@@ -4,6 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 import java.sql.*;
+import myproject.*;
 
 public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
@@ -42,9 +43,8 @@ public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
-      out.write('\n');
-      out.write('\n');
-Class.forName("com.mysql.jdbc.Driver");
+      out.write("\n");
+      out.write("\n");
       out.write(" \n");
       out.write("\n");
       out.write("<!DOCTYPE html>\n");
@@ -126,7 +126,7 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("                <div class=\"main_container\">\n");
       out.write("                    \n");
       out.write("                <div class=\"col-md-3 left_col\">\n");
-      out.write("                        <div class=\"left_col scroll-view\">\n");
+      out.write("                        <div class=\"left_col\">\n");
       out.write("                            \n");
       out.write("                        <div class=\"navbar nav_title\" style=\"border: 0;\">\n");
       out.write("                            <a href=\"AdminPanel.jsp\" class=\"site_title\"><i class=\"fa fa-user-md\"></i> <span>Admin</span></a>\n");

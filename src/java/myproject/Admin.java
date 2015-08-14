@@ -31,7 +31,7 @@ public class Admin {
             
             pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
             //announcements
-            pst1=conn.prepareStatement("INSERT INTO announcements(Title,Body) VALUES(?,?)");
+            pst1=conn.prepareStatement("INSERT INTO announcements(Title,Body,Post_Date) VALUES(?,?,now())");
             //replied inquiries
             pst2=conn.prepareStatement("SELECT * FROM inquiries WHERE Reply IS NOT NULL");
             pst3=conn.prepareStatement("DELETE FROM inquiries WHERE Sender=? AND Message=? AND Reply=?");
