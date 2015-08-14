@@ -144,7 +144,6 @@
                 resultsE1=user.editEducationBackground(physics, maths, subj3, subj4, mean, aggregatePointsDouble, clusterPointsE, applicantId);
             } 
            
-            ResultSet results99=user.getCampuses();       
             %>
         
             <jsp:include page="Header.jsp"></jsp:include>
@@ -343,7 +342,7 @@
                                                                 
                                                                 <div class="form-group">
                                                                     <label for="programmeLevel">Programme Level</label>
-                                                                    <select id="programmeLevel" name="programmeLevel" class="form-control input">
+                                                                    <select id="programmeLevel" name="programmeLevel" class="form-control">
                                                                         <option value="<%=results4.getString("Level_Name")%>" selected><%=results4.getString("Level_Name")%></option> 
                                                                         <%ResultSet results13=user.getLevels();
                                                                 while(results13.next()){%>
@@ -353,7 +352,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="programmeName">Programme Name</label>
-                                                                    <select id="programmeName" name="programmeName" class="form-control input">
+                                                                    <select id="programmeName" name="programmeName" class="form-control">
                                                                         <option value="<%=results5.getString("Course_Name")%>" selected><%=results5.getString("Course_Name")%></option> 
                                                                         <%ResultSet results12=user.getCourses();
                                                                         while(results12.next()){%>
@@ -364,7 +363,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="modeOfStudy">Mode of Study</label>
-                                                                    <select id="modeOfStudy" name="modeOfStudy" class="form-control input">
+                                                                    <select id="modeOfStudy" name="modeOfStudy" class="form-control">
                                                                         <option value="<%=results3.getString("Mode_Of_Study")%>" selected><%=results3.getString("Mode_Of_Study")%></option> 
                                                                         <option value="Full Time">Full Time</option>
                                                                         <option value="Part Time">Part Time</option>
@@ -374,7 +373,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="campus">Campus/Study Center</label>
-                                                                    <select id="campus" name="campus" class="form-control input">
+                                                                    <select id="campus" name="campus" class="form-control">
                                                                         <option value="<%=results3.getString("Campus")%>" selected><%=results3.getString("Campus")%></option> 
                                                                         <%ResultSet results14=user.getCampuses();
                                                                             while(results14.next()){%>
@@ -416,10 +415,14 @@
                                         j++;
                                         check++;
                                         }%>
-                                      
+                                        </tbody>
+                                        </table>     
                             </div>
                         </div>
                         </div>
+                    </div>
+                </div>
+            </div>
                         <div class="modal fade" id="ApplicationStatus" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">

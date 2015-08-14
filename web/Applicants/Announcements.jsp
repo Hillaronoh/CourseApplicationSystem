@@ -34,7 +34,7 @@
            response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
            response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
            response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
-            String applicantId=new String(); 
+           String applicantId=new String(); 
             if(session.getAttribute("applicantId")==null||(session.getAttribute("applicantId")==""))
             {
                 
@@ -126,7 +126,7 @@
                                         <div class="portlet portlet-default">
                                             <div id="chat" class="panel-collapse collapse in">
                                                 <div>
-                                                    <div class="portlet-body" style="overflow-y: auto; width: auto; height: 200px;">
+                                                    <div class="portlet-body" style="overflow-y: auto; width: auto; height: 350px;">
                                                         <%while(results1.next()){%>
                                                         <div class="row">
                                                             <div class="col-lg-12">

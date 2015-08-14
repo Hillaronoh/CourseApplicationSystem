@@ -4,7 +4,7 @@
     Author     : hillary
 --%>
 <%@page import="java.sql.*" %>
-<%Class.forName("com.mysql.jdbc.Driver");%>
+<%@page import="myproject.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -46,6 +46,10 @@
     <body class="nav-md">
         
        <%
+           response.setHeader("Cache-Control","no-cache"); //Forces caches to obtain a new copy of the page from the origin server
+           response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
+           response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
+           response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
            String adminId=new String(); 
            if(session.getAttribute("adminId")==null||(session.getAttribute("adminId")==""))
            {
@@ -60,82 +64,6 @@
        
            %>
            
-           <%!
-        public class Admin{
-            Connection conn=null;
-            PreparedStatement pst=null;
-            PreparedStatement pst1=null;
-            PreparedStatement pst2=null;
-            PreparedStatement pst3=null;
-            String db="jdbc:mysql:///project1c";
-            String username="root";
-            String password="";
-            
-            public Admin(){
-                try{
-                   conn=DriverManager.getConnection(db,username,password);
-                   pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
-                   pst1=conn.prepareStatement("SELECT * FROM inquiries WHERE Reply IS NOT NULL");
-                   pst2=conn.prepareStatement("DELETE FROM inquiries WHERE Sender=? AND Message=? AND Reply=?");
-                   pst3=conn.prepareStatement("SELECT Sender, Message, Reply FROM inquiries WHERE Sender=?");
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-            }
-            
-            public ResultSet getAdmin(String email){
-                ResultSet rs=null;
-                try{
-                  pst.setString(1, email);
-                  pst.setInt(2, 1);
-                  rs=pst.executeQuery();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return rs;
-            }
-            
-            public ResultSet getRepliedInquiries(){
-                ResultSet rs=null;
-                try{
-                   rs=pst1.executeQuery();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return rs;
-            }
-            
-            public int deleteInquiry(String email, String message, String reply){
-                int i=0;
-                try{
-                   pst2.setString(1, email);
-                   pst2.setString(2, message);
-                   pst2.setString(3, reply);
-                   i=pst2.executeUpdate();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return i;
-            }
-            
-            public ResultSet getSender(String email){
-            ResultSet rs=null;
-            try{
-               pst2.setString(1, email);  
-               rs=pst2.executeQuery();
-            }
-            catch(SQLException e){
-                e.printStackTrace();
-            }
-            return rs;
-        }
-        }
-        %>
-        
         <%
            Admin admin=new Admin();
            String firstName=new String();

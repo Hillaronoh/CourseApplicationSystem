@@ -4,7 +4,7 @@
     Author     : hillary
 --%>
 <%@page import="java.sql.*" %>
-<%Class.forName("com.mysql.jdbc.Driver");%>
+<%@page import="myproject.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -58,40 +58,7 @@
             }
        
             %>
-            
-            <%!
-        public class Admin{
-            Connection conn=null;
-            PreparedStatement pst=null;
-            String db="jdbc:mysql:///project1c";
-            String username="root";
-            String password="";
-            
-            public Admin(){
-                try{
-                   conn=DriverManager.getConnection(db,username,password);
-                   pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-            }
-            
-            public ResultSet getAdmin(String email){
-                ResultSet rs=null;
-                try{
-                  pst.setString(1, email);
-                  pst.setInt(2, 1);
-                  rs=pst.executeQuery();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return rs;
-            }
-        }
-        %>
-        
+ 
         <%
            Admin admin=new Admin();
            String firstName=new String();

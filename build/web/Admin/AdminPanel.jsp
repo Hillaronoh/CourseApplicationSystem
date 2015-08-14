@@ -52,55 +52,7 @@
             }
        
             %>
-            
-            <%!/*
-        public class Admin{
-            Connection conn=null;
-            PreparedStatement pst=null;
-            PreparedStatement pst1=null;
-            String db="jdbc:mysql:///project1c";
-            String username="root";
-            String password="";
-            
-            public Admin(){
-                try{
-                   conn=DriverManager.getConnection(db,username,password);
-                   pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
-                   pst1=conn.prepareStatement("INSERT INTO announcements(Title,Body) VALUES(?,?)");
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-            }
-            
-            public ResultSet getAdmin(String email){
-                ResultSet rs=null;
-                try{
-                  pst.setString(1, email);
-                  pst.setInt(2, 1);
-                  rs=pst.executeQuery();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return rs;
-            }
-            
-            public int setAnnouncement(String title, String body){
-                int i=0;
-                try{
-                   pst1.setString(1, title);
-                   pst1.setString(2, body);
-                   i=pst1.executeUpdate();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return i;
-            }
-        }*/
-        %>
-        
+     
         <%
            Admin admin=new Admin();
            String firstName=new String();
@@ -277,7 +229,7 @@
                                         <li>
                                             <div class="text-center">
                                                 <a>
-                                                    <strong><a href="inbox.html">See All Alerts</strong>
+                                                    <strong>See All Alerts</strong>
                                                     <i class="fa fa-angle-right"></i>
                                                 </a>
                                             </div>

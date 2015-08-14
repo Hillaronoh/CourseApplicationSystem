@@ -3,6 +3,7 @@ package org.apache.jsp.Admin;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import java.sql.*;
 
 public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
@@ -41,8 +42,10 @@ public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
-      out.write("\n");
-      out.write("    \n");
+      out.write('\n');
+      out.write('\n');
+Class.forName("com.mysql.jdbc.Driver");
+      out.write(" \n");
       out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
@@ -52,6 +55,7 @@ public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <meta charset=\"utf-8\">\n");
       out.write("        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n");
       out.write("        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n");
+      out.write("        <link rel=\"shortcut icon\" href=\"images/favicon.ico\">\n");
       out.write("        \n");
       out.write("        <title> Delete Announcements </title>\n");
       out.write("        \n");
@@ -81,6 +85,41 @@ public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    \n");
       out.write("        <body class=\"nav-md\">\n");
       out.write("            \n");
+      out.write("            ");
+
+           response.setHeader("Cache-Control","no-cache"); //Forces caches to obtain a new copy of the page from the origin server
+           response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
+           response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
+           response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
+     
+                String adminId=new String(); 
+                if(session.getAttribute("adminId")==null||(session.getAttribute("adminId")==""))
+                {
+                
+                    response.sendRedirect("../Login.jsp"); 
+
+                }
+                else
+                { 
+                    adminId=(String)session.getAttribute("adminId");          
+                }
+       
+                
+      out.write("\n");
+      out.write("           \n");
+      out.write("        ");
+
+           Admin admin=new Admin();
+           String firstName=new String();
+           
+           ResultSet results=admin.getAdmin(adminId);
+           
+           if(results.next()){
+               firstName=results.getString("First_Name");
+           }
+        
+      out.write("\n");
+      out.write("            \n");
       out.write("            <div class=\"container body\">\n");
       out.write("                \n");
       out.write("                \n");
@@ -100,7 +139,7 @@ public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                            <div id=\"sidebar-menu\" class=\"main_menu_side hidden-print main_menu\">\n");
       out.write("                                \n");
       out.write("                            <div class=\"menu_section\">\n");
-      out.write("                                <h3>General</h3>\n");
+      out.write("                                <h3>menu</h3>\n");
       out.write("                                <ul class=\"nav side-menu\">\n");
       out.write("                                    <li><a><i class=\"fa fa-home\"></i> Home <span class=\"fa fa-chevron-down\"></span></a>\n");
       out.write("                                        <ul class=\"nav child_menu\" style=\"display: none\">\n");
@@ -118,7 +157,7 @@ public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                            </li>\n");
       out.write("                                        </ul>\n");
       out.write("                                    </li>\n");
-      out.write("                                    <li><a><i class=\"fa fa-desktop\"></i> Announcements <span class=\"fa fa-chevron-down\"></span></a>\n");
+      out.write("                                    <li><a><i class=\"fa fa-bell-o\"></i> Announcements <span class=\"fa fa-chevron-down\"></span></a>\n");
       out.write("                                        <ul class=\"nav child_menu\" style=\"display: none\">\n");
       out.write("                                            <li><a href=\"#postAnnouncement\" data-toggle=\"modal\">Post</a>\n");
       out.write("                                            </li>\n");
@@ -136,7 +175,7 @@ public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                            </li>\n");
       out.write("                                        </ul>\n");
       out.write("                                    </li>\n");
-      out.write("                                    <li><a><i class=\"fa fa-bar-chart-o\"></i> Inquiries <span class=\"fa fa-chevron-down\"></span></a>\n");
+      out.write("                                    <li><a><i class=\"fa fa-inbox\"></i> Inquiries <span class=\"fa fa-chevron-down\"></span></a>\n");
       out.write("                                        <ul class=\"nav child_menu\" style=\"display: none\">\n");
       out.write("                                            <li><a href=\"UnrepliedInquiries.jsp\">Unreplied</a>\n");
       out.write("                                            </li>\n");
@@ -164,7 +203,9 @@ public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                            <ul class=\"nav navbar-nav navbar-right\">\n");
       out.write("                                <li class=\"\">\n");
       out.write("                                    <a href=\"javascript:;\" class=\"user-profile dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n");
-      out.write("                                        <img src=\"images/username2.png\" alt=\"admin\">Hillary\n");
+      out.write("                                        <img src=\"images/username2.png\" alt=\"admin\">");
+      out.print(firstName);
+      out.write("\n");
       out.write("                                        <span class=\" fa fa-angle-down\"></span>\n");
       out.write("                                    </a>\n");
       out.write("                                    <ul class=\"dropdown-menu dropdown-usermenu animated fadeInDown pull-right\">\n");
@@ -172,14 +213,14 @@ public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                        <li>\n");
       out.write("                                            <a href=\"#\">Change Password</a>\n");
       out.write("                                        </li>\n");
-      out.write("                                        <li><a href=\"login.html\"><i class=\"fa fa-sign-out pull-right\"></i> Log Out</a>\n");
+      out.write("                                        <li><a href=\"../Applicants/UserLogout.jsp\"><i class=\"fa fa-sign-out pull-right\"></i> Log Out</a>\n");
       out.write("                                        </li>\n");
       out.write("                                    </ul>\n");
       out.write("                                </li>\n");
       out.write("                                \n");
       out.write("                                <li role=\"presentation\" class=\"dropdown\">\n");
       out.write("                                    <a href=\"javascript:;\" class=\"dropdown-toggle info-number\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n");
-      out.write("                                        <i class=\"fa fa-envelope-o\"></i>\n");
+      out.write("                                        <i class=\"fa fa-globe\"></i>\n");
       out.write("                                        <span class=\"badge bg-green\">6</span>\n");
       out.write("                                    </a>\n");
       out.write("                                    <ul id=\"menu1\" class=\"dropdown-menu list-unstyled msg_list animated fadeInDown\" role=\"menu\">\n");
@@ -328,7 +369,8 @@ public final class DeleteAnn_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                    <div class=\"modal-body\">\n");
       out.write("                                        \n");
       out.write("                                        <form method=\"post\" action=\"\">\n");
-      out.write("                                            <textarea placeholder=\"New Announcement...\" style=\"width: 468px; height: 100px;\"></textarea>\n");
+      out.write("                                            <input type=\"text\" name=\"title\" placeholder=\"Announcement Title...\" size=\"56\">\n");
+      out.write("                                            <textarea placeholder=\"Announcement Body...\" style=\"width: 468px; height: 100px;\"></textarea>\n");
       out.write("                                                \n");
       out.write("                                            <div class=\"well modal-footer\">\n");
       out.write("                                                <button type=\"reset\" class=\"btn btn-default\">Clear</button>\n");

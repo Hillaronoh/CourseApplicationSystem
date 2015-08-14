@@ -4,7 +4,7 @@
     Author     : hillary
 --%>
 <%@page import="java.sql.*" %>
-<%Class.forName("com.mysql.jdbc.Driver");%>
+<%@page import="myproject.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -45,6 +45,10 @@
     <body class="nav-md">
         
         <%
+           response.setHeader("Cache-Control","no-cache"); //Forces caches to obtain a new copy of the page from the origin server
+           response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
+           response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
+           response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
             String adminId=new String(); 
             if(session.getAttribute("adminId")==null||(session.getAttribute("adminId")==""))
             {
@@ -58,114 +62,7 @@
             }
        
             %>
-            
-            <%!
-        public class Admin{
-            Connection conn=null;
-            PreparedStatement pst=null;
-            PreparedStatement pst1=null;
-            PreparedStatement pst2=null;
-            PreparedStatement pst3=null;
-            PreparedStatement pst4=null;
-            PreparedStatement pst5=null;
-            String db="jdbc:mysql:///project1c";
-            String username="root";
-            String password="";
-            
-            public Admin(){
-                try{
-                   conn=DriverManager.getConnection(db,username,password);
-                   pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
-                   pst1=conn.prepareStatement("SELECT * FROM inquiries");
-                   pst2=conn.prepareStatement("SELECT First_Name, Last_Name FROM applicants_details WHERE Email_Address=?");
-                   pst3=conn.prepareStatement("UPDATE inquiries SET Reply=? WHERE Sender=? AND Message=?");
-                   pst4=conn.prepareStatement("SELECT Message, Reply FROM inquiries WHERE Sender=?");
-                   pst5=conn.prepareStatement("UPDATE inquiries SET Reply=? WHERE Sender=? AND Message=?");
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-            }
-            
-            public ResultSet getAdmin(String email){
-                ResultSet rs=null;
-                try{
-                  pst.setString(1, email);
-                  pst.setInt(2, 1);
-                  rs=pst.executeQuery();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return rs;
-            }
-            
-            public ResultSet getUnrepliedInquiries(){
-                ResultSet rs=null;
-                try{
-                  rs=pst1.executeQuery();
-                }
-                catch(SQLException e){
-                    e.printStackTrace(); 
-                }
-                return rs;
-            }
-            
-            public ResultSet getSender(String email){
-            ResultSet rs=null;
-            try{
-               pst2.setString(1, email);  
-               rs=pst2.executeQuery();
-            }
-            catch(SQLException e){
-                e.printStackTrace();
-            }
-            return rs;
-        }
-            
-            public int setReply(String reply,String email,String message){
-            int i=0;
-            try{
-               pst3.setString(1, reply);
-               pst3.setString(2, email);
-               pst3.setString(3, message);
-               i=pst3.executeUpdate();
-            }
-            catch(SQLException e){
-                e.printStackTrace();
-            }
-            return i;
-        }
-            
-            public int setIgnore(String reply,String email,String message){
-            int i=0;
-            try{
-               pst3.setString(1, reply);
-               pst3.setString(2, email);
-               pst3.setString(3, message);
-               i=pst3.executeUpdate();
-            }
-            catch(SQLException e){
-                e.printStackTrace();
-            }
-            return i;
-        }
-            
-            public ResultSet getChats(String email){
-                ResultSet rs=null;
-                try{
-                   pst4.setString(1, email);
-                   rs=pst4.executeQuery();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return rs;
-            }
-        }
-        
-        %>
-        
+           
         <%
            Admin admin=new Admin();
            String firstName=new String();
