@@ -5,9 +5,14 @@
         <group>
             <file>file:/home/hillary/NetBeansProjects/Project1c/web/Admin/DeleteAnn.jsp</file>
             <file>file:/home/hillary/NetBeansProjects/Project1c/web/Admin/RankCertApp.jsp</file>
+            <file>file:/home/hillary/NetBeansProjects/Project1c/web/Admin/ViewDipApplicants.jsp</file>
             <file>file:/home/hillary/NetBeansProjects/Project1c/web/Admin/RankDipApp.jsp</file>
+            <file>file:/home/hillary/NetBeansProjects/Project1c/web/Admin/RepliedInquiries.jsp</file>
             <file>file:/home/hillary/NetBeansProjects/Project1c/web/Admin/AdminPanel.jsp</file>
+            <file>file:/home/hillary/NetBeansProjects/Project1c/web/Admin/ViewDegApplicants.jsp</file>
+            <file>file:/home/hillary/NetBeansProjects/Project1c/web/Admin/UnrepliedInquiries.jsp</file>
             <file>file:/home/hillary/NetBeansProjects/Project1c/web/Admin/RankDegApp.jsp</file>
+            <file>file:/home/hillary/NetBeansProjects/Project1c/web/Admin/ViewCertApplicants.jsp</file>
         </group>
     </open-files>
 </project-private>

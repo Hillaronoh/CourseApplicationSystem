@@ -41,14 +41,14 @@
         public class PdfGenerator{
            Connection conn = null;
            PreparedStatement pst = null;
-           String db="jdbc:mysql:///vettingsystem";
+           String db="jdbc:mysql:///project1c";
            String user = "root";
            String password = "";
            
            public PdfGenerator(){
                try{
                conn = DriverManager.getConnection(db,user,password);
-               pst=conn.prepareStatement("select * from applicants_detailsb where Email=?");
+               pst=conn.prepareStatement("SELECT * FROM applicants_details where Email_Address=?");
                }catch(SQLException e){
                    e.printStackTrace();
                }
@@ -68,57 +68,67 @@
         %>
         
         <%
-               PdfPTable table1 = new PdfPTable(6); 
+               PdfPTable table1 = new PdfPTable(8); 
                PdfPCell c1 = new PdfPCell();
                
                c1 = new PdfPCell(new Phrase("First Name"));
                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                table1.addCell(c1);
                
+               c1 = new PdfPCell(new Phrase("Middle Name"));
+               c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+               table1.addCell(c1);
+               
                c1 = new PdfPCell(new Phrase("Last Name"));
                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                table1.addCell(c1);
+               
+               c1 = new PdfPCell(new Phrase("Date Of Birth"));
+               c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+               table1.addCell(c1);
+               //table1.setHeaderRows(1);
 
                c1 = new PdfPCell(new Phrase("Gender"));
                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                table1.addCell(c1);
-
-               c1 = new PdfPCell(new Phrase("Date Of Birth"));
-               c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-               table1.addCell(c1);
-               table1.setHeaderRows(1);
-               
+                             
                c1 = new PdfPCell(new Phrase("Postal Address"));
                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                table1.addCell(c1);
-               table1.setHeaderRows(1);
+               //table1.setHeaderRows(1);
+               
+               c1 = new PdfPCell(new Phrase("Mobile"));
+               c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+               table1.addCell(c1);
+               //table1.setHeaderRows(1);
                
                c1 = new PdfPCell(new Phrase("Country"));
                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                table1.addCell(c1);
-               table1.setHeaderRows(1);
+               //table1.setHeaderRows(1);
 
             response.setContentType("application/pdf");
             Document document = new Document();
             PdfWriter.getInstance(document, response.getOutputStream());
             document.open();
-            String relativeWebPath = "/image/mmustlogo.png";
+            /*String relativeWebPath = "/image/mmustlogo.png";
             String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
-            Image image = Image.getInstance(absoluteDiskPath);
+            Image image = Image.getInstance(absoluteDiskPath);*/
             
             document.addTitle("Application Form");
-            document.add(image); 
-            
-            String email="kkkk";
+            //document.add(image); 
+     
             PdfGenerator pdf=new PdfGenerator();
-            ResultSet rs1=pdf.getApplicantDetails(email);
+            ResultSet rs1=pdf.getApplicantDetails(applicantId);
             document.add(new Paragraph("A. Personal Details")); 
             if(rs1.next()) { 
             table1.addCell(rs1.getString("First_Name"));
+            table1.addCell(rs1.getString("Middle_Name"));
             table1.addCell(rs1.getString("Last_Name"));
-            table1.addCell(rs1.getString("Gender"));
             table1.addCell(rs1.getString("DoB"));
+            table1.addCell(rs1.getString("Gender"));
             table1.addCell(rs1.getString("Postal_Address"));
+            table1.addCell(rs1.getString("Mobile"));
             table1.addCell(rs1.getString("Country"));
             }
             document.add(table1);

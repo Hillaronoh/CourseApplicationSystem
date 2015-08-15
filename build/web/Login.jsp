@@ -90,7 +90,7 @@
                             <div class="form-group">
                                 <div class="icon-addon addon-md">
                                     <input type="text" placeholder="Email" class="form-control login_txt" name="email">
-                                    <label for="email" class="glyphicon glyphicon-user"  ></label>
+                                    <label for="email" class="glyphicon glyphicon-envelope"  ></label>
                                     
                                 </div>
                             </div>

@@ -91,7 +91,8 @@
         
         <div class="container">
             
-            <div class="row1" style="margin-left: -58px; margin-top: -20px;">
+            <div class="row" style="margin-left: -58px; margin-top: -20px;">
+                <div class="col-md-4"></div>
                 
                 <div class="col-md-4 col-md-offset-4" style="width: 1052px; padding-right: 0px; padding-left: 0px">
                     
@@ -146,6 +147,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4"></div>
             </div>
         </div>
         <div class="modal fade" id="ApplicationStatus" role="dialog">
