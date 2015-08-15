@@ -355,15 +355,16 @@
                                                                 <div id="chat" class="panel-collapse collapse in">
                                                                     <div>
                                                                         <div class="portlet-body" style="overflow-y: auto; overflow-x: hidden; height: 180px; padding-right: 3px;">
+                                                                            <%while(results4.next()){
+                                                                                message=results4.getString("Message"); 
+                                                                                rep=results4.getString("Reply");
+                                                                                String date=results4.getString("Sent_Date");
+                                                                                %>
                                                                             <div class="row">
                                                                                 <div class="col-lg-12">
-                                                                                    <p class="text-center text-muted small"><%= (new java.util.Date()).toLocaleString()%></p> 
+                                                                                    <p class="text-center text-muted small"><%= date%></p> 
                                                                                 </div>
-                                                                            </div>
-                                                                                    <%while(results4.next()){
-                                                                                        message=results4.getString("Message"); 
-                                                                                        rep=results4.getString("Reply");%>
-                                                
+                                                                            </div>                                                                
                                                                                         <div class="row">
                                                                                             <div class="col-lg-12">
                                                                                                 <div class="media">

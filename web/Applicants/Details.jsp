@@ -94,6 +94,22 @@
             ResultSet results1=user.getPersonalDetails(applicantId);
             ResultSet results2=user.getEducationBackground(applicantId);
             ResultSet results3=user.getCourseDetails(applicantId);
+            
+            boolean checkDet=false;
+            boolean checkEd=false;
+            boolean checkCrs=false;
+            ResultSet det=user.confirmDetails(applicantId);
+            if(det.next()){
+                checkDet=true;
+            }
+            ResultSet check1=user.checkSectionB(applicantId); 
+            if(check1.next()){
+                checkEd=true;
+            }
+            ResultSet check2=user.checkSectionC(applicantId);
+            if(check2.next()){
+                checkCrs=true;
+            }
            
             String fName=new String();
             String mName=new String();
@@ -197,6 +213,7 @@
                                 
                         </div>
                         <!--end navigation menus-->
+                        <%if(checkDet==true && checkEd==true && checkCrs==true){%>  
                         <div class="panel-heading" style="margin-top: 56px;border-top: 1px solid;">
                             <h2 class="panel-title" style="font-size: 20px; color: green;">These are your details</h2>
                         </div>
@@ -419,6 +436,173 @@
                                         </table>     
                             </div>
                         </div>
+                                        
+                                        
+                                        
+                                        
+                                        <%}else if(checkDet==true && checkEd==false && checkCrs==false){%>                                               
+                                                
+                                        <div class="panel-heading" style="margin-top: 56px;border-top: 1px solid;">
+                            <h2 class="panel-title" style="font-size: 20px; color: green;">These are your details</h2>
+                        </div>
+                            
+                        <div class="panel-body">
+                            <div class="container" style="padding-top: 5px;">
+                                
+                                <fieldset>
+                                    <legend style="width: 300px;">Personal Information</legend>
+                                </fieldset>
+                                <table class="table table-bordered" style="width: 800px;height: 5px; margin-left: 80px;">
+                                    
+                                    <thead>
+                                        <tr>
+                                            <th>First Name</th>
+                                            <th>Middle Name</th>
+                                            <th>Last Name</th>
+                                            <th>Date of Birth</th>
+                                            <th>Gender</th>
+                                            <th>Postal Address</th>
+                                            <th>Mobile</th>
+                                            <th>Nationality</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <%if(results1.next()){
+                                            fName=results1.getString("First_Name");
+                                            mName=results1.getString("Middle_Name");
+                                            lName=results1.getString("Last_Name");
+                                            dob=results1.getString("DoB");
+                                            gender=results1.getString("Gender");
+                                            address=results1.getString("Postal_Address");
+                                            mobile=results1.getString("Mobile");
+                                            country=results1.getString("Country");
+                                            %>
+                                            <td><%=fName%></td>
+                                            <td><%=mName%></td> 
+                                            <td><%=lName%></td>
+                                            <td><%=dob%></td>
+                                            <td><%=gender%></td>
+                                            <td><%=address%></td>
+                                            <td><%=mobile%></td>
+                                            <td><%=country%></td>
+                                            <td style="width: 68px;"><a href="#personalDetails" data-toggle="modal" style="background-color:#E6E2EB; padding:10px 12px; margin-left: -8px; outline: none;"><i class="fa fa-edit">Edit</i></a></td>
+                                            <%}%>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                        
+                                        </tbody>
+                                        </table>     
+                            </div>
+                        </div>
+                                        
+                                        <%}else if(checkDet==true && checkEd==true && checkCrs==false){%>
+                                        
+                                        
+                                        <div class="panel-heading" style="margin-top: 56px;border-top: 1px solid;">
+                            <h2 class="panel-title" style="font-size: 20px; color: green;">These are your details</h2>
+                        </div>
+                            
+                        <div class="panel-body">
+                            <div class="container" style="padding-top: 5px;">
+                                
+                                <fieldset>
+                                    <legend style="width: 300px;">Personal Information</legend>
+                                </fieldset>
+                                <table class="table table-bordered" style="width: 800px;height: 5px; margin-left: 80px;">
+                                    
+                                    <thead>
+                                        <tr>
+                                            <th>First Name</th>
+                                            <th>Middle Name</th>
+                                            <th>Last Name</th>
+                                            <th>Date of Birth</th>
+                                            <th>Gender</th>
+                                            <th>Postal Address</th>
+                                            <th>Mobile</th>
+                                            <th>Nationality</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <%if(results1.next()){
+                                            fName=results1.getString("First_Name");
+                                            mName=results1.getString("Middle_Name");
+                                            lName=results1.getString("Last_Name");
+                                            dob=results1.getString("DoB");
+                                            gender=results1.getString("Gender");
+                                            address=results1.getString("Postal_Address");
+                                            mobile=results1.getString("Mobile");
+                                            country=results1.getString("Country");
+                                            %>
+                                            <td><%=fName%></td>
+                                            <td><%=mName%></td> 
+                                            <td><%=lName%></td>
+                                            <td><%=dob%></td>
+                                            <td><%=gender%></td>
+                                            <td><%=address%></td>
+                                            <td><%=mobile%></td>
+                                            <td><%=country%></td>
+                                            <td style="width: 68px;"><a href="#personalDetails" data-toggle="modal" style="background-color:#E6E2EB; padding:10px 12px; margin-left: -8px; outline: none;"><i class="fa fa-edit">Edit</i></a></td>
+                                            <%}%>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                        <fieldset>
+                                            <legend style="width: 300px;">Academic Qualifications</legend>
+                                        </fieldset>
+                                        <table class="table table-bordered" style="width: 800px;height: 5px; margin-left: 80px;">
+                                    
+                                            <thead>
+                                                <tr>
+                                                    <th>Physics Grade</th>
+                                                    <th>Maths Grade</th>
+                                                    <th>Group II/Group III Grade</th>
+                                                    <th>Group II/Group III/Group IV/Group V Grade</th>
+                                                    <th>Mean Grade</th>
+                                                    <th>Aggregate Points</th>
+                                                    <th>Cluster Points</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <%if(results2.next()){
+                                                        physicsGrade=results2.getString("Physics_Grade");
+                                                        mathsGrade=results2.getString("Maths_Grade");
+                                                        subj3Grade=results2.getString("Subject3_Grade");
+                                                        subj4Grade=results2.getString("Subject4_Grade");
+                                                        meanGrade=results2.getString("Mean_Grade");
+                                                        aggregatePoints=results2.getString("Aggregate_Points");
+                                                        clusterPoints=results2.getString("Cluster_Points");
+                                                        %>
+                                                        <td><%=physicsGrade%></td>
+                                                        <td><%=mathsGrade%></td>
+                                                        <td><%=subj3Grade%></td>
+                                                        <td><%=subj4Grade%></td>
+                                                        <td><%=meanGrade%></td>
+                                                        <td><%=aggregatePoints%></td>
+                                                        <td><%=clusterPoints%></td>
+                                                        <td style="width: 68px;"><a href="#academicQualifications" data-toggle="modal" style="background-color:#E6E2EB; padding:10px 12px; margin-left: -8px; outline: none;"><i class="fa fa-edit">Edit</i></a></td>
+                                                        <%}%>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                            </div>
+                        </div>
+                                        
+                                        <%} else{%>
+                                        <script>
+                                            alert("No Details Found!\nYou must apply a course first!");
+                                            window.location.href="UserAccount.jsp";
+                                        </script>
+                                        <%}%>
                         </div>
                     </div>
                 </div>

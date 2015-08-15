@@ -59,8 +59,13 @@
             if(results.next()){
                 firstName=results.getString("First_Name");
             }
-           
             ResultSet results1=user.getAnnouncements();
+            
+            boolean check=false;
+            ResultSet ann=user.confirmAnnouncements();
+            if(ann.next()){
+                check=true;
+            }
             %>
         
             <jsp:include page="Header.jsp"></jsp:include>
@@ -114,6 +119,7 @@
                                     
                             </div>
                             <!--end navigation menus-->
+                            <%if(check==true){%>
                             <div class="panel-heading" style="margin-top: 56px;border-top: 1px solid;">
                                 <h2 class="panel-title" style="font-size: 20px; color: green;"><img src="image/announcements.png" alt="icon" style="width: 38px; height: 38px;">Announcements!</h2>
                             </div>
@@ -127,8 +133,8 @@
                                             <div id="chat" class="panel-collapse collapse in">
                                                 <div>
                                                     <div class="portlet-body" style="overflow-y: auto; width: auto; height: 350px;">
+                                                        
                                                         <%while(results1.next()){%>
-                                                       
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <div class="media">
@@ -144,8 +150,6 @@
                                                         </div>
                                                         <hr>
                                                         <%}%>
-                                                            
-                                                            
                                                     </div>
                                                 </div>
                                                     
@@ -156,11 +160,17 @@
                                 </div>
                                 <!--end announcement area-->
                             </div>
+                             <%} else{%> 
+                             <script>
+                                 alert("No announcements!\nKeep checking for updates about your application..\nThanks.");
+                                 window.location.href="UserAccount.jsp";
+                             </script>
+                             <%}%>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="ApplicationStatus" role="dialog">
+              <div class="modal fade" id="ApplicationStatus" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">

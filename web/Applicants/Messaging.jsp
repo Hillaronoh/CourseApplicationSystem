@@ -129,19 +129,23 @@
                                         <div id="chat" class="panel-collapse collapse in">
                                             <div>
                                                 <div class="portlet-body" style="overflow-y: auto; width: auto; height: 200px;">
+                                                    <%
+                                                    String message=new String();
+                                                    String reply=new String();
+                                                    String dateSent=new String();
+                                                    String dateReplied=new String();
+                                                    while(results2.next()){
+                                                        message=results2.getString("Message");
+                                                        reply=results2.getString("Reply");
+                                                        dateSent=results2.getString("Sent_Date");
+                                                        dateReplied=results2.getString("Reply_Date");
+                                                        %>
                                                     <div class="row">
                                                         <div class="col-lg-12">
-                                                            <p class="text-center text-muted small"><%= (new java.util.Date()).toLocaleString()%></p> 
+                                                            <p class="text-center text-muted small"><%=dateSent%></p> 
                                                         </div>
                                                     </div>
-                                                            <%
-                                                            String message=new String();
-                                                            String reply=new String();
-                                                            while(results2.next()){
-                                                                message=results2.getString("Message");
-                                                                reply=results2.getString("Reply");
-                                                                %>
-                                                                <div class="row">
+                                                        <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <div class="media">
                                                                             <a class="pull-left" href="#">
@@ -160,6 +164,11 @@
                                                                 </div>
                                                                 <hr>
                                                                 <%if(reply!=null){%>
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <p class="text-center text-muted small"><%=dateReplied%></p> 
+                                                                    </div>
+                                                                </div>
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <div class="media">

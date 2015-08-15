@@ -143,7 +143,7 @@ if(request.getParameter("login")!=null){
       out.write("                            <div class=\"form-group\">\n");
       out.write("                                <div class=\"icon-addon addon-md\">\n");
       out.write("                                    <input type=\"text\" placeholder=\"Email\" class=\"form-control login_txt\" name=\"email\">\n");
-      out.write("                                    <label for=\"email\" class=\"glyphicon glyphicon-user\"  ></label>\n");
+      out.write("                                    <label for=\"email\" class=\"glyphicon glyphicon-envelope\"  ></label>\n");
       out.write("                                    \n");
       out.write("                                </div>\n");
       out.write("                            </div>\n");

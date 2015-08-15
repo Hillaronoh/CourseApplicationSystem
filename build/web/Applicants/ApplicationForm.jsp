@@ -106,6 +106,9 @@
                 middleName=results.getString("Middle_Name");
                 lastName=results.getString("Last_Name");
             }
+            ResultSet check1=user.checkSectionA(applicantId);
+            ResultSet check2=user.checkSectionB(applicantId);
+            ResultSet check3=user.checkSectionC(applicantId);
             %>
         
             <jsp:include page="Header.jsp"></jsp:include>
@@ -171,7 +174,9 @@
                                         <div class="accordion-section">
                                             <%
                                             if(request.getParameter("submit1")!=null){
-                                       
+                                                
+                                                ResultSet checkRe=user.confirmDetails(applicantId);
+                                                if(checkRe==null){
                                                 String fName=request.getParameter("fname");
                                                 String mName=request.getParameter("mname");
                                                 String lName=request.getParameter("lname");
@@ -187,8 +192,10 @@
                                                 <a class="accordion-section-title alert alert-success" style="margin-bottom:0px;" href="#accordion-1"><i class="fa fa-check-circle"></i>Your Personal Details has been saved successfully..Proceed to the next section.</a>
                                                 <%}
                                                 else{%>
-                                                <a class="accordion-section-title alert alert-error" style="margin-bottom:0px;" href="#accordion-1"><i class="fa fa-exclamation-triangle"></i>There was an error saving your details..Please try again.</a>
+                                                <a class="accordion-section-title alert alert-error" style="margin-bottom:0px;" href="#accordion-1"><i class="fa fa-exclamation-circle"></i>There was an error saving your details..Please try again.</a>
                                                 <%}} else{%>
+                                                <a class="accordion-section-title alert alert-warning" style="margin-bottom:0px;" href="#accordion-1"><i class="fa fa-warning"></i>You have already submitted your details!</a>   
+                                                <% }} else{%>
                                                 <a class="accordion-section-title" href="#accordion-1">SECTION A: Applicant's Personal Details.</a>
                                                 <%}%>
                                                 <div id="accordion-1" class="accordion-section-content"> 
@@ -271,7 +278,9 @@
                                         <div class="accordion-section">
                                             <%
                                             if(request.getParameter("submit2")!=null){
-                                       
+                                                if(check1.next()){
+                                                    ResultSet checkRe=user.checkSectionB(applicantId);
+                                                if(checkRe==null){
                                                 String physicsGrade=request.getParameter("physics");
                                                 String mathsGrade=request.getParameter("maths");
                                                 String subj3Grade =request.getParameter("subj3");
@@ -291,8 +300,15 @@
                                                 %>
                                                 <a class="accordion-section-title alert alert-success" style="margin-bottom:0px;" href="#accordion-2"><i class="fa fa-check-circle"></i>Your details has been saved successfully..Proceed to the next section.</a>
                                                 <%} else{%>
-                                                <a class="accordion-section-title alert alert-error" style="margin-bottom:0px;" href="#accordion-2"><i class="fa fa-exclamation-triangle"></i>There was an error saving your details..Please try again.</a>
+                                                <a class="accordion-section-title alert alert-error" style="margin-bottom:0px;" href="#accordion-2"><i class="fa fa-exclamation-circle"></i>There was an error saving your details..Please try again.</a>
+                                                <%} } else{%>
+                                                <a class="accordion-section-title alert alert-warning" style="margin-bottom:0px;" href="#accordion-1"><i class="fa fa-warning"></i>You have already submitted your details!</a>
                                                 <%}} else{%>
+                                                    <a class="accordion-section-title alert alert-warning" style="margin-bottom:0px;" href="#accordion-2"><i class="fa fa-warning"></i>Please fill SECTION A!</a>
+                                                <% }
+                                            } 
+                                            else{
+                                                %>
                                                 <a class="accordion-section-title" href="#accordion-2">SECTION B: Applicant's Education Background.</a>
                                                 <%}%>
                                                 <div id="accordion-2" class="accordion-section-content">
@@ -431,9 +447,11 @@
                                             <%
                                             int courseId=0;
                                             int levelId=0;
+                                            String physics=new String();
                                             ResultSet results5=user.getCampuses();
                                             ResultSet results6=user.getCourses();
                                             if(request.getParameter("submit3")!=null){
+                                                if(check2.next()){
                                                 String courseName=request.getParameter("programmeName");
                                                 String levelName=request.getParameter("programmeLevel");
                                            
@@ -455,8 +473,11 @@
                                                 <a class="accordion-section-title alert alert-success" style="margin-bottom:0px;" href="#accordion-3"><i class="fa fa-check-circle"></i>Your details has been saved successfully..Proceed to the next section.</a>
                                                 <%} else{%>
                                                 <a class="accordion-section-title alert alert-error" style="margin-bottom:0px;" href="#accordion-3"><i class="fa fa-exclamation-triangle"></i>There was an error saving your details..Please try again.</a>
-                                                <%} 
-                                            } else{%>
+                                                <%} }else{%>
+                                                <a class="accordion-section-title alert alert-warning" style="margin-bottom:0px;" href="#accordion-2"><i class="fa fa-warning"></i>Please fill SECTION B!</a>
+                                                <% }
+                                            } 
+                                            else{%>
                                             <a class="accordion-section-title" href="#accordion-3">SECTION C: Course Application Details.</a>
                                             <%}%>
                                             <div id="accordion-3" class="accordion-section-content">
@@ -538,21 +559,26 @@
                                 <div class="main">
                                     <div class="accordion">
                                         <div class="accordion-section">
+                                            <%if(request.getParameter("print")!=null){%>
+                                            <a class="accordion-section-title alert alert-warning" style="margin-bottom:0px;" href="#accordion-4"><i class="fa fa-warning"></i>Please fill All Sections before printing!</a>
+                                            <%} else{%>
                                             <a class="accordion-section-title" href="#accordion-4">SECTION D: Print Your Form.</a>
+                                            <%}%>
                                             <div id="accordion-4" class="accordion-section-content">
-                                                
-                                                
-                                                <a href="PdfGenerator.jsp" class="btn btn-success btn-lg">
-                                                    <span><img src="image/printer.png" alt="printer" style="width: 30px; height: 30px;"></span> Print 
-                                                </a>
-                                                    
-                                                    
+                                                 <% if(check1.next() && check2.next() && check3.next()){%>
+                                                <form action="PdfGenerator.jsp">
+                                                    <button class="btn btn-success"><i class="fa fa-print">Print</i></button>
+                                                </form>  
+                                                <%} else{%> 
+                                                <form action="">
+                                                    <button type="submit" class="btn btn-success" name="print"><i class="fa fa-print">Print</i></button>
+                                                </form>
+                                                <%}%>
                                             </div><!--end .accordion-section-content-->
                                         </div><!--end .accordion-section-->
                                     </div><!--end .accordion-->
                                 </div>
-                                <!--end accordion D-->
-                                    
+                                <!--end accordion D-->                
                             </div>
                             </div>
                         </div>

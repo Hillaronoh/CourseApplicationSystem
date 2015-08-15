@@ -24,8 +24,11 @@ public class Applicant {
     PreparedStatement pst7=null;
     PreparedStatement pst8=null;
     PreparedStatement pst9=null;
+    PreparedStatement check1=null;
+    PreparedStatement check2=null;
     //announcements
     PreparedStatement pst11=null;
+    PreparedStatement confirmAnn=null;
     //details
     PreparedStatement pst13=null;
     PreparedStatement pst14=null;
@@ -40,6 +43,8 @@ public class Applicant {
     PreparedStatement pst23=null;
     PreparedStatement pst24=null;
     PreparedStatement pst25=null;
+    PreparedStatement confirmDet=null;
+    PreparedStatement check3=null;
     //inquiries
     PreparedStatement pst27=null;
     PreparedStatement pst28=null;
@@ -61,8 +66,11 @@ public class Applicant {
             pst7=conn.prepareStatement("SELECT * FROM courses");
             pst8=conn.prepareStatement("SELECT Course_id FROM courses WHERE Course_Name=?");
             pst9=conn.prepareStatement("SELECT Level_id FROM course_levels WHERE Level_Name=?");
+            check1=conn.prepareStatement("SELECT Email_Address FROM education_background WHERE Email_Address=?");
+            check2=conn.prepareStatement("SELECT * FROM education_background WHERE Email_Address=? AND Physics_Grade IS NOT NULL");
             //announcements
             pst11=conn.prepareStatement("SELECT * FROM announcements");
+            confirmAnn=conn.prepareStatement("SELECT * FROM announcements");
             //details
             pst13=conn.prepareStatement("SELECT * FROM applicants_details WHERE Email_Address=?");
             pst14=conn.prepareStatement("SELECT * FROM education_background WHERE Email_Address=?");
@@ -77,9 +85,11 @@ public class Applicant {
             pst23=conn.prepareStatement("SELECT * FROM campuses");
             pst24=conn.prepareStatement("SELECT * FROM courses");
             pst25=conn.prepareStatement("SELECT * FROM course_levels");
+            confirmDet=conn.prepareStatement("SELECT * FROM applicants_details WHERE Email_Address=?");
+            check3=conn.prepareStatement("SELECT * FROM course_details WHERE Email_Address=?");
             //inquiries
-            pst27=conn.prepareStatement("INSERT INTO inquiries(Sender,Message) VALUES(?,?)");
-            pst28=conn.prepareStatement("SELECT Message, Reply FROM inquiries WHERE Sender=?");
+            pst27=conn.prepareStatement("INSERT INTO inquiries(Sender,Message,Sent_Date) VALUES(?,?,now())");
+            pst28=conn.prepareStatement("SELECT Message, Sent_Date, Reply, Reply_Date FROM inquiries WHERE Sender=?");
             //change pwd
             pst29=conn.prepareStatement("UPDATE registration SET Password=? WHERE Email_Address=? AND Password=?");
         }catch(SQLException e){
@@ -146,6 +156,18 @@ public class Applicant {
         }
         return i;
     }
+    //checks if section A has been filled..b4 section B
+    public ResultSet checkSectionA(String email){
+        ResultSet rs=null;
+        try{
+            check1.setString(1, email);
+            rs=check1.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
     //inserts education background details
     public int setEducationBackground(String physicsGrade, String mathsGrade, String subj3Grade, String subj4Grade, String meanGrade,double aggregatePoints, double clusterPoints, String email){
         int j=0;
@@ -165,6 +187,18 @@ public class Applicant {
         }
         return j;
     }
+    //checks if section B has been filled..b4 section C
+    public ResultSet checkSectionB(String email){
+        ResultSet rs=null;
+        try{
+            check2.setString(1, email);
+            rs=check2.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
     //inserts course details
     public int setCourseDetails(String email, int levelId, int courseId, String mos, String campus){
         int k=0;
@@ -180,6 +214,18 @@ public class Applicant {
             e.printStackTrace(System.out);
         }
         return k;
+    }
+     //checks if section C has been filled..for display/editing
+    public ResultSet checkSectionC(String email){
+        ResultSet rs=null;
+        try{
+            check3.setString(1, email);
+            rs=check3.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
     }
     //calculates cluster points
     public double calculateClusterPoints(double physics, double maths, double subj3, double subj4, double aggregatePoints){
@@ -322,12 +368,35 @@ public class Applicant {
         }
         return rs;
     }
+    //confirms if any announcement is available
+    public ResultSet confirmAnnouncements(){
+        ResultSet rs=null;
+        try{
+            rs=confirmAnn.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
     //get personal details for display/editing
     public ResultSet getPersonalDetails(String email){
         ResultSet rs=null;
         try{
             pst13.setString(1, email);
             rs=pst13.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    
+    public ResultSet confirmDetails(String email){
+        ResultSet rs=null;
+        try{
+            confirmDet.setString(1, email);
+            rs=confirmDet.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
