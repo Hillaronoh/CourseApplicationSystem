@@ -313,11 +313,13 @@
                                                 String fname=new String();
                                                 String lname=new String();
                                                 String message=new String();
+                                                String message2=new String();
                                                 String rep=new String();
+                                                String date=new String();
                                                 String rep1=new String();
                                                 while(results1.next()){
                                                 email=results1.getString("Sender");
-                                                //message=results1.getString("Message");
+                                                message=results1.getString("Message");
                                                 rep1=results1.getString("Reply");
                                                 ResultSet results2=admin.getSender(email);
                                                 if(results2.next()){
@@ -325,8 +327,11 @@
                                                     lname=results2.getString("Last_Name");
                                                 }
                                                 ResultSet results4=admin.getChats(email);
-                                                
+                                                String messageLast=new String();
+                                                String dateLast=new String();
                                                 if(rep1==null){
+                                                    messageLast=results1.getString("Message");
+                                                   dateLast=results1.getString("Sent_Date"); 
                                                 %>
                                                 <tr>
                                                     <th scope="row"><%=results1.getInt("id")%></th>
@@ -356,32 +361,38 @@
                                                                     <div>
                                                                         <div class="portlet-body" style="overflow-y: auto; overflow-x: hidden; height: 180px; padding-right: 3px;">
                                                                             <%while(results4.next()){
-                                                                                message=results4.getString("Message"); 
+                                                                                message2=results4.getString("Message"); 
                                                                                 rep=results4.getString("Reply");
-                                                                                String date=results4.getString("Sent_Date");
+                                                                                date=results4.getString("Sent_Date");
+                                                                                String replyDate=results4.getString("Reply_Date");
                                                                                 %>
-                                                                            <div class="row">
-                                                                                <div class="col-lg-12">
-                                                                                    <p class="text-center text-muted small"><%= date%></p> 
-                                                                                </div>
-                                                                            </div>                                                                
-                                                                                        <div class="row">
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-12">
+                                                                                        <p class="text-center text-muted small"><%= date%></p> 
+                                                                                    </div>
+                                                                                </div>                                                                
+                                                                                <div class="row">
                                                                                             <div class="col-lg-12">
                                                                                                 <div class="media">
                                                                                                     <a class="pull-left" href="#">
                                                                                                         <i class="fa fa-user"></i>
                                                                                                     </a>
                                                                                                     <div class="media-body">
-                                                                                                        <h4 class="media-heading"><%=fname%> <%=lname%>
-                                                                                                            <span class="small pull-right">12:23 PM</span>
-                                                                                                        </h4>
-                                                                                                        <p><%=message%></p>
+                                                                                                        <h4 class="media-heading"><%=fname%> <%=lname%></h4>
+                                                                                                      
+                                                                                                        <p><%=message2%></p>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
                                                                                         <hr>
-                                                                                        <%if(rep!=null){%>
+                                                                                        
+                                                                                        
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-12">
+                                                                                                <p class="text-center text-muted small"><%=replyDate%></p> 
+                                                                                            </div>
+                                                                                        </div> 
                                                                                         <div class="row">
                                                                                             <div class="col-lg-12">
                                                                                                 <div class="media">
@@ -389,15 +400,34 @@
                                                                                                         <img class="media-object img-circle" src="images/favicon.ico" alt="" style="width: 15px; height: 15px;">
                                                                                                     </a>
                                                                                                     <div class="media-body">
-                                                                                                        <h4 class="media-heading">mmust
-                                                                                                            <span class="small pull-right">12:23 PM</span>
-                                                                                                        </h4>
+                                                                                                        <h4 class="media-heading">mmust</h4>
+                                                                                                       
                                                                                                         <p><%=rep%></p>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                                        <hr><%}}%>
+                                                                                                        <hr><%}%>
+                                                                                                       <div class="row">
+                                                                                    <div class="col-lg-12">
+                                                                                        <p class="text-center text-muted small"><%= dateLast%></p> 
+                                                                                    </div>
+                                                                                </div>                                                                
+                                                                                <div class="row">
+                                                                                            <div class="col-lg-12">
+                                                                                                <div class="media">
+                                                                                                    <a class="pull-left" href="#">
+                                                                                                        <i class="fa fa-user"></i>
+                                                                                                    </a>
+                                                                                                    <div class="media-body">
+                                                                                                        <h4 class="media-heading"><%=fname%> <%=lname%></h4>
+                                                                                                      
+                                                                                                        <p><%=messageLast%></p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <hr>
                                                                         </div>
                                                                     </div>
                                                                     <div class="well portlet-footer">

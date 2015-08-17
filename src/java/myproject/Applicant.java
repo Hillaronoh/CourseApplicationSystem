@@ -89,7 +89,7 @@ public class Applicant {
             check3=conn.prepareStatement("SELECT * FROM course_details WHERE Email_Address=?");
             //inquiries
             pst27=conn.prepareStatement("INSERT INTO inquiries(Sender,Message,Sent_Date) VALUES(?,?,now())");
-            pst28=conn.prepareStatement("SELECT Message, Sent_Date, Reply, Reply_Date FROM inquiries WHERE Sender=?");
+            pst28=conn.prepareStatement("SELECT * FROM inquiries WHERE Sender=?");
             //change pwd
             pst29=conn.prepareStatement("UPDATE registration SET Password=? WHERE Email_Address=? AND Password=?");
         }catch(SQLException e){

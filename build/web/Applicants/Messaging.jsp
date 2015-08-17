@@ -152,10 +152,8 @@
                                                                                 <img class="media-object img-circle" src="image/username2.png" alt="" style="width: 20px; height: 20px; background-color: #E0E7E8;">
                                                                             </a>
                                                                             <div class="media-body">
-                                                                                <h4 class="media-heading"><%=firstName%>
-                                                                                    <span class="small pull-right">12:23 PM</span>
-                                                                                </h4>
-                                                                       
+                                                                                <h4 class="media-heading"><%=firstName%></h4>
+                                                                                
                                                                                 <p><%=message%></p>
                                                                         
                                                                             </div>
@@ -163,7 +161,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <hr>
-                                                                <%if(reply!=null){%>
+                                                                <%if(reply!=null && reply.equals("Ignored")==false){%>
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <p class="text-center text-muted small"><%=dateReplied%></p> 
@@ -176,12 +174,8 @@
                                                                                 <img class="media-object img-circle" src="image/favicon.ico" alt="" style="width: 20px; height: 20px;">
                                                                             </a>
                                                                             <div class="media-body">
-                                                                                <h4 class="media-heading">mmust
-                                                                                    <span class="small pull-right">12:23 PM</span>
-                                                                                </h4>
-                                                                       
-                                                                                <p><%=reply%></p>
-                                                                                    
+                                                                                <h4 class="media-heading">mmust</h4>
+                                                                                <p><%=reply%></p>   
                                                                             </div>
                                                                         </div>
                                                                     </div>

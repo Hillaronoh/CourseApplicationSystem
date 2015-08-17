@@ -38,8 +38,8 @@ public class Admin {
             //unreplied inquiries
             pst5=conn.prepareStatement("SELECT * FROM inquiries");
             pst6=conn.prepareStatement("SELECT First_Name, Last_Name FROM applicants_details WHERE Email_Address=?");
-            pst7=conn.prepareStatement("UPDATE inquiries SET Reply=?, Reply_Date=now() WHERE Sender=? AND Message=?");
-            pst8=conn.prepareStatement("SELECT Message, Sent_Date, Reply FROM inquiries WHERE Sender=?");
+            pst7=conn.prepareStatement("UPDATE inquiries SET Reply=?, Reply_Date=(now()) WHERE Sender=? AND Message=?");
+            pst8=conn.prepareStatement("SELECT * FROM inquiries WHERE Sender=? AND Reply IS NOT NULL");
             pst9=conn.prepareStatement("UPDATE inquiries SET Reply=? WHERE Sender=? AND Message=?");
         }
         catch(SQLException e)
