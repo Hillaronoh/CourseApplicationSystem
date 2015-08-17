@@ -78,6 +78,26 @@
                 String body=request.getParameter("body");
                 int results1=admin.setAnnouncement(title, body); 
             }
+            int totalApplicantsCount=0;
+            ResultSet totalApplicants=admin.getTotalApplicants();
+            totalApplicants.next();
+            totalApplicantsCount = totalApplicants.getInt(1);
+            
+            int degreeApplicantsCount=0;
+            ResultSet degreeApplicants=admin.getDegreeApplicants(); 
+            degreeApplicants.next();
+            degreeApplicantsCount = degreeApplicants.getInt(1);
+            
+            int diplomaApplicantsCount=0;
+            ResultSet diplomaApplicants=admin.getDiplomaApplicants(); 
+            diplomaApplicants.next(); 
+            diplomaApplicantsCount = diplomaApplicants.getInt(1);
+            
+            int certApplicantsCount=0;
+            ResultSet certApplicants=admin.getCertApplicants(); 
+            certApplicants.next(); 
+            certApplicantsCount = certApplicants.getInt(1);
+            
             %>
         
         <div class="container body">
@@ -267,7 +287,7 @@
                             <div class="left"></div>
                             <div class="right">
                                 <span class="count_top"><i class="fa fa-users"></i> Total Applicants</span>
-                                <div class="count">2500</div>
+                                <div class="count"><%=totalApplicantsCount%></div>
                                 <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
                                 <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
                             </div>
@@ -276,7 +296,7 @@
                             <div class="left"></div>
                             <div class="right">
                                 <span class="count_top"><i class="fa fa-users"></i> Degree Applicants</span>
-                                <div class="count">123.50</div>
+                                <div class="count"><%=degreeApplicantsCount%></div>
                                 <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
                                 <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
                             </div>
@@ -285,7 +305,7 @@
                             <div class="left"></div>
                             <div class="right">
                                 <span class="count_top"><i class="fa fa-users"></i> Diploma Applicants</span>
-                                <div class="count green">2,500</div>
+                                <div class="count"><%=diplomaApplicantsCount%></div>
                                 <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Male</span>
                                 <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Female</span>
                             </div>
@@ -294,7 +314,7 @@
                             <div class="left"></div>
                             <div class="right">
                                 <span class="count_top"><i class="fa fa-users"></i> Certificate Applicants</span>
-                                <div class="count">4,567</div>
+                                <div class="count"><%=certApplicantsCount%></div>
                                 <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Male</span>
                                 <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Female</span>
                             </div>

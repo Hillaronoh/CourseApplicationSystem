@@ -90,6 +90,26 @@
                 String body=request.getParameter("body");
                 int results1=admin.setAnnouncement(title, body); 
             }
+            
+            int certCsApplicantsCount=0;
+            ResultSet certCsApplicants=admin.getCertCsApplicants(); 
+            certCsApplicants.next(); 
+            certCsApplicantsCount = certCsApplicants.getInt(1);
+            
+            int certItApplicantsCount=0;
+            ResultSet certItApplicants=admin.getCertItApplicants(); 
+            certItApplicants.next(); 
+            certItApplicantsCount = certItApplicants.getInt(1);
+            
+            int certInfoApplicantsCount=0;
+            ResultSet certInfoApplicants=admin.getCertInfoApplicants(); 
+            certInfoApplicants.next(); 
+            certInfoApplicantsCount = certInfoApplicants.getInt(1);
+            
+            int certCfApplicantsCount=0;
+            ResultSet certCfApplicants=admin.getCertCfApplicants(); 
+            certCfApplicants.next(); 
+            certCfApplicantsCount = certCfApplicants.getInt(1);
             %>
         
         <div class="container body">
@@ -293,7 +313,7 @@
                                                 <div class="left"></div>
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Computer Science</span>
-                                                    <div class="count">2500</div>
+                                                    <div class="count"><%=certCsApplicantsCount%></div>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
                                                 </div>
@@ -302,7 +322,7 @@
                                                 <div class="left"></div>
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Information Technology</span>
-                                                    <div class="count">123.50</div>
+                                                    <div class="count"><%=certItApplicantsCount%></div>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
                                                 </div>
@@ -310,8 +330,8 @@
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
                                                 <div class="left"></div>
                                                 <div class="right">
-                                                    <span class="count_top"><i class="fa fa-users"></i> Computer Forensics</span>
-                                                    <div class="count green">2,500</div>
+                                                    <span class="count_top"><i class="fa fa-users"></i> Informatics</span>
+                                                    <div class="count"><%=certInfoApplicantsCount%></div>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Male</span>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Female</span>
                                                 </div>
@@ -319,8 +339,8 @@
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
                                                 <div class="left"></div>
                                                 <div class="right">
-                                                    <span class="count_top"><i class="fa fa-users"></i> Informatics</span>
-                                                    <div class="count">4,567</div>
+                                                    <span class="count_top"><i class="fa fa-users"></i> Computer Forensics</span>
+                                                    <div class="count"><%=certCfApplicantsCount%></div>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Male</span>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Female</span>
                                                 </div>

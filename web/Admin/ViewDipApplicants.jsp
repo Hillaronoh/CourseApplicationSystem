@@ -85,6 +85,26 @@
                 String body=request.getParameter("body");
                 int results1=admin.setAnnouncement(title, body); 
             }
+            
+            int dipCsApplicantsCount=0;
+            ResultSet dipCsApplicants=admin.getDipCsApplicants(); 
+            dipCsApplicants.next(); 
+            dipCsApplicantsCount = dipCsApplicants.getInt(1);
+            
+            int dipItApplicantsCount=0;
+            ResultSet dipItApplicants=admin.getDipItApplicants(); 
+            dipItApplicants.next(); 
+            dipItApplicantsCount = dipItApplicants.getInt(1);
+            
+            int dipInfoApplicantsCount=0;
+            ResultSet dipInfoApplicants=admin.getDipInfoApplicants(); 
+            dipInfoApplicants.next(); 
+            dipInfoApplicantsCount = dipInfoApplicants.getInt(1);
+            
+            int dipCfApplicantsCount=0;
+            ResultSet dipCfApplicants=admin.getDipCfApplicants(); 
+            dipCfApplicants.next(); 
+            dipCfApplicantsCount = dipCfApplicants.getInt(1);
             %>
         
         <div class="container body">
@@ -288,7 +308,7 @@
                                                 <div class="left"></div>
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Computer Science</span>
-                                                    <div class="count">2500</div>
+                                                    <div class="count"><%=dipCsApplicantsCount%></div>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
                                                 </div>
@@ -297,7 +317,7 @@
                                                 <div class="left"></div>
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Information Technology</span>
-                                                    <div class="count">123.50</div>
+                                                    <div class="count"><%=dipItApplicantsCount%></div>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
                                                 </div>
@@ -305,8 +325,8 @@
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
                                                 <div class="left"></div>
                                                 <div class="right">
-                                                    <span class="count_top"><i class="fa fa-users"></i> Computer Forensics</span>
-                                                    <div class="count green">2,500</div>
+                                                    <span class="count_top"><i class="fa fa-users"></i> Informatics</span>
+                                                    <div class="count"><%=dipInfoApplicantsCount%></div>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Male</span>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Female</span>
                                                 </div>
@@ -314,8 +334,8 @@
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
                                                 <div class="left"></div>
                                                 <div class="right">
-                                                    <span class="count_top"><i class="fa fa-users"></i> Informatics</span>
-                                                    <div class="count">4,567</div>
+                                                    <span class="count_top"><i class="fa fa-users"></i> Computer Forensics</span>
+                                                    <div class="count"><%=dipCfApplicantsCount%></div>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Male</span>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Female</span>
                                                 </div>
