@@ -90,6 +90,8 @@
                String body=request.getParameter("body");
                int results1=admin.setAnnouncement(title, body); 
             }
+                     
+           ResultSet rs=Common.getAnnouncements();
            %>
             
             <div class="container body">
@@ -297,33 +299,56 @@
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
+                                                    <th>Title</th>
                                                     <th>Announcement</th>
                                                     <th>Post_Date</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                 <%
+                                                 int check=1;
+                                                 int id=0; 
+                                                 while(rs.next()){
+                                                     id=rs.getInt("id");
+                                                 %>
                                                 <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                    <th scope="row"><%=rs.getInt("id")%></th>
+                                                    <td><%=rs.getString("Title")%></td>
+                                                    <td><%=rs.getString("Body")%></td>
+                                                    <td><%=rs.getDate("Post_Date")%></td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">3</th>
-                                                    <td>Larry</td>
-                                                    <td>the Bird</td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
-                                                </tr>
+                                                    
+                                            <div class="modal fade" id="deleteConfirm<%=check%>" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" >Confirm</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h5>Are you sure you want to delete?</h5>
+                                                            <form method="post" action="">
+                                                                <div class="">
+                                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" name="delete<%=check%>" class="btn btn-danger">Delete</button> 
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                            
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                            <%
+                                                if(request.getParameter("delete"+check)!=null){
+                                                    int results2=admin.deleteAnn(id);
+                                                }
+                                            check++;
+                                                 }%>
                                             </tbody>
                                         </table>
-                                        
+                                            
                                     </div>
                                 </div>
                             </div>

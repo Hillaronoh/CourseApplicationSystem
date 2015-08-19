@@ -59,7 +59,7 @@
             if(results.next()){
                 firstName=results.getString("First_Name");
             }
-            ResultSet results1=user.getAnnouncements();
+            ResultSet results1=Common.getAnnouncements(); 
             
             boolean check=false;
             ResultSet ann=user.confirmAnnouncements();

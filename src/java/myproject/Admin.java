@@ -56,6 +56,10 @@ public class Admin {
     PreparedStatement pst24=null;
     //display total number of cert computer forensics applicants
     PreparedStatement pst25=null;
+    //deletes announcement
+    PreparedStatement pst26=null;
+    //get CS degree applicants for display
+    PreparedStatement pst27=null;
     //constructor
     public Admin() throws ClassNotFoundException{
         Common connection=new Common();
@@ -105,6 +109,16 @@ public class Admin {
             pst24=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=3");
             //display total number of cert computer forensics applicants
             pst25=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=4");
+            //deletes announcement
+            pst26=conn.prepareStatement("DELETE FROM announcements WHERE id=?");
+            //get CS degree applicants for display
+            pst27=conn.prepareStatement("SELECT    Email_Address,\n" +
+"              Physics_Grade,\n" +
+"              Cluster_Points,\n" +
+"              IF(Cluster_Points=@_last_age,@curRank:=@curRank,@curRank:=@_sequence) AS rank,\n" +
+"              @_sequence:=@_sequence+1,@_last_age:=Cluster_Points\n" +
+"    FROM      education_background, (SELECT @curRank := 1, @_sequence:=1, @_last_age:=0) r\n" +
+"     ORDER BY  Cluster_Points DESC;");
         }
         catch(SQLException e)
         {
@@ -395,6 +409,29 @@ public class Admin {
         ResultSet rs=null;
         try{
             rs=pst25.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //deletes announcements
+    public int deleteAnn(int id){
+        int i=0;
+        try{
+           pst26.setInt(1, id); 
+           i=pst26.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return i;
+    }
+    //display CS degree applicants
+    public ResultSet displayCsDegApplicants(){
+        ResultSet rs=null;
+        try{
+            rs=pst27.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);

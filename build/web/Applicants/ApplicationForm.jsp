@@ -39,7 +39,17 @@
             };
         </script>        
         <!--end date picker--> 
-        
+        <script src="jquery-1.10.2.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#programmeLevel").change(function(){
+                    var value = $(this).val();
+                    $.get("GetCourses.jsp",{programmeLevel:value},function(data){
+                        $("#programmeName").html(data);//append('<option>' + data + '</option>');
+                    });
+                });
+            });
+        </script>
         <!--start navigation menus-->
         <link rel="stylesheet" href="mycss/glyphicons/css/bootstrap.min.css">
         <link rel="stylesheet" style type="text/css" href="mycss/navMenus.css">
@@ -449,7 +459,7 @@
                                             int levelId=0;
                                             String physics=new String();
                                             ResultSet results5=user.getCampuses();
-                                            ResultSet results6=user.getCourses();
+                                            //ResultSet results6=user.getCourses();
                                             if(request.getParameter("submit3")!=null){
                                                 if(check2.next()){
                                                 String courseName=request.getParameter("programmeName");
@@ -491,9 +501,9 @@
                                                                 <label for="level">Programme Level:<span style="color:red"> *</span></label>
                                                                 <select id="programmeLevel" name="programmeLevel" class="form-control input">
                                                                     <option value="" selected>~select programme level~</option> 
-                                                                    <option value="Degree">Degree</option>
-                                                                    <option value="Diploma">Diploma</option>
-                                                                    <option value="Certificate">Certificate</option>
+                                                                    <option value="3">Degree</option>
+                                                                    <option value="4">Diploma</option>
+                                                                    <option value="5">Certificate</option>
                                                                 </select>
                                                             </div>
                                                                 
@@ -502,9 +512,7 @@
                                                                 <label for="programmeName">Programme Name:<span style="color:red"> *</span></label>
                                                                 <select id="programmeName" name="programmeName" class="form-control input">
                                                                     <option value="" selected>~select programme name~</option> 
-                                                                    <%while(results6.next()){%>
-                                                                    <option value="<%=results6.getString("course_Name")%>"><%=results6.getString("course_Name")%></option>
-                                                                    <%}%>
+                                                                    
                                                                 </select>
                                                             </div>
                                                             <div class="col-sm-2"></div>

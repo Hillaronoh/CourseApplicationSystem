@@ -27,7 +27,6 @@ public class Applicant {
     PreparedStatement check1=null;
     PreparedStatement check2=null;
     //announcements
-    PreparedStatement pst11=null;
     PreparedStatement confirmAnn=null;
     //details
     PreparedStatement pst13=null;
@@ -63,13 +62,12 @@ public class Applicant {
             pst4=conn.prepareStatement("UPDATE education_background SET Physics_Grade=?, Maths_Grade=?, Subject3_Grade=?, Subject4_Grade=?, Mean_Grade=?, Aggregate_Points=?, Cluster_Points=? WHERE Email_Address=?");
             pst5=conn.prepareStatement("INSERT INTO course_details VALUES(?,?,?,?,?)");
             pst6=conn.prepareStatement("SELECT * FROM campuses");
-            pst7=conn.prepareStatement("SELECT * FROM courses");
+            pst7=conn.prepareStatement("SELECT * FROM courses WHERE Level_id=?");
             pst8=conn.prepareStatement("SELECT Course_id FROM courses WHERE Course_Name=?");
             pst9=conn.prepareStatement("SELECT Level_id FROM course_levels WHERE Level_Name=?");
             check1=conn.prepareStatement("SELECT Email_Address FROM education_background WHERE Email_Address=?");
             check2=conn.prepareStatement("SELECT * FROM education_background WHERE Email_Address=? AND Physics_Grade IS NOT NULL");
             //announcements
-            pst11=conn.prepareStatement("SELECT * FROM announcements");
             confirmAnn=conn.prepareStatement("SELECT * FROM announcements");
             //details
             pst13=conn.prepareStatement("SELECT * FROM applicants_details WHERE Email_Address=?");
@@ -251,9 +249,10 @@ public class Applicant {
         return rs;
     }
     //get courses from db
-    public ResultSet getCourses(){
+    public ResultSet getCourses(int li){
         ResultSet rs=null;
         try{
+            pst7.setInt(1, li);
             rs=pst7.executeQuery();
         }
         catch(SQLException e){
@@ -356,17 +355,6 @@ public class Applicant {
                 break;
         }
         return points;
-    }
-    //get posted announcements
-    public ResultSet getAnnouncements(){
-        ResultSet rs=null;
-        try{
-            rs=pst11.executeQuery();
-        }
-        catch(SQLException e){
-            e.printStackTrace(System.out);
-        }
-        return rs;
     }
     //confirms if any announcement is available
     public ResultSet confirmAnnouncements(){

@@ -353,7 +353,7 @@
                                     </div>
                                     <div class="x_content">
                                         <br />
-                                                                               
+                                        <h4 class="green">Computer Science</h4>                                      
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -374,18 +374,26 @@
                                                     <td>Otto</td>
                                                     <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                        <h4 class="green">Information Technology</h4>                                      
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Email Address</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Course Name</th>
+                                                    <th>Course Level</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
                                                 <tr>
                                                     <td>ronokip55@gmail.com</td>
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
                                                     <td>Mark</td>
                                                     <td>Otto</td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>ronokip55@gmail.com</td>
-                                                    <td>Larry</td>
-                                                    <td>the Bird</td>
                                                     <td>Mark</td>
                                                     <td>Otto</td>
                                                     <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
@@ -393,7 +401,54 @@
                                             </tbody>
                                         </table>
                                         
+                                        <h4 class="green">Informatics</h4>                                      
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Email Address</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Course Name</th>
+                                                    <th>Course Level</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>ronokip55@gmail.com</td>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                         
+                                        <h4 class="green">Computer Forensics</h4>                                      
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Email Address</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Course Name</th>
+                                                    <th>Course Level</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>ronokip55@gmail.com</td>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                       
                                     </div>
                                 </div>
                             </div>
