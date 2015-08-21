@@ -74,7 +74,7 @@ public class Applicant {
             pst14=conn.prepareStatement("SELECT * FROM education_background WHERE Email_Address=?");
             pst15=conn.prepareStatement("SELECT * FROM course_details WHERE Email_Address=?");
             pst16=conn.prepareStatement("SELECT Level_Name FROM course_levels WHERE Level_id=?");
-            pst17=conn.prepareStatement("SELECT Course_Name FROM courses WHERE Course_id=?");
+            pst17=conn.prepareStatement("SELECT * FROM courses WHERE Course_id=?");
             pst18=conn.prepareStatement("UPDATE applicants_details SET DoB=?, Gender=?, Postal_Address=?, Mobile=?, Country=? WHERE Email_Address=?");
             pst19=conn.prepareStatement("UPDATE education_background SET Physics_Grade=?, Maths_Grade=?, Subject3_Grade=?, Subject4_Grade=?, Mean_Grade=?, Aggregate_Points=?, Cluster_Points=? WHERE Email_Address=?");
             pst20=conn.prepareStatement("UPDATE course_details SET Level_id=?, Course_id=?, Mode_Of_Study=?, Campus=? WHERE (Email_Address=? AND Level_id=? AND Course_id=? AND Mode_Of_Study=? AND Campus=?)");

@@ -39,17 +39,8 @@
             };
         </script>        
         <!--end date picker--> 
-        <script src="jquery-1.10.2.js"></script>
-        <script>
-            $(document).ready(function(){
-                $("#programmeLevel").change(function(){
-                    var value = $(this).val();
-                    $.get("GetCourses.jsp",{programmeLevel:value},function(data){
-                        $("#programmeName").html(data);//append('<option>' + data + '</option>');
-                    });
-                });
-            });
-        </script>
+        
+        
         <!--start navigation menus-->
         <link rel="stylesheet" href="mycss/glyphicons/css/bootstrap.min.css">
         <link rel="stylesheet" style type="text/css" href="mycss/navMenus.css">
@@ -186,7 +177,7 @@
                                             if(request.getParameter("submit1")!=null){
                                                 
                                                 ResultSet checkRe=user.confirmDetails(applicantId);
-                                                if(checkRe==null){
+                                                if(!checkRe.next()){
                                                 String fName=request.getParameter("fname");
                                                 String mName=request.getParameter("mname");
                                                 String lName=request.getParameter("lname");
@@ -290,7 +281,7 @@
                                             if(request.getParameter("submit2")!=null){
                                                 if(check1.next()){
                                                     ResultSet checkRe=user.checkSectionB(applicantId);
-                                                if(checkRe==null){
+                                                if(!checkRe.next()){
                                                 String physicsGrade=request.getParameter("physics");
                                                 String mathsGrade=request.getParameter("maths");
                                                 String subj3Grade =request.getParameter("subj3");
@@ -455,29 +446,31 @@
                                     <div class="accordion">
                                         <div class="accordion-section">
                                             <%
-                                            int courseId=0;
-                                            int levelId=0;
+                                            int courseIdInt=0;
+                                            int levelIdInt=0; 
                                             String physics=new String();
                                             ResultSet results5=user.getCampuses();
                                             //ResultSet results6=user.getCourses();
                                             if(request.getParameter("submit3")!=null){
                                                 if(check2.next()){
-                                                String courseName=request.getParameter("programmeName");
-                                                String levelName=request.getParameter("programmeLevel");
+                                                String courseIdString=request.getParameter("programmeName");
+                                                courseIdInt=Integer.parseInt(courseIdString);
+                                                String levelIdString=request.getParameter("programmeLevel");
+                                                levelIdInt=Integer.parseInt(levelIdString);
                                            
-                                                ResultSet results7=user.getCourseId(courseName);
+                                               /* ResultSet results7=user.getCourseId(courseName);
                                                 if(results7.next()){
                                                     courseId=results7.getInt("Course_id");
                                                 }
                                            
-                                                ResultSet results8=user.getLevelId(levelName);
+                                                ResultSet results8=user.getLevelId(levelName); 
                                                 if(results8.next()){
                                                     levelId=results8.getInt("Level_id");
-                                                }
+                                                }*/
                                                 String mos=request.getParameter("modeOfStudy");
                                                 String campus=request.getParameter("campus");
                                            
-                                                int results4=user.setCourseDetails(applicantId, levelId, courseId, mos, campus);
+                                                int results4=user.setCourseDetails(applicantId, levelIdInt, courseIdInt, mos, campus);
                                        
                                                 if(results4>0){%> 
                                                 <a class="accordion-section-title alert alert-success" style="margin-bottom:0px;" href="#accordion-3"><i class="fa fa-check-circle"></i>Your details has been saved successfully..Proceed to the next section.</a>
@@ -620,5 +613,15 @@
                 <script type="text/javascript" src="mycss/validation/jquery.validate.js"></script>
                 <script type="text/javascript" src="mycss/validation/additional-methods.js"></script>
                 <script src="mycss/validation/custom.js"></script>
+                <script>
+                    $(document).ready(function(){
+                        $("#programmeLevel").change(function(){
+                            var value = $(this).val();
+                            $.get("GetCourses.jsp",{programmeLevel:value},function(data){
+                                $("#programmeName").html(data);//append('<option>' + data + '</option>');
+                            });
+                        });
+                    });
+                </script>
     </body>
 </html>

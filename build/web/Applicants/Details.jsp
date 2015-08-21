@@ -27,6 +27,8 @@
         <link href="assets/css/style.css" rel="stylesheet" />
         <link href="assets/css/main-style.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="mycss/style2.css">
+          
+      <!--jquery repeat for autopopulate menus--><script type="text/javascript" src="mycss/validation/jquery.js"></script>
             
         <style>
             .error{
@@ -359,22 +361,19 @@
                                                                 
                                                                 <div class="form-group">
                                                                     <label for="programmeLevel">Programme Level</label>
-                                                                    <select id="programmeLevel" name="programmeLevel" class="form-control">
+                                                                    <select id="programmeLevel<%=check%>" name="programmeLevel" class="form-control">
                                                                         <option value="<%=results4.getString("Level_Name")%>" selected><%=results4.getString("Level_Name")%></option> 
                                                                         <%ResultSet results13=user.getLevels();
                                                                 while(results13.next()){%>
-                                                                        <option value="<%=results13.getString("Level_Name")%>"><%=results13.getString("Level_Name")%></option>
+                                                                        <option value="<%=results13.getInt("Level_id")%>"><%=results13.getString("Level_Name")%></option>
                                                                         <%}%>
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="programmeName">Programme Name</label>
-                                                                    <select id="programmeName" name="programmeName" class="form-control">
+                                                                    <select id="programmeName<%=check%>" name="programmeName" class="form-control">
                                                                         <option value="<%=results5.getString("Course_Name")%>" selected><%=results5.getString("Course_Name")%></option> 
-                                                                        <%ResultSet results12=user.getCourses();
-                                                                        while(results12.next()){%>
-                                                                        <option value="<%=results12.getString("course_Name")%>"><%=results12.getString("course_Name")%></option>
-                                                                        <%}%>
+                                                                        
                                                                     </select>
                                                                         
                                                                 </div>
@@ -408,14 +407,16 @@
                                             </div><!-- /.modal-dialog -->
                                         </div><!-- /.modal -->
                                         <%
-                                        int levelId=0;
-                                        int courseId=0;
+                                        int levelIdInt=0;
+                                        int courseIdInt=0;
                                         if(request.getParameter("save3"+check)!=null){              
-                                            String level=request.getParameter("programmeLevel");
-                                            String name=request.getParameter("programmeName");
+                                            String levelIdString=request.getParameter("programmeLevel");
+                                            levelIdInt=Integer.parseInt(levelIdString); 
+                                            String courseIdString=request.getParameter("programmeName");
+                                            courseIdInt=Integer.parseInt(courseIdString);
                                             String mos =request.getParameter("modeOfStudy");
                                             String campus=request.getParameter("campus");
-                                            ResultSet rs=user.getLevelId(level);
+                                            /*ResultSet rs=user.getLevelId(level);
                                             if(rs.next()){
                                                 levelId=rs.getInt("Level_id");
                                             } 
@@ -423,12 +424,21 @@
                                             ResultSet rs1=user.getCourseId(name);
                                             if(rs1.next()){
                                                 courseId=rs1.getInt("Course_id");
-                                            } 
+                                            } */
                
-                                            int resultsE2=user.editCourseDetails(levelId, courseId, mos, campus, applicantId, li, ci,mo,ca); 
-                                        }
-                                        
-                                        i++;
+                                            int resultsE2=user.editCourseDetails(levelIdInt, courseIdInt, mos, campus, applicantId, li, ci,mo,ca); 
+                                        }%>
+                                        <script>
+                                            $(document).ready(function(){
+                                                $("#programmeLevel<%=check%>").change(function(){
+                                                    var value = $(this).val();
+                                                    $.get("GetCourses.jsp",{programmeLevel:value},function(data){
+                                                        $("#programmeName<%=check%>").html(data);//append('<option>' + data + '</option>');
+                                                    });
+                                                });
+                                            });
+                                        </script>
+                                       <% i++;
                                         j++;
                                         check++;
                                         }%>
@@ -593,25 +603,25 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        
+                                            
                             </div>
                         </div>
-                                        
-                                        <%} else{%>
-                                        <script>
-                                            alert("No Details Found!\nYou must apply a course first!");
-                                            window.location.href="UserAccount.jsp";
-                                        </script>
-                                        <%}%>
+                            
+                        <%} else{%>
+                        <script>
+                            alert("No Details Found!\nYou must apply a course first!");
+                            window.location.href="UserAccount.jsp";
+                        </script>
+                        <%}%>
                         </div>
                     </div>
                 </div>
             </div>
-                        <div class="modal fade" id="ApplicationStatus" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal fade" id="ApplicationStatus" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                         <h4 class="modal-title">Application Status</h4>
                                     </div>
                                     <div class="modal-body">
@@ -811,5 +821,10 @@
             <script type="text/javascript" src="mycss/validation/jquery.validate.js"></script>
             <script type="text/javascript" src="mycss/validation/additional-methods.js"></script>
             <script src="mycss/validation/custom.js"></script>
+            <script>
+                $('#myModal').on('hidden.bs.modal', function () {
+                    location.reload();
+                })
+            </script>
     </body>
 </html>

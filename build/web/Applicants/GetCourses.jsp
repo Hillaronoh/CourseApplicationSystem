@@ -8,12 +8,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%   
-Applicant app=new Applicant();
-String levelIdString = request.getParameter("programmeLevel");
-int levelIdInt=Integer.parseInt(levelIdString);  
-ResultSet rs=app.getCourses(levelIdInt);
-while (rs.next()) {
-String courseName = rs.getString("Course_Name");
-out.print("<option value="+courseName+">"+courseName+"</option>");
-}
-%>
+    Applicant app=new Applicant();
+    String levelIdString = request.getParameter("programmeLevel");
+    int levelIdInt=Integer.parseInt(levelIdString);  
+    ResultSet rs=app.getCourses(levelIdInt);
+    while (rs.next()){ 
+        int courseId=rs.getInt("Course_id"); 
+        String courseName = rs.getString("Course_Name");
+        out.print("<option value="+courseId+">"+courseName+"</option>");
+    }
+    %>
