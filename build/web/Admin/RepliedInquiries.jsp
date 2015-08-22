@@ -90,7 +90,18 @@
             if(request.getParameter("post")!=null){
                 String title=request.getParameter("title");
                 String body=request.getParameter("body");
-                int results2=admin.setAnnouncement(title, body); 
+                int results2=admin.setAnnouncement(title, body);
+                if(results2>0){%>
+                <script type="text/javascript">
+                    alert("Announcement posted successfully.");
+                    window.location.href="RepliedInquiries.jsp";
+                </script>
+                <%} else{%>
+                <script type="text/javascript">
+                    alert("Problem encountered! Try again.");
+                    window.location.href="RepliedInquiries.jsp";
+                </script> 
+                <%}
             }
             %>
         
@@ -349,6 +360,17 @@
                                                 <%
                                                 if(request.getParameter("delete"+check)!=null){
                                                     int results2=admin.deleteInquiry(email, message, reply);
+                                                    if(results2>0){%>
+                                                    <script>
+                                                        alert("Deleted Successfully.");
+                                                        window.location.href="RepliedInquiries.jsp";
+                                                    </script>
+                                                    <%} else{%>
+                                                    <script>
+                                                        alert("There was a problem performing deletion operation! Try again.");
+                                                        window.location.href="RepliedInquiries.jsp";
+                                                    </script>
+                                                    <%}
                                                 }
                                             check++;}%>
                                             </tbody>

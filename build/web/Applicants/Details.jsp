@@ -141,6 +141,17 @@
                 String mobileE=request.getParameter("mobile");
                 String countryE=request.getParameter("country");
                 resultsE=user.editPersonalDetails(dobE, genderE, addressE, mobileE, countryE, applicantId); 
+                if(resultsE>0){%>
+                <script>
+                    alert("Changes saved successfully.");
+                    window.location.href="Details.jsp";
+                </script>
+                <%} else{%>
+                    <script>
+                    alert("There was a problem saving changes! Try again.");
+                    window.location.href="Details.jsp";
+                </script>
+               <%}
             }
            
             int resultsE1=0;
@@ -160,6 +171,17 @@
                 double clusterPointsE=user.calculateClusterPoints(physicsConverted, mathsConverted, subj3Converted, subj4Converted, aggregatePointsDouble); 
                
                 resultsE1=user.editEducationBackground(physics, maths, subj3, subj4, mean, aggregatePointsDouble, clusterPointsE, applicantId);
+                if(resultsE1>0){%>
+                <script>
+                    alert("Changes saved successfully.");
+                    window.location.href="Details.jsp";
+                </script>
+                <%} else{%>
+                    <script>
+                    alert("There was a problem saving changes! Try again.");
+                    window.location.href="Details.jsp";
+                </script>
+               <%}
             } 
            
             %>
@@ -362,7 +384,7 @@
                                                                 <div class="form-group">
                                                                     <label for="programmeLevel">Programme Level</label>
                                                                     <select id="programmeLevel<%=check%>" name="programmeLevel" class="form-control">
-                                                                        <option value="<%=results4.getString("Level_Name")%>" selected><%=results4.getString("Level_Name")%></option> 
+                                                                        <option value="<%=li%>" selected><%=results4.getString("Level_Name")%></option> 
                                                                         <%ResultSet results13=user.getLevels();
                                                                 while(results13.next()){%>
                                                                         <option value="<%=results13.getInt("Level_id")%>"><%=results13.getString("Level_Name")%></option>
@@ -372,7 +394,7 @@
                                                                 <div class="form-group">
                                                                     <label for="programmeName">Programme Name</label>
                                                                     <select id="programmeName<%=check%>" name="programmeName" class="form-control">
-                                                                        <option value="<%=results5.getString("Course_Name")%>" selected><%=results5.getString("Course_Name")%></option> 
+                                                                        <option value="<%=ci%>" selected><%=results5.getString("Course_Name")%></option> 
                                                                         
                                                                     </select>
                                                                         
@@ -427,6 +449,17 @@
                                             } */
                
                                             int resultsE2=user.editCourseDetails(levelIdInt, courseIdInt, mos, campus, applicantId, li, ci,mo,ca); 
+                                            if(resultsE2>0){%>
+                                            <script>
+                                                alert("Changes saved successfully.");
+                                                window.location.href="Details.jsp";
+                                            </script>
+                                            <%} else{%>
+                                            <script>
+                                                alert("There was a problem saving changes! Try again.");
+                                                window.location.href="Details.jsp";
+                                            </script>
+               <%}
                                         }%>
                                         <script>
                                             $(document).ready(function(){
@@ -635,7 +668,7 @@
                             </div>
                         </div> 
                         
-                        <div class="modal fade" id="personalDetails" role="dialog">
+                        <div class="modal fade" id="personalDetails"tabindex="-1" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -810,7 +843,7 @@
                                     <button type="submit" class="btn btn-primary" name="save2">Save changes</button>
                                 </div>
                             </form>
-                        </div>
+                            </div>
                             
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -821,10 +854,6 @@
             <script type="text/javascript" src="mycss/validation/jquery.validate.js"></script>
             <script type="text/javascript" src="mycss/validation/additional-methods.js"></script>
             <script src="mycss/validation/custom.js"></script>
-            <script>
-                $('#myModal').on('hidden.bs.modal', function () {
-                    location.reload();
-                })
-            </script>
+            
     </body>
 </html>

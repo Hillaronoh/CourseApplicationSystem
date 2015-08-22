@@ -84,6 +84,17 @@
                 String title=request.getParameter("title");
                 String body=request.getParameter("body");
                 int results1=admin.setAnnouncement(title, body); 
+                if(results1>0){%>
+                <script type="text/javascript">
+                    alert("Announcement posted successfully.");
+                    window.location.href="ViewDegApplicants.jsp";
+                </script>
+                <%} else{%>
+                <script type="text/javascript">
+                    alert("Problem encountered! Try again.");
+                    window.location.href="ViewDegApplicants.jsp";
+                </script> 
+                <%}
             }
             
             int degCsApplicantsCount=0;

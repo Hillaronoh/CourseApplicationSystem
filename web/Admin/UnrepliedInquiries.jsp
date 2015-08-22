@@ -89,7 +89,18 @@
             if(request.getParameter("post")!=null){
                 String title=request.getParameter("title");
                 String body=request.getParameter("body");
-                int results2=admin.setAnnouncement(title, body); 
+                int results2=admin.setAnnouncement(title, body);
+                if(results2>0){%>
+                <script type="text/javascript">
+                    alert("Announcement posted successfully.");
+                    window.location.href="UnrepliedInquiries.jsp";
+                </script>
+                <%} else{%>
+                <script type="text/javascript">
+                    alert("Problem encountered! Try again.");
+                    window.location.href="unrepliedInquiries.jsp";
+                </script> 
+                <%}
             }
             %>
         
@@ -474,11 +485,24 @@
                                                 if(request.getParameter("send"+check)!=null){
                                                     String reply=request.getParameter("reply");
                                                     int results3=admin.setReply(reply, email, message);
+                                                    if(results3>0){%>
+                                                    <script type="text/javascript">
+                                                        window.location.href="UnrepliedInquiries.jsp"
+                                                    </script>
+                                                    <%} else{%>
+                                                    <script type="text/javascript">
+                                                        alert("A problem was encountered! Try again.");
+                                                        window.location.href="UnrepliedInquiries.jsp"
+                                                    </script>
+                                                    <%}
                                                 }
                                                 if(request.getParameter("ignore"+check)!=null){
                                                     String reply="Ignored";
-                                                    int results3=admin.setIgnore(reply, email, message);
-                                                }
+                                                    int results3=admin.setIgnore(reply, email, message);%>
+                                                    <script type="text/javascript">
+                                                        window.location.href="UnrepliedInquiries.jsp"
+                                                    </script>
+                                                <%}
                                                 check++;
                                                }%>
                                                 

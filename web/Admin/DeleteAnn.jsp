@@ -88,7 +88,18 @@
            if(request.getParameter("post")!=null){
                String title=request.getParameter("title");
                String body=request.getParameter("body");
-               int results1=admin.setAnnouncement(title, body); 
+               int results1=admin.setAnnouncement(title, body);
+               if(results1>0){%>
+                <script type="text/javascript">
+                    alert("Announcement posted successfully.");
+                    window.location.href="DeleteAnn.jsp";
+                </script>
+                <%} else{%>
+                <script type="text/javascript">
+                    alert("Problem encountered! Try again.");
+                    window.location.href="DeleteAnn.jsp";
+                </script> 
+                <%}
             }
                      
            ResultSet rs=Common.getAnnouncements();
