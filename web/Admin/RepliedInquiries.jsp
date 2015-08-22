@@ -298,18 +298,17 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="x_panel">
-                                    <div class="x_title">
-                                        
-                                        <h4>Replied</h4>
-                                        
-                                        <div class="clearfix"></div>
-                                    </div>
+                                   
                                     <div class="x_content">
                                         <br />
-                                        
-                                        
-                                        <table class="table table-bordered">
-                                            <thead>
+                                            
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                Replied
+                                            </div>
+                                            <div class="panel-body">
+                                                <table class="table table-striped table-bordered table-hover" id="inquiries-replied">
+                                                    <thead>
                                                 <tr>
                                                     <th>Id</th>
                                                     <th>Sender</th>
@@ -334,7 +333,7 @@
                                                     <td><%=results1.getString("Sender")%></td>
                                                     <td><%=results1.getString("Message")%></td>
                                                     <td><%=results1.getString("Reply")%></td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm<%=check%>" data-toggle="modal" class="btn btn-primary" style="margin: 0px 0px;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
                                                 
                                             <div class="modal fade" id="deleteConfirm<%=check%>" role="dialog">
@@ -375,7 +374,8 @@
                                             check++;}%>
                                             </tbody>
                                         </table>
-                                        
+                                            </div>
+                                        </div>
                                         
                                     </div>
                                 </div>
@@ -453,9 +453,22 @@
         <!-- Autocomplete -->
         <script type="text/javascript" src="js/autocomplete/countries.js"></script>
         <script src="js/autocomplete/jquery.autocomplete.js"></script>
-        
+            
         <script src="js/custom.js"></script>
-        
+            
+        <!-- DataTables JavaScript -->
+        <script src="js/tables/jquery.dataTables.min.js"></script>
+        <script src="js/tables/dataTables.bootstrap.min.js"></script>
+                
+        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+        <script>
+            $(document).ready(function() {
+                $('#inquiries-replied').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+                
     </body>
     
 </html>

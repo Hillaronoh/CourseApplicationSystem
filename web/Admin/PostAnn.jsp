@@ -42,65 +42,7 @@
     
     
     <body class="nav-md">
-        
-        <%
-            String adminId=new String(); 
-            if(session.getAttribute("adminId")==null||(session.getAttribute("adminId")==""))
-            {
-                
-                response.sendRedirect("../Login.jsp"); 
-
-            }
-            else
-            { 
-                adminId=(String)session.getAttribute("adminId");          
-            }
        
-            %>
-            
-            <%!
-        public class Admin{
-            Connection conn=null;
-            PreparedStatement pst=null;
-            String db="jdbc:mysql:///project1c";
-            String username="root";
-            String password="";
-            
-            public Admin(){
-                try{
-                   conn=DriverManager.getConnection(db,username,password);
-                   pst=conn.prepareStatement("SELECT First_Name FROM registration WHERE Email_Address=? AND Role_id=?");
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-            }
-            
-            public ResultSet getAdmin(String email){
-                ResultSet rs=null;
-                try{
-                  pst.setString(1, email);
-                  pst.setInt(2, 1);
-                  rs=pst.executeQuery();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return rs;
-            }
-        }
-        %>
-        
-        <%
-           Admin admin=new Admin();
-           String firstName=new String();
-           
-           ResultSet results=admin.getAdmin(adminId);
-           
-           if(results.next()){
-               firstName=results.getString("First_Name");
-           }
-        %>
         
         <div class="container body">
             
@@ -185,7 +127,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="images/img.jpg" alt=""><%=firstName%>
+                                        <img src="images/img.jpg" alt="">
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
@@ -302,7 +244,78 @@
                                     </div>
                                     <div class="x_content">
                                         <br />
-                                        content
+                                       
+                                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Rendering engine</th>
+                                            <th>Browser</th>
+                                            <th>Platform(s)</th>
+                                            <th>Engine version</th>
+                                            <th>CSS grade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd gradeX">
+                                            <td>Trident</td>
+                                            <td>Internet Explorer 4.0</td>
+                                            <td>Win 95+</td>
+                                            <td class="center">4</td>
+                                            <td class="center">X</td>
+                                        </tr>
+                                        <tr class="even gradeC">
+                                            <td>Trident</td>
+                                            <td>Internet Explorer 5.0</td>
+                                            <td>Win 95+</td>
+                                            <td class="center">5</td>
+                                            <td class="center">C</td>
+                                        </tr>
+                                        <tr class="odd gradeA">
+                                            <td>Trident</td>
+                                            <td>Internet Explorer 5.5</td>
+                                            <td>Win 95+</td>
+                                            <td class="center">5.5</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="even gradeA">
+                                            <td>Trident</td>
+                                            <td>Internet Explorer 6</td>
+                                            <td>Win 98+</td>
+                                            <td class="center">6</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="odd gradeA">
+                                            <td>Trident</td>
+                                            <td>Internet Explorer 7</td>
+                                            <td>Win XP SP2+</td>
+                                            <td class="center">7</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="even gradeA">
+                                            <td>Trident</td>
+                                            <td>AOL browser (AOL desktop)</td>
+                                            <td>Win XP</td>
+                                            <td class="center">6</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Firefox 1.0</td>
+                                            <td>Win 98+ / OSX.2+</td>
+                                            <td class="center">1.7</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Firefox 1.5</td>
+                                            <td>Win 98+ / OSX.2+</td>
+                                            <td class="center">1.8</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -358,6 +371,20 @@
         <script src="js/autocomplete/jquery.autocomplete.js"></script>
         
         <script src="js/custom.js"></script>
+        
+      
+    <!-- DataTables JavaScript -->
+    <script src="js/tables/jquery.dataTables.min.js"></script>
+    <script src="js/tables/dataTables.bootstrap.min.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+                responsive: true
+        });
+    });
+    </script>
         
     </body>
     

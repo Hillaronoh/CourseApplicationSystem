@@ -297,17 +297,16 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="x_panel">
-                                    <div class="x_title">
-                                        
-                                        <h4>Unreplied</h4>
-                                        
-                                        <div class="clearfix"></div>
-                                    </div>
+                                  
                                     <div class="x_content">
                                         <br />
-                                        
-                                        
-                                        <table class="table table-bordered">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                Unreplied
+                                            </div>
+                                                <div class="panel-body">
+                                                
+                                                <table class="table table-striped table-bordered table-hover" id="inquiries-unreplied">
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
@@ -349,10 +348,10 @@
                                                     <td><%=results1.getString("Sender")%></td>
                                                     <td><%=results1.getString("Message")%></td>
                                                     <td><%=results1.getDate("Sent_Date")%></td>
-                                                    <td style="width: 154px; padding-right: 0px;">
-                                                        <a href="#reply<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;">
+                                                    <td style="width: 170px; padding-right: 0px;">
+                                                        <a href="#reply<%=check%>" data-toggle="modal" class="btn btn-primary" style="margin: 0px 0px;">
                                                             <i class="fa fa-reply">Reply</i></a>
-                                                        <a href="#ignoreConfirm<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -3px; outline: none;">
+                                                        <a href="#ignoreConfirm<%=check%>" data-toggle="modal" class="btn btn-primary" style="margin: 0px 0px;">
                                                             <i class="fa fa-exclamation-circle">Ignore</i></a>
                                                     </td>
                                                 </tr>
@@ -508,7 +507,8 @@
                                                 
                                             </tbody>
                                         </table>
-                                        
+                                                </div>
+                                        </div>
                                         
                                     </div>
                                 </div>
@@ -579,10 +579,21 @@
             <!-- Autocomplete -->
             <script type="text/javascript" src="js/autocomplete/countries.js"></script>
             <script src="js/autocomplete/jquery.autocomplete.js"></script>
-            
+                
             <script src="js/custom.js"></script>
-            
-            
+                
+            <!-- DataTables JavaScript -->
+            <script src="js/tables/jquery.dataTables.min.js"></script>
+            <script src="js/tables/dataTables.bootstrap.min.js"></script>
+        
+            <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+            <script>
+                $(document).ready(function() {
+                    $('#inquiries-unreplied').DataTable({
+                        responsive: true
+                    });
+                });
+            </script>
     </body>
-    
+        
 </html>

@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/hillary/NetBeansProjects/Project1c/src/java/myproject/Applicant.java</file>
-            <file>file:/home/hillary/NetBeansProjects/Project1c/web/Applicants/GetCourses.jsp</file>
-            <file>file:/home/hillary/NetBeansProjects/Project1c/web/Applicants/Details.jsp</file>
-            <file>file:/home/hillary/NetBeansProjects/Project1c/web/Applicants/ApplicationForm.jsp</file>
-            <file>file:/home/hillary/NetBeansProjects/Project1c/web/Applicants/del.jsp</file>
-            <file>file:/home/hillary/NetBeansProjects/Project1c/web/Applicants/delete.jsp</file>
-            <file>file:/home/hillary/NetBeansProjects/Project1c/src/java/myproject/Common.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
