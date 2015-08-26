@@ -102,20 +102,20 @@
                 <%}
             }
             
-            int certCsApplicantsCount=0;
-            ResultSet certCsApplicants=admin.getCertCsApplicants(); 
-            certCsApplicants.next(); 
-            certCsApplicantsCount = certCsApplicants.getInt(1);
+            int certIsApplicantsCount=0;
+            ResultSet certIsApplicants=admin.getCertIsApplicants(); 
+            certIsApplicants.next(); 
+            certIsApplicantsCount = certIsApplicants.getInt(1);
             
             int certItApplicantsCount=0;
             ResultSet certItApplicants=admin.getCertItApplicants(); 
             certItApplicants.next(); 
             certItApplicantsCount = certItApplicants.getInt(1);
             
-            int certInfoApplicantsCount=0;
-            ResultSet certInfoApplicants=admin.getCertInfoApplicants(); 
-            certInfoApplicants.next(); 
-            certInfoApplicantsCount = certInfoApplicants.getInt(1);
+            int certHmApplicantsCount=0;
+            ResultSet certHmApplicants=admin.getCertHmApplicants(); 
+            certHmApplicants.next(); 
+            certHmApplicantsCount = certHmApplicants.getInt(1);
             
             int certCfApplicantsCount=0;
             ResultSet certCfApplicants=admin.getCertCfApplicants(); 
@@ -323,15 +323,6 @@
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
                                                 <div class="left"></div>
                                                 <div class="right">
-                                                    <span class="count_top"><i class="fa fa-users"></i> Computer Science</span>
-                                                    <div class="count"><%=certCsApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
-                                                </div>
-                                            </div>
-                                            <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
-                                                <div class="left"></div>
-                                                <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Information Technology</span>
                                                     <div class="count"><%=certItApplicantsCount%></div>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
@@ -341,8 +332,17 @@
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
                                                 <div class="left"></div>
                                                 <div class="right">
-                                                    <span class="count_top"><i class="fa fa-users"></i> Informatics</span>
-                                                    <div class="count"><%=certInfoApplicantsCount%></div>
+                                                    <span class="count_top"><i class="fa fa-users"></i> Computer Forensics</span>
+                                                    <div class="count"><%=certCfApplicantsCount%></div>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
+                                                </div>
+                                            </div>
+                                            <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
+                                                <div class="left"></div>
+                                                <div class="right">
+                                                    <span class="count_top"><i class="fa fa-users"></i> Information Studies</span>
+                                                    <div class="count"><%=certIsApplicantsCount%></div>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Male</span>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Female</span>
                                                 </div>
@@ -350,8 +350,8 @@
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
                                                 <div class="left"></div>
                                                 <div class="right">
-                                                    <span class="count_top"><i class="fa fa-users"></i> Computer Forensics</span>
-                                                    <div class="count"><%=certCfApplicantsCount%></div>
+                                                    <span class="count_top"><i class="fa fa-users"></i> Hardware Maintenance</span>
+                                                    <div class="count"><%=certHmApplicantsCount%></div>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Male</span>
                                                     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Female</span>
                                                 </div>
@@ -364,30 +364,6 @@
                                     </div>
                                     <div class="x_content">
                                         <br />
-                                        <h4 class="green">Computer Science</h4>                                      
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Email Address</th>
-                                                    <th>First Name</th>
-                                                    <th>Last Name</th>
-                                                    <th>Course Name</th>
-                                                    <th>Course Level</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>ronokip55@gmail.com</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        
                                         <h4 class="green">Information Technology</h4>                                      
                                         <table class="table table-bordered">
                                             <thead>
@@ -412,7 +388,7 @@
                                             </tbody>
                                         </table>
                                         
-                                        <h4 class="green">Informatics</h4>                                      
+                                        <h4 class="green">Computer Forensics</h4>                                      
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -436,7 +412,31 @@
                                             </tbody>
                                         </table>
                                         
-                                        <h4 class="green">Computer Forensics</h4>                                      
+                                        <h4 class="green">Information Studies</h4>                                      
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Email Address</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Course Name</th>
+                                                    <th>Course Level</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>ronokip55@gmail.com</td>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                        <h4 class="green">Hardware Maintenance</h4>                                      
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>

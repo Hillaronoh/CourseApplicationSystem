@@ -60,7 +60,7 @@ public class Applicant {
             pst2=conn.prepareStatement("SELECT First_Name,Middle_Name,Last_Name FROM registration WHERE Email_Address=? AND Role_id=?");
             pst3=conn.prepareStatement("INSERT INTO applicants_details VALUES(?,?,?,?,?,?,?,?,?)");
             pst4=conn.prepareStatement("UPDATE education_background SET Physics_Grade=?, Maths_Grade=?, Subject3_Grade=?, Subject4_Grade=?, Mean_Grade=?, Aggregate_Points=?, Cluster_Points=? WHERE Email_Address=?");
-            pst5=conn.prepareStatement("INSERT INTO course_details VALUES(?,?,?,?,?)");
+            pst5=conn.prepareStatement("INSERT INTO course_details(Email_Address, Level_id, Course_id, Mode_Of_Study, Campus) VALUES(?,?,?,?,?)");
             pst6=conn.prepareStatement("SELECT * FROM campuses");
             pst7=conn.prepareStatement("SELECT * FROM courses WHERE Level_id=?");
             pst8=conn.prepareStatement("SELECT Course_id FROM courses WHERE Course_Name=?");

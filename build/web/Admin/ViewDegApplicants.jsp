@@ -118,6 +118,7 @@
             degCfApplicantsCount = degCfApplicants.getInt(1);
             
             ResultSet rs=admin.displayCsDegApplicants();
+            ResultSet rs2=admin.displayItDegApplicants();
             %>
         
         <div class="container body">
@@ -369,8 +370,8 @@
                                                     <th>Email Address</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
-                                                    <th>Course Name</th>
-                                                    <th>Course Level</th>
+                                                    <th>Cluster Points</th>
+                                                    <th>Rank</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -378,10 +379,10 @@
                                                 <%while(rs.next()){%>
                                                 <tr>
                                                     <td><%=rs.getString("Email_Address")%></td>
-                                                    <td><%=rs.getString("Email_Address")%></td>
-                                                    <td><%=rs.getString("Email_Address")%></td>
+                                                    <td><%=rs.getString("First_Name")%></td>
+                                                    <td><%=rs.getString("Last_Name")%></td>
                                                     <td><%=rs.getDouble("Cluster_Points")%></td>
-                                                    <td><%=rs.getString("rank")%></td>
+                                                    <td><%=rs.getString("Rank")%></td>
                                                     <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
                                                 <%}%>
@@ -395,20 +396,22 @@
                                                     <th>Email Address</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
-                                                    <th>Course Name</th>
-                                                    <th>Course Level</th>
+                                                    <th>Cluster Points</th>
+                                                    <th>Rank</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <%while(rs2.next()){%>
                                                 <tr>
-                                                    <td>ronokip55@gmail.com</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
+                                                    <td><%=rs2.getString("Email_Address")%></td>
+                                                    <td><%=rs2.getString("First_Name")%></td>
+                                                    <td><%=rs2.getString("Last_Name")%></td>
+                                                    <td><%=rs2.getDouble("Cluster_Points")%></td>
+                                                    <td><%=rs2.getString("Rank")%></td>
                                                     <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
+                                                <%}%>
                                             </tbody>
                                         </table>
                                         

@@ -60,6 +60,8 @@ public class Admin {
     PreparedStatement pst26=null;
     //get CS degree applicants for display
     PreparedStatement pst27=null;
+    //get IT degree applicants for display
+    PreparedStatement pst28=null;
     //constructor
     public Admin() throws ClassNotFoundException{
         Common connection=new Common();
@@ -104,21 +106,27 @@ public class Admin {
             //display total number of cert computer science applicants
             pst22=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=1");
             //display total number of cert IT applicants
-            pst23=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=2");
+            pst23=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=5");
             //display total number of cert informatics applicants
-            pst24=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=3");
+            pst24=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=6");
             //display total number of cert computer forensics applicants
             pst25=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=4");
             //deletes announcement
             pst26=conn.prepareStatement("DELETE FROM announcements WHERE id=?");
             //get CS degree applicants for display
-            pst27=conn.prepareStatement("SELECT    Email_Address,\n" +
-"              Physics_Grade,\n" +
-"              Cluster_Points,\n" +
-"              IF(Cluster_Points=@_last_age,@curRank:=@curRank,@curRank:=@_sequence) AS rank,\n" +
-"              @_sequence:=@_sequence+1,@_last_age:=Cluster_Points\n" +
-"    FROM      education_background, (SELECT @curRank := 1, @_sequence:=1, @_last_age:=0) r\n" +
-"     ORDER BY  Cluster_Points DESC;");
+            pst27=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+                    + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=3 AND Course_id=1)+1 AS Rank "
+                    + "FROM applicants_details a, course_details c WHERE c.Level_id=3 AND c.Course_id=1 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
+             pst28=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+                    + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=3 AND Course_id=2)+1 AS Rank "
+                    + "FROM applicants_details a, course_details c WHERE c.Level_id=3 AND c.Course_id=2 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
+            /*pst27=conn.prepareStatement("SELECT    Email_Address,\n" +
+                    "              Physics_Grade,\n" +
+                    "              Cluster_Points,\n" +
+                    "              IF(Cluster_Points=@_last_age,@curRank:=@curRank,@curRank:=@_sequence) AS rank,\n" +
+                    "              @_sequence:=@_sequence+1,@_last_age:=Cluster_Points\n" +
+                    "    FROM      education_background, (SELECT @curRank := 1, @_sequence:=1, @_last_age:=0) r\n" +
+                    "     ORDER BY  Cluster_Points DESC;");*/
         }
         catch(SQLException e)
         {
@@ -372,7 +380,7 @@ public class Admin {
         return rs;
     }
     //display total number of cert computer science applicants
-    public ResultSet getCertCsApplicants(){
+    public ResultSet getCertIsApplicants(){
         ResultSet rs=null;
         try{
             rs=pst22.executeQuery();
@@ -394,7 +402,7 @@ public class Admin {
         return rs;
     }
     //display total number of cert informatics applicants
-    public ResultSet getCertInfoApplicants(){
+    public ResultSet getCertHmApplicants(){
         ResultSet rs=null;
         try{
             rs=pst24.executeQuery();
@@ -432,6 +440,17 @@ public class Admin {
         ResultSet rs=null;
         try{
             rs=pst27.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //display IT degree applicants
+    public ResultSet displayItDegApplicants(){
+        ResultSet rs=null;
+        try{
+            rs=pst28.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
