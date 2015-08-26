@@ -314,7 +314,10 @@
                                                     <input type="text" class="form-control input" id="it" name="it" placeholder="Number of IT applicants"/><br/>
                                                     
                                                     <label for="info">Informatics:</label>
-                                                    <input type="text" class="form-control input" id="info" name="info" placeholder="Number of informatics applicants"/><br/>    
+                                                    <input type="text" class="form-control input" id="info" name="info" placeholder="Number of informatics applicants"/><br/> 
+                                                    
+                                                    <label for="info">Computer Forensics:</label>
+                                                    <input type="text" class="form-control input" id="cf" name="cf" placeholder="Number of computer forensics applicants"/><br/> 
                                                 </div>
                                                 <div class="col-sm-1"></div>
                                                 <div class="col-sm-3 panel panel-default">

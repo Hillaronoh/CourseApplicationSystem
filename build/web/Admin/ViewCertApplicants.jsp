@@ -121,6 +121,11 @@
             ResultSet certCfApplicants=admin.getCertCfApplicants(); 
             certCfApplicants.next(); 
             certCfApplicantsCount = certCfApplicants.getInt(1);
+            
+            ResultSet rs=admin.displayItCertApplicants();
+            ResultSet rs2=admin.displayCfCertApplicants();
+            ResultSet rs3=admin.displayIsCertApplicants();
+            ResultSet rs4=admin.displayHmCertApplicants();
             %>
         
         <div class="container body">
@@ -170,7 +175,7 @@
                                     </li>
                                     <li><a><i class="fa fa-table"></i> Rank Applicants <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
-                                            <li><a href="tables.html">Degree Apllicants</a>
+                                            <li><a href="RankDegApp.jsp">Degree Apllicants</a>
                                             </li>
                                             <li><a href="RankDipApp.jsp">Diploma Applicants</a>
                                             </li>
@@ -364,101 +369,134 @@
                                     </div>
                                     <div class="x_content">
                                         <br />
-                                        <h4 class="green">Information Technology</h4>                                      
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Email Address</th>
-                                                    <th>First Name</th>
-                                                    <th>Last Name</th>
-                                                    <th>Course Name</th>
-                                                    <th>Course Level</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>ronokip55@gmail.com</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
                                         
-                                        <h4 class="green">Computer Forensics</h4>                                      
-                                        <table class="table table-bordered">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="green">  Information Technology</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                        <table class="table table-striped table-bordered table-hover" id="cert-it">
                                             <thead>
                                                 <tr>
                                                     <th>Email Address</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
-                                                    <th>Course Name</th>
-                                                    <th>Course Level</th>
+                                                    <th>Cluster Points</th>
+                                                    <th>Rank</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <%while(rs.next()){%>
                                                 <tr>
-                                                    <td>ronokip55@gmail.com</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
+                                                    <td><%=rs.getString("Email_Address")%></td>
+                                                    <td><%=rs.getString("First_Name")%></td>
+                                                    <td><%=rs.getString("Last_Name")%></td>
+                                                    <td><%=rs.getDouble("Cluster_Points")%></td>
+                                                    <td><%=rs.getString("Rank")%></td>
                                                     <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
+                                                <%}%>
                                             </tbody>
                                         </table>
+                                            </div>
+                                        </div>
+                                            
+                                            <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="green">  Computer Forensics</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                        <table class="table table-striped table-bordered table-hover" id="cert-cf">
+                                            <thead>
+                                                <tr>
+                                                    <th>Email Address</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Cluster Points</th>
+                                                    <th>Rank</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%while(rs2.next()){%>
+                                                <tr>
+                                                    <td><%=rs2.getString("Email_Address")%></td>
+                                                    <td><%=rs2.getString("First_Name")%></td>
+                                                    <td><%=rs2.getString("Last_Name")%></td>
+                                                    <td><%=rs2.getDouble("Cluster_Points")%></td>
+                                                    <td><%=rs2.getString("Rank")%></td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                </tr>
+                                                <%}%>
+                                            </tbody>
+                                        </table>
+                                            </div>
+                                        </div>
                                         
-                                        <h4 class="green">Information Studies</h4>                                      
-                                        <table class="table table-bordered">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="green">  Information Studies</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                        <table class="table table-striped table-bordered table-hover" id="cert-is">
                                             <thead>
                                                 <tr>
                                                     <th>Email Address</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
-                                                    <th>Course Name</th>
-                                                    <th>Course Level</th>
+                                                    <th>Cluster Points</th>
+                                                    <th>Rank</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <%while(rs3.next()){%>
                                                 <tr>
-                                                    <td>ronokip55@gmail.com</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
+                                                    <td><%=rs3.getString("Email_Address")%></td>
+                                                    <td><%=rs3.getString("First_Name")%></td>
+                                                    <td><%=rs3.getString("Last_Name")%></td>
+                                                    <td><%=rs3.getDouble("Cluster_Points")%></td>
+                                                    <td><%=rs3.getString("Rank")%></td>
                                                     <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
+                                                <%}%>
                                             </tbody>
                                         </table>
+                                            </div>
+                                        </div>
                                         
-                                        <h4 class="green">Hardware Maintenance</h4>                                      
-                                        <table class="table table-bordered">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="green">  Hardware Maintenance</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                        <table class="table table-striped table-bordered table-hover" id="cert-hm">
                                             <thead>
                                                 <tr>
                                                     <th>Email Address</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
-                                                    <th>Course Name</th>
-                                                    <th>Course Level</th>
+                                                    <th>Cluster Points</th>
+                                                    <th>Rank</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <%while(rs4.next()){%>
                                                 <tr>
-                                                    <td>ronokip55@gmail.com</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
+                                                    <td><%=rs4.getString("Email_Address")%></td>
+                                                    <td><%=rs4.getString("First_Name")%></td>
+                                                    <td><%=rs4.getString("Last_Name")%></td>
+                                                    <td><%=rs4.getDouble("Cluster_Points")%></td>
+                                                    <td><%=rs4.getString("Rank")%></td>
                                                     <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
+                                                <%}%>
                                             </tbody>
                                         </table>
+                                            </div>
+                                        </div>
                                        
                                     </div>
                                 </div>
@@ -558,6 +596,40 @@
         <script src="js/autocomplete/jquery.autocomplete.js"></script>
         
         <script src="js/custom.js"></script>
+        
+        <!-- DataTables JavaScript -->
+        <script src="js/tables/jquery.dataTables.min.js"></script>
+        <script src="js/tables/dataTables.bootstrap.min.js"></script>
+                
+        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+        <script>
+            $(document).ready(function() {
+                $('#cert-it').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#cert-cf').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#cert-is').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#cert-hm').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
         
     </body>
     

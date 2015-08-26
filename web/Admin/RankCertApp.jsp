@@ -307,14 +307,17 @@
                                             <form class="form-horizontal">
                                                 <div class="col-sm-5 panel panel-default" style="padding: 15px 15px;">
                                                     <fieldset> <legend>Specify the number of applicants as follows:</legend></fieldset>
-                                                    <label for="cs">Computer Science:</label>
-                                                    <input type="text" class="form-control input" id="cs" name="cs" placeholder="Number of computer science applicants"/><br/>
-                                                    
                                                     <label for="it">Information Technology:</label>
                                                     <input type="text" class="form-control input" id="it" name="it" placeholder="Number of IT applicants"/><br/>
                                                     
-                                                    <label for="info">Informatics:</label>
-                                                    <input type="text" class="form-control input" id="info" name="info" placeholder="Number of informatics applicants"/><br/>    
+                                                    <label for="cf">Computer Forensics:</label>
+                                                    <input type="text" class="form-control input" id="cf" name="cf" placeholder="Number of computer forensics applicants"/><br/>
+                                                    
+                                                    <label for="is">Information Studies:</label>
+                                                    <input type="text" class="form-control input" id="is" name="is" placeholder="Number of information studies applicants"/><br/> 
+                                                    
+                                                    <label for="hm">Hardware Maintenance:</label>
+                                                    <input type="text" class="form-control input" id="hm" name="hm" placeholder="Number of hardware maintenance applicants"/><br/> 
                                                 </div>
                                                 <div class="col-sm-1"></div>
                                                 <div class="col-sm-3 panel panel-default">

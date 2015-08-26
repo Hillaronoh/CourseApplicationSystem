@@ -116,6 +116,11 @@
             ResultSet dipCfApplicants=admin.getDipCfApplicants(); 
             dipCfApplicants.next(); 
             dipCfApplicantsCount = dipCfApplicants.getInt(1);
+            
+            ResultSet rs=admin.displayCsDipApplicants();
+            ResultSet rs2=admin.displayItDipApplicants();
+            ResultSet rs3=admin.displayInfoDipApplicants();
+            ResultSet rs4=admin.displayCfDipApplicants();
             %>
         
         <div class="container body">
@@ -360,44 +365,133 @@
                                     <div class="x_content">
                                         <br />
                                         
-                                        <table class="table table-bordered">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="green">  Computer Science</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                        <table class="table table-striped table-bordered table-hover" id="dip-cs">
                                             <thead>
                                                 <tr>
                                                     <th>Email Address</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
-                                                    <th>Course Name</th>
-                                                    <th>Course Level</th>
+                                                    <th>Cluster Points</th>
+                                                    <th>Rank</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <%while(rs.next()){%>
                                                 <tr>
-                                                    <td>ronokip55@gmail.com</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
+                                                    <td><%=rs.getString("Email_Address")%></td>
+                                                    <td><%=rs.getString("First_Name")%></td>
+                                                    <td><%=rs.getString("Last_Name")%></td>
+                                                    <td><%=rs.getDouble("Cluster_Points")%></td>
+                                                    <td><%=rs.getString("Rank")%></td>
                                                     <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
-                                                <tr>
-                                                    <td>ronokip55@gmail.com</td>
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>ronokip55@gmail.com</td>
-                                                    <td>Larry</td>
-                                                    <td>the Bird</td>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
-                                                </tr>
+                                                <%}%>
                                             </tbody>
                                         </table>
+                                            </div>
+                                        </div>
+                                            
+                                            <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="green">  Information Technology</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                        <table class="table table-striped table-bordered table-hover" id="dip-it">
+                                            <thead>
+                                                <tr>
+                                                    <th>Email Address</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Cluster Points</th>
+                                                    <th>Rank</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%while(rs2.next()){%>
+                                                <tr>
+                                                    <td><%=rs2.getString("Email_Address")%></td>
+                                                    <td><%=rs2.getString("First_Name")%></td>
+                                                    <td><%=rs2.getString("Last_Name")%></td>
+                                                    <td><%=rs2.getDouble("Cluster_Points")%></td>
+                                                    <td><%=rs2.getString("Rank")%></td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                </tr>
+                                                <%}%>
+                                            </tbody>
+                                        </table>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="green">  Informatics</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                        <table class="table table-striped table-bordered table-hover" id="dip-info">
+                                            <thead>
+                                                <tr>
+                                                    <th>Email Address</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Cluster Points</th>
+                                                    <th>Rank</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%while(rs3.next()){%>
+                                                <tr>
+                                                    <td><%=rs3.getString("Email_Address")%></td>
+                                                    <td><%=rs3.getString("First_Name")%></td>
+                                                    <td><%=rs3.getString("Last_Name")%></td>
+                                                    <td><%=rs3.getDouble("Cluster_Points")%></td>
+                                                    <td><%=rs3.getString("Rank")%></td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                </tr>
+                                                <%}%>
+                                            </tbody>
+                                        </table>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="green">  Computer Forensics</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                        <table class="table table-striped table-bordered table-hover" id="dip-cf">
+                                            <thead>
+                                                <tr>
+                                                    <th>Email Address</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Cluster Points</th>
+                                                    <th>Rank</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%while(rs4.next()){%>
+                                                <tr>
+                                                    <td><%=rs4.getString("Email_Address")%></td>
+                                                    <td><%=rs4.getString("First_Name")%></td>
+                                                    <td><%=rs4.getString("Last_Name")%></td>
+                                                    <td><%=rs4.getDouble("Cluster_Points")%></td>
+                                                    <td><%=rs4.getString("Rank")%></td>
+                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                </tr>
+                                                <%}%>
+                                            </tbody>
+                                        </table>
+                                            </div>
+                                        </div>
                                         
                                     </div>
                                 </div>
@@ -498,6 +592,40 @@
         <script src="js/autocomplete/jquery.autocomplete.js"></script>
         
         <script src="js/custom.js"></script>
+        
+         <!-- DataTables JavaScript -->
+        <script src="js/tables/jquery.dataTables.min.js"></script>
+        <script src="js/tables/dataTables.bootstrap.min.js"></script>
+                
+        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+        <script>
+            $(document).ready(function() {
+                $('#dip-cs').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#dip-it').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#dip-info').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#dip-cf').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
         
     </body>
     
