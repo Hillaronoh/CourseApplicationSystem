@@ -100,6 +100,47 @@
                 </script> 
                 <%}
             }
+            
+            if(request.getParameter("rank")!=null){
+                int levelId=5;
+                int courseIdIt=2;
+                int courseIdCf=4;
+                int courseIdIs=5;
+                int courseIdHm=6;
+                int requiredNumberIt=Integer.parseInt(request.getParameter("it"));
+                int requiredNumberCf=Integer.parseInt(request.getParameter("cf"));
+                int requiredNumberIs=Integer.parseInt(request.getParameter("is"));
+                int requiredNumberHm=Integer.parseInt(request.getParameter("hm"));
+                int r1=admin.ranking(levelId, courseIdIt, requiredNumberIt);
+                int r2=admin.ranking(levelId, courseIdCf, requiredNumberCf);
+                int r3=admin.ranking(levelId, courseIdIs, requiredNumberIs);
+                int r4=admin.ranking(levelId, courseIdHm, requiredNumberHm);
+                if(r1>0&&r2>0&&r3>0&&r4>0){%>
+                <script>
+                    alert("Ranking Successful");
+                    window.location.href="RankCertApp.jsp";
+                </script>
+                <%}else{%>
+                <script>
+                    alert("Problem encountered! Try again.");
+                    window.location.href="RankCertApp.jsp";
+                </script>  
+                <%}
+            }
+            if(request.getParameter("undo")!=null){
+                int r=admin.undoRanking(5);
+                if(r>0){%>
+                <script>
+                    alert("Ranking undone successfully.");
+                    window.location.href="RankCertApp.jsp";
+                </script>
+                <%}else{%>
+                <script>
+                    alert("Problem encountered! Try again.");
+                    window.location.href="RankCertSApp.jsp";
+                </script>  
+                <%}
+            }
             %>
         
         <div class="container body">
@@ -308,23 +349,23 @@
                                                 <div class="col-sm-5 panel panel-default" style="padding: 15px 15px;">
                                                     <fieldset> <legend>Specify the number of applicants as follows:</legend></fieldset>
                                                     <label for="it">Information Technology:</label>
-                                                    <input type="text" class="form-control input" id="it" name="it" placeholder="Number of IT applicants"/><br/>
+                                                    <input type="number" class="form-control input" id="it" name="it" placeholder="Number of IT applicants"/><br/>
                                                     
                                                     <label for="cf">Computer Forensics:</label>
-                                                    <input type="text" class="form-control input" id="cf" name="cf" placeholder="Number of computer forensics applicants"/><br/>
+                                                    <input type="number" class="form-control input" id="cf" name="cf" placeholder="Number of computer forensics applicants"/><br/>
                                                     
                                                     <label for="is">Information Studies:</label>
-                                                    <input type="text" class="form-control input" id="is" name="is" placeholder="Number of information studies applicants"/><br/> 
+                                                    <input type="number" class="form-control input" id="is" name="is" placeholder="Number of information studies applicants"/><br/> 
                                                     
                                                     <label for="hm">Hardware Maintenance:</label>
-                                                    <input type="text" class="form-control input" id="hm" name="hm" placeholder="Number of hardware maintenance applicants"/><br/> 
+                                                    <input type="number" class="form-control input" id="hm" name="hm" placeholder="Number of hardware maintenance applicants"/><br/> 
                                                 </div>
                                                 <div class="col-sm-1"></div>
                                                 <div class="col-sm-3 panel panel-default">
                                                     <fieldset> <legend>Actions</legend></fieldset>
-                                                    <button type="submit" class="btn btn-success btn-block"><i class="fa fa-check-square-o"></i>Rank</button><br/>
-                                                    <button type="reset" class="btn btn-info btn-block"><i class="fa fa-close"></i>Reset</button><br/>
-                                                    <button type="submit" class="btn btn-danger btn-block"><i class="fa fa-undo"></i>Undo Ranking</button><br/>
+                                                    <button type="submit" class="btn btn-success btn-block" name="rank"><i class="fa fa-check-square-o"></i>Rank</button><br/>
+                                                    <button type="reset" class="btn btn-info btn-block" name="reset"><i class="fa fa-close"></i>Reset</button><br/>
+                                                    <button type="submit" class="btn btn-danger btn-block" name="undo"><i class="fa fa-undo"></i>Undo Ranking</button><br/>
                                                 </div>
                                                 <div class="col-sm-1"></div>
                                                 <div class="col-sm-2 panel panel-default">

@@ -82,6 +82,10 @@ public class Admin {
     PreparedStatement pst37=null;
     //get HM cert applicants for display
     PreparedStatement pst38=null;
+    //rank applicants
+    PreparedStatement pst39=null;
+    //undo ranking
+    PreparedStatement pst40=null;
     //constructor
     public Admin() throws ClassNotFoundException{
         Common connection=new Common();
@@ -181,6 +185,11 @@ public class Admin {
             pst38=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=5 AND Course_id=6)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=5 AND c.Course_id=6 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
+            //rank applicants
+            pst39=conn.prepareStatement("INSERT INTO ranking VALUES(?,?,?)");
+            //undo ranking
+            pst40=conn.prepareStatement("DELETE FROM ranking WHERE Level_id=?");
+           
             /*pst27=conn.prepareStatement("SELECT    Email_Address,\n" +
             "              Physics_Grade,\n" +
             "              Cluster_Points,\n" +
@@ -627,5 +636,31 @@ public class Admin {
             e.printStackTrace(System.out);
         }
         return rs;
+    }
+    //ranking
+    public int ranking(int levelId, int crsId, int requiredNumber){
+        int i=0;
+        try{
+        pst39.setInt(1, levelId);
+        pst39.setInt(2, crsId);
+        pst39.setInt(3, requiredNumber);
+        i=pst39.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return i;
+    }
+    //undo ranking
+    public int undoRanking(int levelId){
+        int i=0;
+        try{
+        pst40.setInt(1, levelId);
+        i=pst40.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return i;
     }
 }
