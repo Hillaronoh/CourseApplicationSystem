@@ -4,7 +4,7 @@
     Author     : Kipngetich
 --%>
 <%@page import="java.sql.*" %>
-<%Class.forName("com.mysql.jdbc.Driver");%>
+<%@page import="myproject.*"%> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -40,51 +40,21 @@
             }
        
         %>
-        
-        <%!
-        public class Applicant{
-            Connection conn=null;
-            PreparedStatement pst=null;
-            String db="jdbc:mysql:///project1c";
-            String username="root";
-            String password="";
-            
-            public Applicant(){
-                try{
-                   conn=DriverManager.getConnection(db,username,password);
-                   pst=conn.prepareStatement("SELECT First_Name, Last_Name FROM registration WHERE Email_Address=? AND Role_id=?");
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-            }
-            
-            public ResultSet getApplicant(String email){
-                ResultSet rs=null;
-                try{
-                  pst.setString(1, email);
-                  pst.setInt(2, 2);
-                  rs=pst.executeQuery();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return rs;
-            }
-        }
-        %>
-        
+      
         <%
            Applicant user=new Applicant();
            String firstName=new String();
            String lastName=new String();
            
-           ResultSet results=user.getApplicant(applicantId);
+           ResultSet results=user.getApplicantDetails(applicantId);
            
            if(results.next()){
                firstName=results.getString("First_Name");
                lastName=results.getString("Last_Name");
            }
+           
+           ResultSet confirmRanking=user.confirmRanking();
+           ResultSet crs=user.getCourseDetails(applicantId);
         %>
            
         <jsp:include page="Header.jsp"></jsp:include>
@@ -158,8 +128,234 @@
                         <h4 class="modal-title">Application Status</h4>
                     </div>
                     <div class="modal-body">
-                        <p>You successfully secured a placement in bachelor of science in computer science
-                        </p>
+                        <%if(!confirmRanking.next()){%>
+                        <p><strong class="red">Status not found!</strong><br/>Keep checking.</p>
+                        <%} else{%>
+                        <h4>You qualify for:</h4>
+                            <%int li=0;
+                            int ci=0;
+                            int rank=0;
+                        while(crs.next()){
+                            li=crs.getInt("Level_id");
+                            ci=crs.getInt("Course_id");
+                            if(li==3&&ci==1){
+                                ResultSet getrank=user.getDegCsRank(applicantId); 
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                                  <p><%=ln.getString("Level_Name")%> in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                            if(li==3&&ci==2){
+                                ResultSet getrank=user.getDegItRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                        <p><%=ln.getString("Level_Name")%> in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                            if(li==3&&ci==3){
+                                ResultSet getrank=user.getDegInfoRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                        <p><%=ln.getString("Level_Name")%> <%=rank%>in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                            if(li==3&&ci==4){
+                                ResultSet getrank=user.getDegCfRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                        <p><%=ln.getString("Level_Name")%> <%=rank%>in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                            if(li==4&&ci==1){
+                                ResultSet getrank=user.getDipCsRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                        <p><%=ln.getString("Level_Name")%> <%=rank%>in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                            if(li==4&&ci==2){
+                                ResultSet getrank=user.getDipItRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                        <p><%=ln.getString("Level_Name")%> <%=rank%>in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                            if(li==4&&ci==3){ 
+                                ResultSet getrank=user.getDipInfoRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                        <p><%=ln.getString("Level_Name")%> in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                            if(li==4&&ci==4){ 
+                                ResultSet getrank=user.getDipCfRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                        <p><%=ln.getString("Level_Name")%> in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                            if(li==5&&ci==2){ 
+                                ResultSet getrank=user.getCertItRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                        <p><%=ln.getString("Level_Name")%> in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                            if(li==5&&ci==4){ 
+                                ResultSet getrank=user.getCertCfRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                        <p><%=ln.getString("Level_Name")%> in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                            if(li==5&&ci==5){ 
+                                ResultSet getrank=user.getCertIsRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                        <p><%=ln.getString("Level_Name")%> in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                            if(li==5&&ci==6){ 
+                                ResultSet getrank=user.getCertHmRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      ResultSet crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ResultSet ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                  %>
+                        <p><%=ln.getString("Level_Name")%> in <%=crn.getString("Course_Name")%></p>
+                                 <%}else{%>
+                                       <p>nnnn</p>
+                                  <% }
+                                }
+                            }
+                            
+                           }
+                        }%>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">close</button>

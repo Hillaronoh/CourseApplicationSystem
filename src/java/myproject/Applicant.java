@@ -49,6 +49,34 @@ public class Applicant {
     PreparedStatement pst28=null;
     //change pwd
     PreparedStatement pst29=null;
+    //confirm ranking
+    PreparedStatement pst30=null;
+    //degree cs vet
+    PreparedStatement pst31=null;
+    //degree it vet
+    PreparedStatement pst33=null;
+    //degree informatics vet
+    PreparedStatement pst34=null;
+    //degree cf vet
+    PreparedStatement pst35=null;
+    //diploma cs vet
+    PreparedStatement pst36=null;
+    //diploma it vet
+    PreparedStatement pst37=null;
+    //diploma informatics vet
+    PreparedStatement pst38=null;
+    //diploma cf vet
+    PreparedStatement pst39=null;
+    //cert it vet
+    PreparedStatement pst40=null;
+    //cert cf vet
+    PreparedStatement pst41=null;
+    //cert is vet
+    PreparedStatement pst42=null;
+    //cert hm vet
+    PreparedStatement pst43=null;
+    //compare ranks
+    PreparedStatement pst32=null;
     //constructor
     public Applicant() throws ClassNotFoundException{
         Common connection=new Common();
@@ -90,6 +118,34 @@ public class Applicant {
             pst28=conn.prepareStatement("SELECT * FROM inquiries WHERE Sender=?");
             //change pwd
             pst29=conn.prepareStatement("UPDATE registration SET Password=? WHERE Email_Address=? AND Password=?");
+            //confirm ranking
+            pst30=conn.prepareStatement("SELECT * FROM ranking");
+            //degree cs vet
+            pst31=conn.prepareStatement("SELECT * FROM degree_cs WHERE Email_Address=?");
+            //degree it vet
+            pst33=conn.prepareStatement("SELECT * FROM degree_it WHERE Email_Address=?");
+            //degree informatics vet
+            pst34=conn.prepareStatement("SELECT * FROM degree_informatics WHERE Email_Address=?");
+            //degree cf vet
+            pst35=conn.prepareStatement("SELECT * FROM degree_cf WHERE Email_Address=?");
+            //diploma cs vet
+            pst36=conn.prepareStatement("SELECT * FROM dip_cs WHERE Email_Address=?");
+            //diploma it vet
+            pst37=conn.prepareStatement("SELECT * FROM dip_it WHERE Email_Address=?");
+            //diploma informatics vet
+            pst38=conn.prepareStatement("SELECT * FROM dip_informatics WHERE Email_Address=?");
+            //diploma cf vet
+            pst39=conn.prepareStatement("SELECT * FROM dip_cf WHERE Email_Address=?");
+            //cert it vet
+            pst40=conn.prepareStatement("SELECT * FROM cert_it WHERE Email_Address=?");
+            //cert cf vet
+            pst41=conn.prepareStatement("SELECT * FROM cert_cf WHERE Email_Address=?");
+            //cert is vet
+            pst42=conn.prepareStatement("SELECT * FROM cert_is WHERE Email_Address=?");
+            //cert hm vet
+            pst43=conn.prepareStatement("SELECT * FROM cert_hm WHERE Email_Address=?");
+            //compare ranks
+            pst32=conn.prepareStatement("SELECT * FROM ranking WHERE Level_id=? AND Course_id=? AND Required_Number>=?");
         }catch(SQLException e){
             e.printStackTrace(System.out);
         }
@@ -509,5 +565,174 @@ public class Applicant {
            e.printStackTrace(System.out);
        }
        return i;
+    }
+    //confirm ranking
+    public ResultSet confirmRanking(){
+        ResultSet rs=null;
+        try{
+           rs=pst30.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get degree cs rank
+    public ResultSet getDegCsRank(String email){
+        ResultSet rs=null;
+        try{
+            pst31.setString(1, email); 
+            rs=pst31.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get degree it rank
+    public ResultSet getDegItRank(String email){
+        ResultSet rs=null;
+        try{
+            pst33.setString(1, email); 
+            rs=pst33.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get degree informatics rank
+    public ResultSet getDegInfoRank(String email){
+        ResultSet rs=null;
+        try{
+            pst34.setString(1, email); 
+            rs=pst34.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get degree cf rank
+    public ResultSet getDegCfRank(String email){
+        ResultSet rs=null;
+        try{
+            pst35.setString(1, email); 
+            rs=pst35.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get diploma cs rank
+    public ResultSet getDipCsRank(String email){
+        ResultSet rs=null;
+        try{
+            pst36.setString(1, email); 
+            rs=pst36.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get diploma it rank
+    public ResultSet getDipItRank(String email){
+        ResultSet rs=null;
+        try{
+            pst37.setString(1, email); 
+            rs=pst37.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get diploma informatics rank
+    public ResultSet getDipInfoRank(String email){
+        ResultSet rs=null;
+        try{
+            pst38.setString(1, email); 
+            rs=pst38.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get diploma cf rank
+    public ResultSet getDipCfRank(String email){
+        ResultSet rs=null;
+        try{
+            pst39.setString(1, email); 
+            rs=pst39.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get cert it rank
+    public ResultSet getCertItRank(String email){
+        ResultSet rs=null;
+        try{
+            pst40.setString(1, email); 
+            rs=pst40.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get cert cf rank
+    public ResultSet getCertCfRank(String email){
+        ResultSet rs=null;
+        try{
+            pst41.setString(1, email); 
+            rs=pst41.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get cert is rank
+    public ResultSet getCertIsRank(String email){
+        ResultSet rs=null;
+        try{
+            pst42.setString(1, email); 
+            rs=pst42.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get cert hm rank
+    public ResultSet getCertHmRank(String email){
+        ResultSet rs=null;
+        try{
+            pst43.setString(1, email); 
+            rs=pst43.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //compare ranks
+    public ResultSet compareRank(int levelId, int courseId, int rank){
+        ResultSet rs=null;
+        try{
+            pst32.setInt(1, levelId);
+            pst32.setInt(2, courseId);
+            pst32.setInt(3, rank);
+            rs=pst32.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
     }
 }
