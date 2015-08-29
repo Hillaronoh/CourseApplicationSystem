@@ -137,7 +137,7 @@
                 <%}else{%>
                 <script>
                     alert("Problem encountered! Try again.");
-                    window.location.href="RankCertSApp.jsp";
+                    window.location.href="RankCertApp.jsp";
                 </script>  
                 <%}
             }

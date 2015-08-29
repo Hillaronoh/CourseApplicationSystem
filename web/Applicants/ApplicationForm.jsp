@@ -96,6 +96,7 @@
                  
             <%
             Applicant user=new Applicant();
+            Applicant user2=new Applicant();
             String firstName=new String();
             String middleName=new String();
             String lastName=new String();
@@ -110,6 +111,10 @@
             ResultSet check1=user.checkSectionA(applicantId);
             ResultSet check2=user.checkSectionB(applicantId);
             ResultSet check3=user.checkSectionC(applicantId);
+            
+            ResultSet confirmRanking=user.confirmRanking();
+            ResultSet crs=user.getCourseDetails(applicantId);
+            ResultSet crs2=user2.getCourseDetails(applicantId);
             %>
         
             <jsp:include page="Header.jsp"></jsp:include>
@@ -417,7 +422,7 @@
                                                                     
                                                                 <div class="form-group col-sm-4">
                                                                     <label for="aggregatePoints">K.C.S.E Aggregate Points:<span style="color:red"> *</span></label>
-                                                                    <input type="text" class="form-control input" id="aggregatePoints" name="aggregatePoints" placeholder="Total Aggregate Points"/>
+                                                                    <input type="number" class="form-control input" id="aggregatePoints" name="aggregatePoints" placeholder="Total Aggregate Points"/>
                                                                 </div>
                                                             </div>
                                                                 
@@ -586,22 +591,398 @@
                     </div>
                 </div>
                 <div class="modal fade" id="ApplicationStatus" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Application Status</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>You successfully secured a placement in bachelor of science in computer science
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">close</button>
-                            </div>
-                        </div>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Application Status</h4>
+                    </div>
+                    <div class="modal-body">
+                        <%if(!crs2.next()){%>
+                        <h4 class="alert alert-danger">Status not found!<br/>Please Apply a course of your choice now.</h4> 
+                        <%} else{%>
+                        <%if(!confirmRanking.next()){%>
+                        <h4 class="alert alert-danger">Status not found!<br/>Results not yet out, Keep checking.</h4>
+                        <%} else{%>
+                        <h4 class="alert alert-info">Check Carefully on the table below;</h4>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Course Level</th>
+                                    <th>Course Name</th>
+                                    <th>Application Status</th>
+                                    <th>Comment</th>
+                                </tr>
+                            </thead>
+                            <%
+                            int li=0;
+                            int ci=0;
+                            int rank=0;
+                            int i=0;
+                            String[] levels=new String[12];
+                            String[] names=new String[12];
+                            String[] status=new String[12];
+                            String[] comments=new String[12];
+                            ResultSet crn=null;
+                            ResultSet ln=null;
+                        while(crs.next()){ 
+                            li=crs.getInt("Level_id");
+                            ci=crs.getInt("Course_id");
+                           
+                            if(li==3&&ci==1){
+                                ResultSet getrank=user.getDegCsRank(applicantId);
+                                
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                      comments[i]="Congratulation! Download a confirmation slip sent to your email.";
+                                 }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                       } 
+                                }
+                                i++;
+                            }
+                            
+                            if(li==3&&ci==2){
+                                ResultSet getrank=user.getDegItRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next(); 
+                                      ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                      comments[i]="Congratulation! Download a confirmation slip sent to your email.";
+                                  }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                  }
+                                }
+                                i++; 
+                            }
+                            
+                            if(li==3&&ci==3){
+                                ResultSet getrank=user.getDegInfoRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                      comments[i]="Congratulation! Download a confirmation slip sent to your email.";
+                                  }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                  }
+                                }
+                                i++;
+                            }
+                            
+                            if(li==3&&ci==4){
+                                ResultSet getrank=user.getDegCfRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                      comments[i]="Congratulation! Download a confirmation slip sent to your email.";
+                                 }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                  }
+                                }
+                                i++;
+                            }
+                            
+                            if(li==4&&ci==1){
+                                ResultSet getrank=user.getDipCsRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                 }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                   }
+                                }
+                                i++;
+                            }
+                            
+                            if(li==4&&ci==2){
+                                ResultSet getrank=user.getDipItRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                      comments[i]="Congratulation! Download a confirmation slip sent to your email.";
+                                  }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                  }
+                                }
+                                i++;
+                            }
+                            
+                            if(li==4&&ci==3){ 
+                                ResultSet getrank=user.getDipInfoRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                      comments[i]="Congratulation! Download a confirmation slip sent to your email.";
+                                  }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                   }
+                                }
+                                i++;
+                            }
+                            
+                            if(li==4&&ci==4){ 
+                                ResultSet getrank=user.getDipCfRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                      comments[i]="Congratulation! Download a confirmation slip sent to your email.";
+                                  }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                   }
+                                }
+                                i++;
+                            }
+                            
+                            if(li==5&&ci==2){ 
+                                ResultSet getrank=user.getCertItRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                      comments[i]="Congratulation! Download a confirmation slip sent to your email.";
+                                  }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                   }
+                                }
+                                i++;
+                            }
+                            
+                            if(li==5&&ci==4){ 
+                                ResultSet getrank=user.getCertCfRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                      comments[i]="Congratulation! Download a confirmation slip sent to your email.";
+                                  }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                  }
+                                }
+                                i++;
+                            }
+                            
+                            if(li==5&&ci==5){ 
+                                ResultSet getrank=user.getCertIsRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ln=user.getLevelName(compare.getInt("Level_id")); 
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                      comments[i]="Congratulation! Download a confirmation slip sent to your email.";
+                                  }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                  }
+                                }
+                                i++;
+                            }
+                            
+                            if(li==5&&ci==6){ 
+                                ResultSet getrank=user.getCertHmRank(applicantId);
+                                if(getrank.next()){
+                                   rank=getrank.getInt("Rank");
+                                   ResultSet compare=user.compareRank(li, ci, rank); 
+                                   if(compare.next()){ 
+                                      crn=user.getCourseName(compare.getInt("Course_id"));
+                                      crn.next();
+                                      ln=user.getLevelName(compare.getInt("Level_id"));
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Successful";
+                                      comments[i]="Congratulation! Download a confirmation slip sent to your email.";
+                                  }else{
+                                      crn=user.getCourseName(ci);
+                                      crn.next();
+                                      ln=user.getLevelName(li);
+                                      ln.next();
+                                      levels[i]=ln.getString("Level_Name");
+                                      names[i]=crn.getString("Course_Name");
+                                      status[i]="Application Not Successful";
+                                      comments[i]="Thanks for your application.";
+                                  }
+                                }
+                                i++;
+                            }
+                           }%>
+                           <% --i;
+                        while(i>=0){%>
+                           <tr>
+                               <td><%=levels[i]%></td> 
+                               <td><%=names[i]%></td>
+                               <td><%=status[i]%></td>
+                               <td><%=comments[i]%></td>
+                           </tr>
+                           <%i--;}%>
+                        </table>
+                        <%}}%>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">close</button>
                     </div>
                 </div>
+            </div>
+        </div>
                 <!-- Core Scripts - Include with every page -->
                 <script src="assets/plugins/jquery-1.10.2.js"></script>
                 <script src="assets/plugins/bootstrap/bootstrap.min.js"></script>

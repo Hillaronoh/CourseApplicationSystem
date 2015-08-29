@@ -77,6 +77,8 @@ public class Applicant {
     PreparedStatement pst43=null;
     //compare ranks
     PreparedStatement pst32=null;
+    //get courses while checking cluster limit
+    PreparedStatement pst44=null;
     //constructor
     public Applicant() throws ClassNotFoundException{
         Common connection=new Common();
@@ -146,6 +148,8 @@ public class Applicant {
             pst43=conn.prepareStatement("SELECT * FROM cert_hm WHERE Email_Address=?");
             //compare ranks
             pst32=conn.prepareStatement("SELECT * FROM ranking WHERE Level_id=? AND Course_id=? AND Required_Number>=?");
+            //get courses while checking cluster limit
+            pst44=conn.prepareStatement("SELECT * FROM courses WHERE Level_id=? and Cluster_Limit<=?");
         }catch(SQLException e){
             e.printStackTrace(System.out);
         }
@@ -729,6 +733,19 @@ public class Applicant {
             pst32.setInt(2, courseId);
             pst32.setInt(3, rank);
             rs=pst32.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get courses while checking cluster limit
+    public ResultSet getCoursesOverClusterLimit(int levelId, double clusterPoints){
+        ResultSet rs=null;
+        try{
+            pst44.setInt(1, levelId);
+            pst44.setDouble(2, clusterPoints);
+            rs=pst44.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
