@@ -121,6 +121,42 @@
             ResultSet rs2=admin.displayItDipApplicants();
             ResultSet rs3=admin.displayInfoDipApplicants();
             ResultSet rs4=admin.displayCfDipApplicants();
+            
+            int dipCsMaleCount=0;
+            ResultSet dipCsMales=admin.displayGenderPerLevelAndCourse("Male", 4, 1);
+            dipCsMales.next();  
+            dipCsMaleCount = dipCsMales.getInt(1);
+            int dipCsFemaleCount=0;
+            ResultSet dipCsFemales=admin.displayGenderPerLevelAndCourse("Female", 4, 1);
+            dipCsFemales.next(); 
+            dipCsFemaleCount = dipCsFemales.getInt(1);
+                    
+            int dipItMaleCount=0;
+            ResultSet dipItMales=admin.displayGenderPerLevelAndCourse("Male", 4, 2);
+            dipItMales.next(); 
+            dipItMaleCount = dipItMales.getInt(1);
+            int dipItFemaleCount=0;
+            ResultSet dipItFemales=admin.displayGenderPerLevelAndCourse("Female", 4, 2);
+            dipItFemales.next(); 
+            dipItFemaleCount = dipItFemales.getInt(1);
+            
+            int dipInfoMaleCount=0;
+            ResultSet dipInfoMales=admin.displayGenderPerLevelAndCourse("Male", 4, 3);
+            dipInfoMales.next(); 
+            dipInfoMaleCount = dipInfoMales.getInt(1);
+            int dipInfoFemaleCount=0;
+            ResultSet dipInfoFemales=admin.displayGenderPerLevelAndCourse("Female", 4, 3);
+            dipInfoFemales.next(); 
+            dipInfoFemaleCount = dipInfoFemales.getInt(1);
+            
+            int dipCfMaleCount=0;
+            ResultSet dipCfMales=admin.displayGenderPerLevelAndCourse("Male", 4, 4);
+            dipCfMales.next(); 
+            dipCfMaleCount = dipCfMales.getInt(1);
+            int dipCfFemaleCount=0;
+            ResultSet dipCfFemales=admin.displayGenderPerLevelAndCourse("Female", 4, 4);
+            dipCfFemales.next(); 
+            dipCfFemaleCount = dipCfFemales.getInt(1);
             %>
         
         <div class="container body">
@@ -308,7 +344,7 @@
                         
                         <div class="page-title">
                             <div class="title_left">
-                                <h3>Degree Applicants</h3>
+                                <h3>Diploma Applicants</h3>
                             </div>
                             
                         </div>
@@ -325,8 +361,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Computer Science</span>
                                                     <div class="count"><%=dipCsApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=dipCsMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=dipCsFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -334,8 +370,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Information Technology</span>
                                                     <div class="count"><%=dipItApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=dipItMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=dipItFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -343,8 +379,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Informatics</span>
                                                     <div class="count"><%=dipInfoApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=dipInfoMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=dipInfoFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -352,8 +388,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Computer Forensics</span>
                                                     <div class="count"><%=dipCfApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=dipCfMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=dipCfFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                         </div>

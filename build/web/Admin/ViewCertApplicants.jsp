@@ -126,6 +126,42 @@
             ResultSet rs2=admin.displayCfCertApplicants();
             ResultSet rs3=admin.displayIsCertApplicants();
             ResultSet rs4=admin.displayHmCertApplicants();
+            
+            int certItMaleCount=0;
+            ResultSet certItMales=admin.displayGenderPerLevelAndCourse("Male", 5, 2);
+            certItMales.next();  
+            certItMaleCount = certItMales.getInt(1);
+            int certItFemaleCount=0;
+            ResultSet certItFemales=admin.displayGenderPerLevelAndCourse("Female", 5, 2);
+            certItFemales.next(); 
+            certItFemaleCount = certItFemales.getInt(1);
+                    
+            int certCfMaleCount=0;
+            ResultSet certCfMales=admin.displayGenderPerLevelAndCourse("Male", 5, 4);
+            certCfMales.next(); 
+            certCfMaleCount = certCfMales.getInt(1);
+            int certCfFemaleCount=0;
+            ResultSet certCfFemales=admin.displayGenderPerLevelAndCourse("Female", 5, 4);
+            certCfFemales.next(); 
+            certCfFemaleCount = certCfFemales.getInt(1);
+            
+            int certIsMaleCount=0;
+            ResultSet certIsMales=admin.displayGenderPerLevelAndCourse("Male", 5, 5);
+            certIsMales.next(); 
+            certIsMaleCount = certIsMales.getInt(1);
+            int certIsFemaleCount=0;
+            ResultSet certIsFemales=admin.displayGenderPerLevelAndCourse("Female", 5, 5); 
+            certIsFemales.next(); 
+            certIsFemaleCount = certIsFemales.getInt(1);
+            
+            int certHmMaleCount=0;
+            ResultSet certHmMales=admin.displayGenderPerLevelAndCourse("Male", 5, 6);
+            certHmMales.next(); 
+            certHmMaleCount = certHmMales.getInt(1);
+            int certHmFemaleCount=0;
+            ResultSet certHmFemales=admin.displayGenderPerLevelAndCourse("Female", 5, 6);
+            certHmFemales.next(); 
+            certHmFemaleCount = certHmFemales.getInt(1);
             %>
         
         <div class="container body">
@@ -330,8 +366,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Information Technology</span>
                                                     <div class="count"><%=certItApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=certItMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=certItFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -339,8 +375,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Computer Forensics</span>
                                                     <div class="count"><%=certCfApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=certCfMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=certCfFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -348,8 +384,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Information Studies</span>
                                                     <div class="count"><%=certIsApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=certIsMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=certIsFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -357,8 +393,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Hardware Maintenance</span>
                                                     <div class="count"><%=certHmApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=certHmMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=certHmFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                         </div>

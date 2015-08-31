@@ -109,6 +109,53 @@
             certApplicants.next(); 
             certApplicantsCount = certApplicants.getInt(1);
             
+            double degreePercentage=admin.calculatePercentage(totalApplicantsCount, degreeApplicantsCount);
+            double diplomaPercentage=admin.calculatePercentage(totalApplicantsCount, diplomaApplicantsCount);
+            double certPercentage=admin.calculatePercentage(totalApplicantsCount, certApplicantsCount);
+           
+            int maleCount=0;
+            ResultSet totalMales=admin.displayTotalGender("Male");
+            totalMales.next(); 
+            maleCount = totalMales.getInt(1);
+            int femaleCount=0;
+            ResultSet totalFemales=admin.displayTotalGender("Female");
+            totalFemales.next(); 
+            femaleCount = totalFemales.getInt(1);
+            
+            int degMalesCount=0;
+            ResultSet degMales=admin.displayGenderPerLevel("Male", 3);
+            degMales.next(); 
+            degMalesCount = degMales.getInt(1);
+            int degFemalesCount=0;
+            ResultSet degFemales=admin.displayGenderPerLevel("Female", 3);
+            degFemales.next(); 
+            degFemalesCount = degFemales.getInt(1);
+            
+            int dipMalesCount=0;
+            ResultSet dipMales=admin.displayGenderPerLevel("Male", 4);
+            dipMales.next(); 
+            dipMalesCount = dipMales.getInt(1);
+            int dipFemalesCount=0;
+            ResultSet dipFemales=admin.displayGenderPerLevel("Female", 4);
+            dipFemales.next(); 
+            dipFemalesCount = dipFemales.getInt(1);
+            
+            int certMalesCount=0;
+            ResultSet certMales=admin.displayGenderPerLevel("Male", 5);
+            certMales.next(); 
+            certMalesCount = certMales.getInt(1);
+            int certFemalesCount=0;
+            ResultSet certFemales=admin.displayGenderPerLevel("Female", 5);
+            certFemales.next(); 
+            certFemalesCount = certFemales.getInt(1);
+            
+            double degreeMalePercentage=admin.calculatePercentage(degreeApplicantsCount, degMalesCount);
+            double diplomaMalePercentage=admin.calculatePercentage(diplomaApplicantsCount, dipMalesCount);
+            double certMalePercentage=admin.calculatePercentage(certApplicantsCount, certMalesCount);
+            
+            double degreeFemalePercentage=admin.calculatePercentage(degreeApplicantsCount, degFemalesCount);
+            double diplomaFemalePercentage=admin.calculatePercentage(diplomaApplicantsCount, dipFemalesCount);
+            double certFemalePercentage=admin.calculatePercentage(certApplicantsCount, certFemalesCount);
             %>
         
         <div class="container body">
@@ -299,8 +346,8 @@
                             <div class="right">
                                 <span class="count_top"><i class="fa fa-users"></i> Total Applicants</span>
                                 <div class="count"><%=totalApplicantsCount%></div>
-                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
-                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
+                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=maleCount%> </i> Male</span> 
+                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=femaleCount%> </i> Female</span>
                             </div>
                         </div>
                         <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -308,8 +355,8 @@
                             <div class="right">
                                 <span class="count_top"><i class="fa fa-users"></i> Degree Applicants</span>
                                 <div class="count"><%=degreeApplicantsCount%></div>
-                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
-                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
+                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=degMalesCount%> </i> Male</span>
+                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=degFemalesCount%> </i> Female</span>
                             </div>
                         </div>
                         <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -317,8 +364,8 @@
                             <div class="right">
                                 <span class="count_top"><i class="fa fa-users"></i> Diploma Applicants</span>
                                 <div class="count"><%=diplomaApplicantsCount%></div>
-                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Male</span>
-                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Female</span>
+                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=dipMalesCount%> </i> Male</span>
+                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=dipFemalesCount%> </i> Female</span>
                             </div>
                         </div>
                         <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -326,8 +373,8 @@
                             <div class="right">
                                 <span class="count_top"><i class="fa fa-users"></i> Certificate Applicants</span>
                                 <div class="count"><%=certApplicantsCount%></div>
-                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Male</span>
-                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Female</span>
+                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=certMalesCount%> </i> Male</span>
+                                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=certFemalesCount%> </i> Female</span>
                             </div>
                         </div>
                     </div>
@@ -335,7 +382,7 @@
                     
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="dashboard_graph"  style="height: 400px;">
+                            <div class="dashboard_graph"  style="min-height: 500px;">
                                 
                                 <div class="row x_title">
                                     <div class="col-md-6">
@@ -344,8 +391,177 @@
                                     
                                 </div>
                                 
-                                
+                               <div class="col-md-5 col-sm-5 col-xs-5">
+                        <div class="x_panel tile">
+                            <div class="x_title">
+                                <h2>Applicants</h2>
+                               
                                 <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <h4>Applicants percentage across levels</h4>
+                                <div class="widget_summary">
+                                    <div class="w_left w_25">
+                                        <span>Degree</span>
+                                    </div>
+                                    <div class="w_center w_55">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%=degreePercentage%>%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w_right w_20">
+                                        <span style="padding:10%;"><%=degreePercentage%>%</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="widget_summary">
+                                    <div class="w_left w_25">
+                                        <span>Diploma</span>
+                                    </div>
+                                    <div class="w_center w_55">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%=diplomaPercentage%>%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w_right w_20">
+                                        <span style="padding:10%;"><%=diplomaPercentage%>%</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                              
+                                <div class="widget_summary">
+                                    <div class="w_left w_25">
+                                        <span>Certificate</span>
+                                    </div>
+                                    <div class="w_center w_55">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%=certPercentage%>%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w_right w_20">
+                                        <span style="padding:10%;"><%=certPercentage%>%</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                      <div class="col-md-1 col-sm-1 col-xs-1"></div>
+                       <div class="col-md-5 col-sm-5 col-xs-5">
+                        <div class="x_panel tile">
+                            <div class="x_title">
+                                <h2>Gender</h2>
+                               
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <h4>Degree </h4>
+                                <div class="widget_summary">
+                                    <div class="w_left w_25">
+                                        <span>Male</span>
+                                    </div>
+                                    <div class="w_center w_55">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%=degreeMalePercentage%>%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w_right w_20">
+                                        <span style="padding:10%;"><%=degreeMalePercentage%>%</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                              
+                                <div class="widget_summary">
+                                    <div class="w_left w_25">
+                                        <span>Female</span>
+                                    </div>
+                                    <div class="w_center w_55">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%=degreeFemalePercentage%>%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w_right w_20">
+                                        <span style="padding:10%;"><%=degreeFemalePercentage%>%</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                    
+                                    <h4>Diploma </h4>
+                                <div class="widget_summary">
+                                    <div class="w_left w_25">
+                                        <span>Male</span>
+                                    </div>
+                                    <div class="w_center w_55">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%=diplomaMalePercentage%>%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w_right w_20">
+                                        <span style="padding:10%;"><%=diplomaMalePercentage%>%</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                              
+                                <div class="widget_summary">
+                                    <div class="w_left w_25">
+                                        <span>Female</span>
+                                    </div>
+                                    <div class="w_center w_55">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%=diplomaFemalePercentage%>%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w_right w_20">
+                                        <span style="padding:10%;"><%=diplomaFemalePercentage%>%</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                    
+                                    <h4>Certificate </h4>
+                                <div class="widget_summary">
+                                    <div class="w_left w_25">
+                                        <span>Male</span>
+                                    </div>
+                                    <div class="w_center w_55">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%=certMalePercentage%>%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w_right w_20">
+                                        <span style="padding:10%;"><%=certMalePercentage%>%</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                              
+                                <div class="widget_summary">
+                                    <div class="w_left w_25">
+                                        <span>Female</span>
+                                    </div>
+                                    <div class="w_center w_55">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%=certFemalePercentage%>%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w_right w_20">
+                                        <span style="padding:10%;"><%=certFemalePercentage%>%</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                             </div>
                         </div>
                         

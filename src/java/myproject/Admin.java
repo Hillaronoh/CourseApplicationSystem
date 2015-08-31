@@ -5,6 +5,7 @@
 */
 package myproject;
 import java.sql.*;
+import java.text.DecimalFormat;
 /**
  *
  * @author hillary
@@ -86,6 +87,12 @@ public class Admin {
     PreparedStatement pst39=null;
     //undo ranking
     PreparedStatement pst40=null;
+    //count total gender
+    PreparedStatement pst41=null;
+    //count gender per level
+    PreparedStatement pst42=null;
+    //count gender per level and course
+    PreparedStatement pst43=null;
     //constructor
     public Admin() throws ClassNotFoundException{
         Common connection=new Common();
@@ -189,6 +196,12 @@ public class Admin {
             pst39=conn.prepareStatement("INSERT INTO ranking VALUES(?,?,?)");
             //undo ranking
             pst40=conn.prepareStatement("DELETE FROM ranking WHERE Level_id=?");
+            //display total number of given gender
+            pst41=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Gender=?");
+            //display total number of given gender in a given level
+            pst42=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Gender=? AND Level_id=?");
+            //display total number of given gender in a given level per course
+            pst43=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Gender=? AND Level_id=? AND Course_id=?");
            
             /*pst27=conn.prepareStatement("SELECT    Email_Address,\n" +
             "              Physics_Grade,\n" +
@@ -662,5 +675,51 @@ public class Admin {
             e.printStackTrace(System.out);
         }
         return i;
+    }
+    //calculates percentages
+    public double calculatePercentage(double total, double level){
+        double percetage=((level/total)*100);
+        DecimalFormat df = new DecimalFormat("#.##");
+        String percentageFormatted = df.format(percetage);
+        return Double.parseDouble(percentageFormatted);
+    }
+    //display total number of given gender
+    public ResultSet displayTotalGender(String gender){
+        ResultSet rs=null;
+        try{
+        pst41.setString(1, gender);
+        rs=pst41.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //display total number of given gender per level
+    public ResultSet displayGenderPerLevel(String gender, int level){
+        ResultSet rs=null;
+        try{
+        pst42.setString(1, gender);
+        pst42.setInt(2, level);
+        rs=pst42.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //display total number of given gender per level per course
+    public ResultSet displayGenderPerLevelAndCourse(String gender, int level, int course){
+        ResultSet rs=null;
+        try{
+        pst43.setString(1, gender);
+        pst43.setInt(2, level);
+        pst43.setInt(3, course);
+        rs=pst43.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
     }
 }

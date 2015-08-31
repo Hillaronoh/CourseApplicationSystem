@@ -121,6 +121,42 @@
             ResultSet rs2=admin.displayItDegApplicants();
             ResultSet rs3=admin.displayInfoDegApplicants();
             ResultSet rs4=admin.displayCfDegApplicants();
+            
+            int degCsMaleCount=0;
+            ResultSet degCsMales=admin.displayGenderPerLevelAndCourse("Male", 3, 1);
+            degCsMales.next(); 
+            degCsMaleCount = degCsMales.getInt(1);
+            int degCsFemaleCount=0;
+            ResultSet degCsFemales=admin.displayGenderPerLevelAndCourse("Female", 3, 1);
+            degCsFemales.next(); 
+            degCsFemaleCount = degCsFemales.getInt(1);
+                    
+            int degItMaleCount=0;
+            ResultSet degItMales=admin.displayGenderPerLevelAndCourse("Male", 3, 2);
+            degItMales.next(); 
+            degItMaleCount = degItMales.getInt(1);
+            int degItFemaleCount=0;
+            ResultSet degItFemales=admin.displayGenderPerLevelAndCourse("Female", 3, 2);
+            degItFemales.next(); 
+            degItFemaleCount = degItFemales.getInt(1);
+            
+            int degInfoMaleCount=0;
+            ResultSet degInfoMales=admin.displayGenderPerLevelAndCourse("Male", 3, 3);
+            degInfoMales.next(); 
+            degInfoMaleCount = degInfoMales.getInt(1);
+            int degInfoFemaleCount=0;
+            ResultSet degInfoFemales=admin.displayGenderPerLevelAndCourse("Female", 3, 3);
+            degInfoFemales.next(); 
+            degInfoFemaleCount = degInfoFemales.getInt(1);
+            
+            int degCfMaleCount=0;
+            ResultSet degCfMales=admin.displayGenderPerLevelAndCourse("Male", 3, 4);
+            degCfMales.next(); 
+            degCfMaleCount = degCfMales.getInt(1);
+            int degCfFemaleCount=0;
+            ResultSet degCfFemales=admin.displayGenderPerLevelAndCourse("Female", 3, 4);
+            degCfFemales.next(); 
+            degCfFemaleCount = degCfFemales.getInt(1);
             %>
         
         <div class="container body">
@@ -325,8 +361,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Computer Science</span>
                                                     <div class="count"><%=degCsApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=degCsMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=degCsFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -334,8 +370,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Information Technology</span>
                                                     <div class="count"><%=degItApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=degItMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=degItFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -343,8 +379,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Informatics </span>
                                                     <div class="count"><%=degInfoApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=degInfoMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=degInfoFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                             <div class="animated flipInY col-md-3 col-sm-4 col-xs-4 tile_stats_count">
@@ -352,8 +388,8 @@
                                                 <div class="right">
                                                     <span class="count_top"><i class="fa fa-users"></i> Computer Forensics </span>
                                                     <div class="count"><%=degCfApplicantsCount%></div>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Male</span>
-                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>12% </i> Female</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=degCfMaleCount%> </i> Male</span>
+                                                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i><%=degCfFemaleCount%> </i> Female</span>
                                                 </div>
                                             </div>
                                         </div>

@@ -3,7 +3,6 @@
     Created on : Jun 13, 2015, 9:41:48 PM
     Author     : Kipngetich
 --%>
-<%@page import="java.text.DecimalFormat"%>
 <%@page import="java.sql.*" %>
 <%@page import="myproject.*"%> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
