@@ -473,8 +473,9 @@
                                                 }*/
                                                 String mos=request.getParameter("modeOfStudy");
                                                 String campus=request.getParameter("campus");
+                                                int campusId=Integer.parseInt(campus);
                                            
-                                                int results4=user.setCourseDetails(applicantId, levelIdInt, courseIdInt, mos, campus);
+                                                int results4=user.setCourseDetails(applicantId, levelIdInt, courseIdInt, mos, campusId);
                                        
                                                 if(results4>0){%> 
                                                 <a class="accordion-section-title alert alert-success" style="margin-bottom:0px;" href="#accordion-3"><i class="fa fa-check-circle"></i>Your details has been saved successfully..Proceed to the next section.</a>
@@ -533,7 +534,7 @@
                                                                         <select id="campus" name="campus" class="form-control input">
                                                                             <option value="" selected>~select campus~</option> 
                                                                             <%while(results5.next()){%>
-                                                                            <option value="<%=results5.getString("campus_Name")%>"><%=results5.getString("campus_Name")%></option>
+                                                                            <option value="<%=results5.getString("campus_id")%>"><%=results5.getString("campus_Name")%></option>
                                                                             <%}%>
                                                                         </select>
                                                                     </div>

@@ -13,28 +13,28 @@ Author: http://binarytheme.com
 }
 .user-section-inner {
     height: 65px;
-width: 65px;
--moz-border-radius: 3px;
--webkit-border-radius: 3px;
-border-radius: 3px;
-overflow: hidden;
-display: inline-block;
-float: left;
-margin-right: 15px;
-margin-top: 20px;
+    width: 65px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    overflow: hidden;
+    display: inline-block;
+    float: left;
+    margin-right: 15px;
+    margin-top: 20px;
 }
-    .user-section-inner img {
-        margin-left:10px;
-        width:55px;
-        height:60px;
-        
-    }
+.user-section-inner img {
+    margin-left:10px;
+    width:55px;
+    height:60px;
+    
+}
 .user-info {
     display: block;
     color: #99D6AD!important;
-display: inline-block;
-padding: 15px;
-margin-bottom: 0px
+    display: inline-block;
+    padding: 15px;
+    margin-bottom: 0px
 }
 .user-text-online {
     font-size:18px;
@@ -53,38 +53,38 @@ margin-bottom: 0px
     background-color: #75C5B8;
 }
 .navbar-top-links > li > a {
-color: #FFFFFF;
+    color: #FFFFFF;
 }
 .nav > li > a {
-padding: 20px 15px;
+    padding: 20px 15px;
 }
 #side-menu {
     background-color:#33AD5C;
 }
 
- #side-menu a {
-            color:#fff;
-           border-bottom: 1px solid #00CCFF!important;
-           height: 55px;
-        }
-        .selected {
-            background-color:rgb(83, 163, 163);
-        }
+#side-menu a {
+    color:#fff;
+    border-bottom: 1px solid #00CCFF!important;
+    height: 55px;
+}
+.selected {
+    background-color:rgb(83, 163, 163);
+}
 /* back colors */
-        .blue {
-            background-color:rgb(113, 159, 241);
-        }
-         .green {
-            background-color:rgb(144, 236, 192);
-        }
-          .red {
-            background-color:rgb(255, 102, 133);
-        }
-        .yellow {
-            background-color:rgb(237, 253, 46);
-        }
+.blue {
+    background-color:rgb(113, 159, 241);
+}
+.green {
+    background-color:rgb(144, 236, 192);
+}
+.red {
+    background-color:rgb(255, 102, 133);
+}
+.yellow {
+    background-color:rgb(237, 253, 46);
+}
 
-  /* No border */
+/* No border */
 .no-boder {
     border:0px solid #5bc0de !important;
 }
@@ -102,10 +102,10 @@ padding: 20px 15px;
 }
 .top-label {
     position: absolute;
-top: 50%;
-right: 50%;
-margin-top: -24px;
-margin-right: -24px;
+    top: 50%;
+    right: 50%;
+    margin-top: -24px;
+    margin-right: -24px;
 }
 
 /*large font*/
@@ -121,7 +121,7 @@ margin-right: -24px;
     margin:5px;
 }
 .navbar-default {
-border-color: #27A6BE;
+    border-color: #27A6BE;
 }
 /*media queries*/
 
@@ -132,15 +132,15 @@ border-color: #27A6BE;
         margin: 0 0 0 250px;
         padding: 0 30px;
         min-height: 1000px;
-       
-       
+        
+        
     }
-
+    
 }
 
 @media(max-width:768px) {
-#wrapper {
-    margin-top:140px!important;
-    
-}
+    #wrapper {
+        margin-top:140px!important;
+        
+    }
 }

@@ -6,6 +6,14 @@
 package myproject;
 import java.sql.*;
 import java.text.DecimalFormat;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 /**
  *
  * @author hillary
@@ -93,6 +101,10 @@ public class Admin {
     PreparedStatement pst42=null;
     //count gender per level and course
     PreparedStatement pst43=null;
+    //delete applicant....course details db
+    PreparedStatement pst44=null;
+    //try
+    PreparedStatement pst45=null;
     //constructor
     public Admin() throws ClassNotFoundException{
         Common connection=new Common();
@@ -126,7 +138,7 @@ public class Admin {
             pst16=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=3 AND Course_id=3");
             //display total number of degree computer forensics applicants
             pst17=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=3 AND Course_id=4");
-            //display total number of degree computer science applicants
+            //display total number of diploma computer science applicants
             pst18=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=4 AND Course_id=1");
             //display total number of diploma IT applicants
             pst19=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=4 AND Course_id=2");
@@ -134,62 +146,62 @@ public class Admin {
             pst20=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=4 AND Course_id=3");
             //display total number of diploma informatics applicants
             pst21=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=4 AND Course_id=4");
-            //display total number of cert computer science applicants
-            pst22=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=1");
             //display total number of cert IT applicants
-            pst23=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=5");
-            //display total number of cert informatics applicants
-            pst24=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=6");
-            //display total number of cert computer forensics applicants
-            pst25=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=4");
+            pst22=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=2");
+            //display total number of cert CF applicants
+            pst23=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=4");
+            //display total number of cert IS applicants
+            pst24=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=5");
+            //display total number of cert HM applicants
+            pst25=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Level_id=5 AND Course_id=6");
             //deletes announcement
             pst26=conn.prepareStatement("DELETE FROM announcements WHERE id=?");
             //get CS degree applicants for display
-            pst27=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            pst27=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id, c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=3 AND Course_id=1)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=3 AND c.Course_id=1 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
-           //get IT degree applicants for display
-            pst28=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            //get IT degree applicants for display
+            pst28=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id, c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=3 AND Course_id=2)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=3 AND c.Course_id=2 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
             //get Informatics degree applicants for display
-            pst29=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            pst29=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id,  c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=3 AND Course_id=3)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=3 AND c.Course_id=3 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
-           //get CF degree applicants for display
-            pst30=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            //get CF degree applicants for display
+            pst30=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id,  c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=3 AND Course_id=4)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=3 AND c.Course_id=4 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
             //get CS diploma applicants for display
-            pst31=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            pst31=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id,  c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=4 AND Course_id=1)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=4 AND c.Course_id=1 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
-           //get IT diploma applicants for display
-            pst32=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            //get IT diploma applicants for display
+            pst32=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id,  c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=4 AND Course_id=2)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=4 AND c.Course_id=2 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
             //get Informatics diploma applicants for display
-            pst33=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            pst33=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id,  c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=4 AND Course_id=3)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=4 AND c.Course_id=3 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
-           //get CF diploma applicants for display
-            pst34=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            //get CF diploma applicants for display
+            pst34=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id,  c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=4 AND Course_id=4)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=4 AND c.Course_id=4 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
             //get IT cert applicants for display
-            pst35=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            pst35=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id,  c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=5 AND Course_id=2)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=5 AND c.Course_id=2 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
-           //get CF cert applicants for display
-            pst36=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            //get CF cert applicants for display
+            pst36=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id,  c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=5 AND Course_id=4)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=5 AND c.Course_id=4 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
             //get IS cert applicants for display
-            pst37=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            pst37=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id,  c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=5 AND Course_id=5)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=5 AND c.Course_id=5 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
-           //get HM cert applicants for display
-            pst38=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Cluster_Points,"
+            //get HM cert applicants for display
+            pst38=conn.prepareStatement("SELECT a.First_Name, a.Last_Name, c.Email_Address, c.Level_id, c.Course_id,  c.Cluster_Points,"
                     + "(SELECT count(*) FROM course_details WHERE Cluster_Points>c.Cluster_Points AND Level_id=5 AND Course_id=6)+1 AS Rank "
                     + "FROM applicants_details a, course_details c WHERE c.Level_id=5 AND c.Course_id=6 AND a.Email_Address=c.Email_address ORDER BY c.Cluster_Points DESC");
             //rank applicants
@@ -202,7 +214,11 @@ public class Admin {
             pst42=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Gender=? AND Level_id=?");
             //display total number of given gender in a given level per course
             pst43=conn.prepareStatement("SELECT count(*) FROM course_details WHERE Gender=? AND Level_id=? AND Course_id=?");
-           
+            //delete applicant..course details db
+            pst44=conn.prepareStatement("DELETE FROM course_details WHERE Email_Address=? AND Level_id=? AND Course_id=?");
+            //
+            pst45=conn.prepareStatement("select * from course_details");
+            
             /*pst27=conn.prepareStatement("SELECT    Email_Address,\n" +
             "              Physics_Grade,\n" +
             "              Cluster_Points,\n" +
@@ -334,7 +350,7 @@ public class Admin {
     public ResultSet getTotalApplicants(){
         ResultSet rs=null;
         try{
-           rs=pst10.executeQuery();
+            rs=pst10.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -345,7 +361,7 @@ public class Admin {
     public ResultSet getDegreeApplicants(){
         ResultSet rs=null;
         try{
-           rs=pst11.executeQuery();
+            rs=pst11.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -356,7 +372,7 @@ public class Admin {
     public ResultSet getDiplomaApplicants(){
         ResultSet rs=null;
         try{
-           rs=pst12.executeQuery();
+            rs=pst12.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -367,7 +383,7 @@ public class Admin {
     public ResultSet getCertApplicants(){
         ResultSet rs=null;
         try{
-           rs=pst13.executeQuery();
+            rs=pst13.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -378,7 +394,7 @@ public class Admin {
     public ResultSet getDegCsApplicants(){
         ResultSet rs=null;
         try{
-           rs=pst14.executeQuery();
+            rs=pst14.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -389,7 +405,7 @@ public class Admin {
     public ResultSet getDegItApplicants(){
         ResultSet rs=null;
         try{
-           rs=pst15.executeQuery();
+            rs=pst15.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -400,7 +416,7 @@ public class Admin {
     public ResultSet getDegInfoApplicants(){
         ResultSet rs=null;
         try{
-           rs=pst16.executeQuery();
+            rs=pst16.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -411,7 +427,7 @@ public class Admin {
     public ResultSet getDegCfApplicants(){
         ResultSet rs=null;
         try{
-           rs=pst17.executeQuery();
+            rs=pst17.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -462,8 +478,8 @@ public class Admin {
         }
         return rs;
     }
-    //display total number of cert computer science applicants
-    public ResultSet getCertIsApplicants(){
+    //display total number of cert IT applicants
+    public ResultSet getCertItApplicants(){
         ResultSet rs=null;
         try{
             rs=pst22.executeQuery();
@@ -473,8 +489,8 @@ public class Admin {
         }
         return rs;
     }
-    //display total number of cert IT applicants
-    public ResultSet getCertItApplicants(){
+    //display total number of cert CF applicants
+    public ResultSet getCertCfApplicants(){
         ResultSet rs=null;
         try{
             rs=pst23.executeQuery();
@@ -484,8 +500,8 @@ public class Admin {
         }
         return rs;
     }
-    //display total number of cert informatics applicants
-    public ResultSet getCertHmApplicants(){
+    //display total number of cert IS applicants
+    public ResultSet getCertIsApplicants(){
         ResultSet rs=null;
         try{
             rs=pst24.executeQuery();
@@ -495,8 +511,8 @@ public class Admin {
         }
         return rs;
     }
-    //display total number of cert computer forensics applicants
-    public ResultSet getCertCfApplicants(){
+    //display total number of cert HM applicants
+    public ResultSet getCertHmApplicants(){
         ResultSet rs=null;
         try{
             rs=pst25.executeQuery();
@@ -510,8 +526,8 @@ public class Admin {
     public int deleteAnn(int id){
         int i=0;
         try{
-           pst26.setInt(1, id); 
-           i=pst26.executeUpdate();
+            pst26.setInt(1, id);
+            i=pst26.executeUpdate();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -562,7 +578,7 @@ public class Admin {
         }
         return rs;
     }
-     //display CS diploma applicants
+    //display CS diploma applicants
     public ResultSet displayCsDipApplicants(){
         ResultSet rs=null;
         try{
@@ -654,10 +670,10 @@ public class Admin {
     public int ranking(int levelId, int crsId, int requiredNumber){
         int i=0;
         try{
-        pst39.setInt(1, levelId);
-        pst39.setInt(2, crsId);
-        pst39.setInt(3, requiredNumber);
-        i=pst39.executeUpdate();
+            pst39.setInt(1, levelId);
+            pst39.setInt(2, crsId);
+            pst39.setInt(3, requiredNumber);
+            i=pst39.executeUpdate();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -668,8 +684,8 @@ public class Admin {
     public int undoRanking(int levelId){
         int i=0;
         try{
-        pst40.setInt(1, levelId);
-        i=pst40.executeUpdate();
+            pst40.setInt(1, levelId);
+            i=pst40.executeUpdate();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -687,8 +703,8 @@ public class Admin {
     public ResultSet displayTotalGender(String gender){
         ResultSet rs=null;
         try{
-        pst41.setString(1, gender);
-        rs=pst41.executeQuery();
+            pst41.setString(1, gender);
+            rs=pst41.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -699,9 +715,9 @@ public class Admin {
     public ResultSet displayGenderPerLevel(String gender, int level){
         ResultSet rs=null;
         try{
-        pst42.setString(1, gender);
-        pst42.setInt(2, level);
-        rs=pst42.executeQuery();
+            pst42.setString(1, gender);
+            pst42.setInt(2, level);
+            rs=pst42.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -712,10 +728,69 @@ public class Admin {
     public ResultSet displayGenderPerLevelAndCourse(String gender, int level, int course){
         ResultSet rs=null;
         try{
-        pst43.setString(1, gender);
-        pst43.setInt(2, level);
-        pst43.setInt(3, course);
-        rs=pst43.executeQuery();
+            pst43.setString(1, gender);
+            pst43.setInt(2, level);
+            pst43.setInt(3, course);
+            rs=pst43.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //delete applicant
+    public int deleteApplicant(String email, int levelId, int courseId){
+        int i=0;
+        try{
+            pst44.setString(1, email);
+            pst44.setInt(2, levelId);
+            pst44.setInt(3, courseId);
+            i=pst44.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return i;
+    }
+    //send mails
+    public void sendMails(String emails){
+        final String username = "ronokip55@gmail.com";
+        final String password = "HILLARYHILLARY";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        
+        Session session = Session.getInstance(props,new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        
+        try {
+            
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("java@trial.com"));
+            //message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            InternetAddress[] iAdressArray = InternetAddress.parse(emails);
+            message.setRecipients(Message.RecipientType.CC, iAdressArray);
+            message.setSubject("Application Confirmation");
+            message.setText("good of u");
+            
+            Transport.send(message);
+            
+            System.out.println("Done");
+            
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    //try
+    public ResultSet try1(){
+        ResultSet rs=null;
+        try{
+        rs=pst45.executeQuery(); 
         }
         catch(SQLException e){
             e.printStackTrace(System.out);

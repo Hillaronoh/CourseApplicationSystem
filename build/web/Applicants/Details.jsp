@@ -357,7 +357,12 @@
                                                         int li=results3.getInt("Level_id");
                                                         int ci=results3.getInt("Course_id");
                                                         String mo=results3.getString("Mode_Of_Study");
-                                                        String ca=results3.getString("Campus");
+                                                        int ca=results3.getInt("Campus");
+                                                        String campusName=new String();
+                                                        ResultSet rr=user.getCampusName(ca);  
+                                                        if(rr.next()){
+                                                          campusName=rr.getString("Campus_Name");
+                                                        }
                                                         ResultSet results4=user.getLevelName(li);
                                                         ResultSet results5=user.getCourseName(ci);
                                                         %>
@@ -372,7 +377,7 @@
                                                                     <td><%=results5.getString("Course_Name")%></td>
                                                                     <%}%>
                                                                     <td><%=results3.getString("Mode_Of_Study")%></td>
-                                                                    <td><%=results3.getString("Campus")%></td>
+                                                                    <td><%=campusName%></td>
                                                                     <td style="width: 68px;"><a href="#courseDetails<%=check%>" data-toggle="modal" style="background-color:#E6E2EB; padding:10px 12px; margin-left: -8px; outline: none;"><i class="fa fa-edit">Edit</i></a></td>
                                                         </tr>
                                             <div class="modal fade" id="courseDetails<%=check%>" role="dialog">
@@ -416,10 +421,10 @@
                                                                 <div class="form-group">
                                                                     <label for="campus">Campus/Study Center</label>
                                                                     <select id="campus" name="campus" class="form-control">
-                                                                        <option value="<%=results3.getString("Campus")%>" selected><%=results3.getString("Campus")%></option> 
+                                                                        <option value="<%=ca%>" selected><%=campusName%></option> 
                                                                         <%ResultSet results14=user.getCampuses();
                                                                             while(results14.next()){%>
-                                                                        <option value="<%=results14.getString("Campus_Name")%>"><%=results14.getString("Campus_Name")%></option>
+                                                                        <option value="<%=results14.getInt("Campus_id")%>"><%=results14.getString("Campus_Name")%></option>
                                                                         <%}%>
                                                                     </select>
                                                                 </div>                           
@@ -442,6 +447,7 @@
                                             courseIdInt=Integer.parseInt(courseIdString);
                                             String mos =request.getParameter("modeOfStudy");
                                             String campus=request.getParameter("campus");
+                                            int campusId=Integer.parseInt(campus);
                                             /*ResultSet rs=user.getLevelId(level);
                                             if(rs.next()){
                                                 levelId=rs.getInt("Level_id");
@@ -452,7 +458,7 @@
                                                 courseId=rs1.getInt("Course_id");
                                             } */
                
-                                            int resultsE2=user.editCourseDetails(levelIdInt, courseIdInt, mos, campus, applicantId, li, ci,mo,ca); 
+                                            int resultsE2=user.editCourseDetails(levelIdInt, courseIdInt, mos, campusId, applicantId, li, ci);  
                                             if(resultsE2>0){%>
                                             <script>
                                                 alert("Changes saved successfully.");

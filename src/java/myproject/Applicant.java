@@ -79,6 +79,8 @@ public class Applicant {
     PreparedStatement pst32=null;
     //get courses while checking cluster limit
     PreparedStatement pst44=null;
+    //get campus name given id
+    PreparedStatement pst45=null;
     //constructor
     public Applicant() throws ClassNotFoundException{
         Common connection=new Common();
@@ -107,7 +109,7 @@ public class Applicant {
             pst17=conn.prepareStatement("SELECT * FROM courses WHERE Course_id=?");
             pst18=conn.prepareStatement("UPDATE applicants_details SET DoB=?, Gender=?, Postal_Address=?, Mobile=?, Country=? WHERE Email_Address=?");
             pst19=conn.prepareStatement("UPDATE education_background SET Physics_Grade=?, Maths_Grade=?, Subject3_Grade=?, Subject4_Grade=?, Mean_Grade=?, Aggregate_Points=?, Cluster_Points=? WHERE Email_Address=?");
-            pst20=conn.prepareStatement("UPDATE course_details SET Level_id=?, Course_id=?, Mode_Of_Study=?, Campus=? WHERE (Email_Address=? AND Level_id=? AND Course_id=? AND Mode_Of_Study=? AND Campus=?)");
+            pst20=conn.prepareStatement("UPDATE course_details SET Level_id=?, Course_id=?, Mode_Of_Study=?, Campus=? WHERE (Email_Address=? AND Level_id=? AND Course_id=?)");
             pst21=conn.prepareStatement("SELECT Level_id FROM course_levels WHERE Level_Name=?");
             pst22=conn.prepareStatement("SELECT Course_id FROM courses WHERE Course_Name=?");
             pst23=conn.prepareStatement("SELECT * FROM campuses");
@@ -150,6 +152,8 @@ public class Applicant {
             pst32=conn.prepareStatement("SELECT * FROM ranking WHERE Level_id=? AND Course_id=? AND Required_Number>=?");
             //get courses while checking cluster limit
             pst44=conn.prepareStatement("SELECT * FROM courses WHERE Level_id=? and Cluster_Limit<=?");
+            //get campus name given id
+            pst45=conn.prepareStatement("SELECT * FROM campuses WHERE Campus_id=?");
         }catch(SQLException e){
             e.printStackTrace(System.out);
         }
@@ -258,14 +262,14 @@ public class Applicant {
         return rs;
     }
     //inserts course details
-    public int setCourseDetails(String email, int levelId, int courseId, String mos, String campus){
+    public int setCourseDetails(String email, int levelId, int courseId, String mos, int campus){
         int k=0;
         try{
             pst5.setString(1, email);
             pst5.setInt(2, levelId);
             pst5.setInt(3, courseId);
             pst5.setString(4, mos);
-            pst5.setString(5, campus);
+            pst5.setInt(5, campus);
             k=pst5.executeUpdate();
         }
         catch(SQLException e){
@@ -302,6 +306,18 @@ public class Applicant {
         ResultSet rs=null;
         try{
             rs=pst6.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get campuses name given id
+    public ResultSet getCampusName(int campusId){
+        ResultSet rs=null;
+        try{
+            pst45.setInt(1, campusId);
+            rs=pst45.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -512,18 +528,18 @@ public class Applicant {
         return j;
     }
     //updates course details after editing
-    public int editCourseDetails(int level,int name,String mos, String campus, String email, int levelId, int courseId,String m, String c){
+    public int editCourseDetails(int level,int name,String mos, int campusId, String email, int levelId, int courseId){
         int j=0;
         try{
             pst20.setInt(1, level);
             pst20.setInt(2, name);
             pst20.setString(3, mos);
-            pst20.setString(4, campus);
+            pst20.setInt(4, campusId);
             pst20.setString(5, email);
             pst20.setInt(6, levelId);
             pst20.setInt(7, courseId);
-            pst20.setString(8, m);
-            pst20.setString(9, c);
+           // pst20.setString(8, m);
+           // pst20.setString(9, c);
             j=pst20.executeUpdate();
         }
         catch(SQLException e){

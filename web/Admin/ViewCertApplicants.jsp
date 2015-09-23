@@ -423,16 +423,59 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <%while(rs.next()){%>
+                                                <%int check=1;
+                                                String email=new String(); 
+                                                int levelId=0;
+                                                int courseId=0;
+                                                while(rs.next()){
+                                                    email=rs.getString("Email_Address");
+                                                    levelId=rs.getInt("Level_id");
+                                                    courseId=rs.getInt("Course_id");
+                                                %>
                                                 <tr>
-                                                    <td><%=rs.getString("Email_Address")%></td>
+                                                    <td><%=email%></td>
                                                     <td><%=rs.getString("First_Name")%></td>
                                                     <td><%=rs.getString("Last_Name")%></td>
                                                     <td><%=rs.getDouble("Cluster_Points")%></td>
                                                     <td><%=rs.getString("Rank")%></td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                    <td style="width: 70px; padding-right: 0;"><a href="#deleteConfirm<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 12px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
-                                                <%}%>
+                                                <div class="modal fade" id="deleteConfirm<%=check%>" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" >Confirm</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h5>Are you sure you want to delete?</h5>
+                                                            <form method="post" action="">
+                                                                <div class="">
+                                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" name="delete<%=check%>" class="btn btn-danger">Delete</button> 
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                        
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                                <%if(request.getParameter("delete"+check)!=null){
+                                                    int delCertIt=admin.deleteApplicant(email, levelId, courseId);
+                                                    if(delCertIt>0){%>
+                                                    <script>
+                                                        alert("Deleted Successfully.");
+                                                        window.location.href="ViewCertApplicants.jsp";
+                                                    </script>
+                                                    <%} else{%>
+                                                    <script>
+                                                        alert("There was a problem performing deletion operation! Try again.");
+                                                        window.location.href="ViewCertApplicants.jsp";
+                                                    </script>
+                                                    <%}
+                                                }
+                                            check++;
+                                                }%>
                                             </tbody>
                                         </table>
                                             </div>
@@ -455,16 +498,55 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <%while(rs2.next()){%>
+                                                <%while(rs2.next()){
+                                                    email=rs2.getString("Email_Address");
+                                                    levelId=rs2.getInt("Level_id");
+                                                    courseId=rs2.getInt("Course_id");
+                                                %>
                                                 <tr>
-                                                    <td><%=rs2.getString("Email_Address")%></td>
+                                                    <td><%=email%></td>
                                                     <td><%=rs2.getString("First_Name")%></td>
                                                     <td><%=rs2.getString("Last_Name")%></td>
                                                     <td><%=rs2.getDouble("Cluster_Points")%></td>
                                                     <td><%=rs2.getString("Rank")%></td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                    <td style="width: 70px; padding-right: 0;"><a href="#deleteConfirm<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 12px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
-                                                <%}%>
+                                                <div class="modal fade" id="deleteConfirm<%=check%>" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" >Confirm</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h5>Are you sure you want to delete?</h5>
+                                                            <form method="post" action="">
+                                                                <div class="">
+                                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" name="delete<%=check%>" class="btn btn-danger">Delete</button> 
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                        
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                                <%if(request.getParameter("delete"+check)!=null){
+                                                    int delCertCf=admin.deleteApplicant(email, levelId, courseId);
+                                                    if(delCertCf>0){%>
+                                                    <script>
+                                                        alert("Deleted Successfully.");
+                                                        window.location.href="ViewCertApplicants.jsp";
+                                                    </script>
+                                                    <%} else{%>
+                                                    <script>
+                                                        alert("There was a problem performing deletion operation! Try again.");
+                                                        window.location.href="ViewCertApplicants.jsp";
+                                                    </script>
+                                                    <%}
+                                                }
+                                            check++;
+                                                }%>
                                             </tbody>
                                         </table>
                                             </div>
@@ -487,16 +569,55 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <%while(rs3.next()){%>
+                                                <%while(rs3.next()){
+                                                    email=rs3.getString("Email_Address");
+                                                    levelId=rs3.getInt("Level_id");
+                                                    courseId=rs3.getInt("Course_id");
+                                                %>
                                                 <tr>
-                                                    <td><%=rs3.getString("Email_Address")%></td>
+                                                    <td><%=email%></td>
                                                     <td><%=rs3.getString("First_Name")%></td>
                                                     <td><%=rs3.getString("Last_Name")%></td>
                                                     <td><%=rs3.getDouble("Cluster_Points")%></td>
                                                     <td><%=rs3.getString("Rank")%></td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                    <td style="width: 70px; padding-right: 0;"><a href="#deleteConfirm<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 12px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
-                                                <%}%>
+                                                <div class="modal fade" id="deleteConfirm<%=check%>" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" >Confirm</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h5>Are you sure you want to delete?</h5>
+                                                            <form method="post" action="">
+                                                                <div class="">
+                                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" name="delete<%=check%>" class="btn btn-danger">Delete</button> 
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                        
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                                <%if(request.getParameter("delete"+check)!=null){
+                                                    int delCertIs=admin.deleteApplicant(email, levelId, courseId);
+                                                    if(delCertIs>0){%>
+                                                    <script>
+                                                        alert("Deleted Successfully.");
+                                                        window.location.href="ViewCertApplicants.jsp";
+                                                    </script>
+                                                    <%} else{%>
+                                                    <script>
+                                                        alert("There was a problem performing deletion operation! Try again.");
+                                                        window.location.href="ViewCertApplicants.jsp";
+                                                    </script>
+                                                    <%}
+                                                }
+                                            check++;
+                                                }%>
                                             </tbody>
                                         </table>
                                             </div>
@@ -519,16 +640,55 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <%while(rs4.next()){%>
+                                                <%while(rs4.next()){
+                                                    email=rs4.getString("Email_Address");
+                                                    levelId=rs4.getInt("Level_id");
+                                                    courseId=rs4.getInt("Course_id");
+                                                %>
                                                 <tr>
-                                                    <td><%=rs4.getString("Email_Address")%></td>
+                                                    <td><%=email%></td>
                                                     <td><%=rs4.getString("First_Name")%></td>
                                                     <td><%=rs4.getString("Last_Name")%></td>
                                                     <td><%=rs4.getDouble("Cluster_Points")%></td>
                                                     <td><%=rs4.getString("Rank")%></td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 10px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                    <td style="width: 70px; padding-right: 0;"><a href="#deleteConfirm<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 12px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
-                                                <%}%>
+                                                <div class="modal fade" id="deleteConfirm<%=check%>" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" >Confirm</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h5>Are you sure you want to delete?</h5>
+                                                            <form method="post" action="">
+                                                                <div class="">
+                                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" name="delete<%=check%>" class="btn btn-danger">Delete</button> 
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                        
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                                <%if(request.getParameter("delete"+check)!=null){
+                                                    int delCertHm=admin.deleteApplicant(email, levelId, courseId);
+                                                    if(delCertHm>0){%> 
+                                                    <script>
+                                                        alert("Deleted Successfully.");
+                                                        window.location.href="ViewCertApplicants.jsp";
+                                                    </script>
+                                                    <%} else{%>
+                                                    <script>
+                                                        alert("There was a problem performing deletion operation! Try again.");
+                                                        window.location.href="ViewCertApplicants.jsp";
+                                                    </script>
+                                                    <%}
+                                                }
+                                            check++;
+                                                }%>
                                             </tbody>
                                         </table>
                                             </div>

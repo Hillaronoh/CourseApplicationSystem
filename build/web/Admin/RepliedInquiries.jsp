@@ -333,7 +333,7 @@
                                                     <td><%=results1.getString("Sender")%></td>
                                                     <td><%=results1.getString("Message")%></td>
                                                     <td><%=results1.getString("Reply")%></td>
-                                                    <td style="width: 78px;"><a href="#deleteConfirm<%=check%>" data-toggle="modal" class="btn btn-primary" style="margin: 0px 0px;"><i class="fa fa-trash-o">Delete</i></a></td>
+                                                    <td style="width: 70px; padding-right: 0;"><a href="#deleteConfirm<%=check%>" data-toggle="modal" style="background-color:#EDEDED; padding-top: 13px; border: 1px solid #F7F7F7; padding-bottom: 12px; padding-left: 12px; padding-right: 9px; margin-left: -11px; outline: none;"><i class="fa fa-trash-o">Delete</i></a></td>
                                                 </tr>
                                                 
                                             <div class="modal fade" id="deleteConfirm<%=check%>" role="dialog">

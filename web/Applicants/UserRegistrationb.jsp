@@ -29,7 +29,7 @@
             .login-panel{
                 margin-top: 19%;
                 width: 90%;
-                margin-left: 7%;
+                margin-left: 6%;
                 height: 350px;
             }
         </style>

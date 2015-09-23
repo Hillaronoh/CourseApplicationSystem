@@ -98,6 +98,7 @@
                     alert("Problem encountered! Try again.");
                     window.location.href="RankDegApp.jsp";
                 </script> 
+                
                 <%}
             }
             

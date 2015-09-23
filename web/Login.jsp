@@ -4,7 +4,7 @@
     Author     : hillary
 --%>
 <%@page import="java.sql.*" %>
-<%Class.forName("com.mysql.jdbc.Driver");%>
+<%@page import="myproject.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,48 +17,15 @@
     <body style="overflow-x: hidden;">
         <jsp:include page="Header.jsp"></jsp:include>
         <div id="container">
-        <%if(request.getParameter("login")!=null){%>         
-        <%!
-        public class Login{
-            Connection conn=null;
-            PreparedStatement pst=null;
-            String db="jdbc:mysql:///project1c";
-            String username="root";
-            String password="";
-            
-            public Login(){
-                try{
-                conn=DriverManager.getConnection(db,username,password); 
-                pst=conn.prepareStatement("SELECT * FROM registration WHERE Email_Address=? AND Password=?");
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-            }
-            
-            public ResultSet checkCredentials(String email, String password){
-                ResultSet rs=null;
-                try{
-                pst.setString(1, email);
-                pst.setString(2, password);
-                rs=pst.executeQuery();
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                }
-                return rs;
-            }
-        }
-        %>
+        <%if(request.getParameter("login")!=null){
         
-        <%
-         Login login=new Login();
+         Common login=new Common();
          int roleId=0;
          
          String email=request.getParameter("email");
          String password=request.getParameter("password");
          
-         ResultSet results=login.checkCredentials(email, password);
+         ResultSet results=login.login(email, password);
          
          if(results.next()){
              roleId=results.getInt("Role_id");

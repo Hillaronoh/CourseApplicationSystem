@@ -139,7 +139,7 @@
                                                 <div>
                                                     <div class="portlet-body" style="overflow-y: auto; width: auto; height: 350px;">
                                                         
-                                                        <%while(results1.next()){%>
+                                                        <%while(results1.next()){%> 
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <div class="media">
