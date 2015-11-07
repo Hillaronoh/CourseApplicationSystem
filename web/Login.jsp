@@ -13,13 +13,62 @@
         <title>Login</title>
         <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
         <link href="css/login.css" rel="stylesheet" />
+        <!--<script type = "text/javascript" >
+            function disableBackButton()
+            {
+                window.history.forward();
+            }
+            setTimeout("disableBackButton()", 0);
+        </script>-->
+        <style>
+            .error{
+                color: red;
+               }
+        </style>
     </head>
     <body style="overflow-x: hidden;">
+        
         <jsp:include page="Header.jsp"></jsp:include>
         <div id="container">
-        <%if(request.getParameter("login")!=null){
+        <%Common login=new Common();
+            Applicant applicant=new Applicant();
+         String key=request.getParameter("u"); 
+         if(key!=null){
+        ResultSet checkKey=applicant.getKey(key);
+        if(checkKey.next()){
+           String fName=checkKey.getString("First_Name");
+           String mName=checkKey.getString("Middle_Name");
+           String lName=checkKey.getString("Last_Name");
+           String email=checkKey.getString("Email_Address");
+           String pwd=checkKey.getString("Password");
+           int roleId=2;
+           int insertion = applicant.insertTempUser(fName, mName, lName, email, pwd, roleId); 
+           if(insertion>0){
+               applicant.deleteTempUser(key); 
+           }
+        }
+        }
+         
+         if(request.getParameter("send")!=null){
+             String email=request.getParameter("email");
+             ResultSet checkMail=login.verifyEmail(email);
+             if(checkMail.next()){
+             applicant.sendMailPwd(email);%>
+             <script>
+                 alert("check your email (<%=email%>) to reset your password.");
+                 window.location.href="Login.jsp";
+             </script>
+         <%} else{%>
+               <script>
+                 alert("Sorry Problem was encountered. Try later");
+                 window.location.href="Login.jsp";
+             </script>  
+             <%}
+         }
+            
+         if(request.getParameter("login")!=null){
         
-         Common login=new Common();
+         
          int roleId=0;
          
          String email=request.getParameter("email");
@@ -48,7 +97,7 @@
             <h3 class="panel-title" style="margin-left:20px;font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;">Login to your account</h3>
         </div><br/>
         <%}%>
-            <form class="form-vertical" method="post" action="">
+            <form class="form-vertical" method="post" id="myForm6" action="">
                 
                 <div class="row" >
                     <div class="col-md-12">
@@ -81,7 +130,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-10" style="padding-right: 30px;">
                         <p style="font-size:14px;padding-left:10px;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;">
-                            <a href="#" class="pull-left"> Forgot password? </a>
+                            <a href="#forgotPwd" data-toggle="modal" class="pull-left"> Forgot password?</a> 
                             <a href="Applicants/UserRegistrationb.jsp" class="pull-right"> Sign Up </a>
                         </p>
                     </div>
@@ -89,8 +138,36 @@
                 </div>
             </form>
         </div>
+            
+        <div class="modal fade" id="forgotPwd" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Password Reset</h4>
+                    </div>
+                    <form method="post" action="" id="myForm4">
+                    <div class="modal-body">
+                        <p>Enter your email to reset your password.</p>
+                        <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="text" class="form-control" id="email" placeholder="Email Address" name="email">
+                            </div>
+                    </div>
+                    <div class="well modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" name="send" class="btn btn-primary">Send</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <script type="text/javascript" src="js/jquery.js"></script>
         <script src="js/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="js/login.js"></script>
+        <script type="text/javascript" src="Applicants/mycss/validation/jquery.js"></script>
+        <script type="text/javascript" src="Applicants/mycss/validation/jquery.validate.js"></script>
+        <script type="text/javascript" src="Applicants/mycss/validation/additional-methods.js"></script>
+        <script src="Applicants/mycss/validation/custom.js"></script>
     </body>
 </html>

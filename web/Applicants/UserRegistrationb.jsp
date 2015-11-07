@@ -4,7 +4,8 @@
     Author     : Kipngetich
 --%>
 <%@page import="java.sql.*" %>
-<%@page import="myproject.*"%>  
+<%@page import="myproject.*"%> 
+<%@page import="javax.crypto.SecretKey" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -32,6 +33,65 @@
                 margin-left: 6%;
                 height: 350px;
             }
+           
+            .strength_meter{
+                //position: relative;
+                left: 0px;
+                margin-top: -30px;
+                width: 100%;
+                height: 2px;
+                z-index:-1;
+                border-radius:5px;
+                padding-right:13px;
+            }
+            .button_strength {
+                text-decoration: none;
+                color: white;
+                font-size: 10px;
+            }
+            .strength_meter div{
+                width:0%;
+                height: 15px;
+                text-align: right;
+                color: #000;
+                line-height: 43px;
+                -webkit-transition: all .3s ease-in-out;
+                -moz-transition: all .3s ease-in-out;
+                -o-transition: all .3s ease-in-out;
+                -ms-transition: all .3s ease-in-out;
+                transition: all .3s ease-in-out;
+                
+                border-radius:5px;
+            }
+            .strength_meter div p{
+                position: absolute;
+                top: 50px;
+                right: 0px;
+                color: red;
+                font-size:13px;
+            }
+                
+            .veryweak{
+                background-color: #FFA0A0;
+                border-color: #F04040!important;
+                width:25%!important;
+            }
+            .weak{
+                background-color: #FFB78C;
+                border-color: #FF853C!important;
+                width:50%!important;
+            }
+            .medium{
+                background-color: #FFEC8B;
+                border-color: #FC0!important;
+                width:75%!important;
+            }
+            .strong{
+                background-color: #C3FF88;
+                border-color: #8DFF1C!important;
+                width:100%!important;
+            }
+            
         </style>
     </head>
     <body style="overflow-x: hidden; background-color: #EFEEEE;"> 
@@ -42,8 +102,10 @@
             
             <div class="login-panel panel panel-default">
    
-        <%if(request.getParameter("register")!=null){                 
-            Applicant applicant=new Applicant();  
+           <% Applicant applicant=new Applicant();
+            String key=applicant.keyGen();
+            String key2=applicant.keyGen2();
+            if(request.getParameter("register")!=null){                 
             String fname=request.getParameter("fname");
             String mname=request.getParameter("mname");
             String lname=request.getParameter("lname");
@@ -52,8 +114,7 @@
             int roleId=2;
     
             ResultSet results1=applicant.checkIfRegistered(email);
-            int results2=applicant.setUsers(fname, mname, lname, email, pwd, roleId);
-
+            //int results2=applicant.setUsers(fname, mname, lname, email, pwd, roleId);
     
             if(results1.next()){%>
             <div class="panel-heading">
@@ -61,10 +122,11 @@
             </div> 
             <% }
             else{
-    
-                if(results2>0){%>
+                applicant.sendMail(email, key, key2);
+                int tempUser=applicant.insertTempUser(fname, mname, lname, email, pwd, key); 
+                if(tempUser>0){%>
                 <div class="panel-heading">
-                    <h3 class="panel-title alert alert-success alert-block" style="text-align: center;"><span style="color: green;">Registration Successful... Click Sign In below to Login</span></h3>
+                    <h3 class="panel-title alert alert-success alert-block" style="text-align: center;"><span style="color: green;">Account Activation link has been sent to <%=email%></span></h3>
                 </div> 
                 <% }
                 else{%>
@@ -119,7 +181,7 @@
                             <input type="password" class="form-control input" id="password2" name="password2" placeholder="Confirm Password"/>
                         </div>        
                     </div>
-                        
+                    <div class="row" style="height:4px;"></div>
                     <div class="row" id="buttons1">
                         <div class="col-sm-3"></div>
                         <div class="form-group col-sm-3">
@@ -133,10 +195,11 @@
                   
                 </fieldset>
                 <div class="row">
-                    <div class="col-sm-9"></div>
+                    
                     <div class="col-sm-3">
-                        <a href="../Login.jsp" style="float: right;">Sign In</a>
+                        <div class="pull-left"><a href="../index.jsp"><button type="button" class="btn btn-info btn-sm"><i class="fa fa-backward">Back</i></button></a></div>
                     </div>
+                    <div class="col-sm-9"></div>
                 </div>
             </form>
                 
@@ -151,5 +214,21 @@
     <script type="text/javascript" src="mycss/validation/jquery.validate.js"></script>
     <script type="text/javascript" src="mycss/validation/additional-methods.js"></script>
     <script src="mycss/validation/custom.js"></script>
+    <script type="text/javascript" src="js/strength.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+    
+    <script>
+        $(document).ready(function($) {
+            
+            $('#password1').strength({
+                strengthClass: 'strength',
+                strengthMeterClass: 'strength_meter',
+                strengthButtonClass: 'button_strength',
+                strengthButtonText: 'Show Password',
+                strengthButtonTextToggle: 'Hide Password'
+            });
+            
+        });
+    </script>
 </body>
 </html>

@@ -28,7 +28,7 @@
             if(session.getAttribute("applicantId")==null||(session.getAttribute("applicantId")==""))
             {
                 
-             response.sendRedirect("../Login.jsp"); 
+             response.sendRedirect("../index.jsp"); 
 
             }
             else
@@ -40,7 +40,7 @@
         
         <%
                PdfPTable table1 = new PdfPTable(8);
-               PdfPTable table2 = new PdfPTable(7);
+               PdfPTable table2 = new PdfPTable(9);
                PdfPTable table3 = new PdfPTable(4);
                PdfPCell c1 = new PdfPCell();
                PdfPCell c2 = new PdfPCell();
@@ -83,7 +83,11 @@
                //table1.setHeaderRows(1);
                
                
-               c2 = new PdfPCell(new Phrase("Physics"));
+               c2 = new PdfPCell(new Phrase("English"));
+               c2.setHorizontalAlignment(Element.ALIGN_CENTER);
+               table2.addCell(c2);
+               
+               c2 = new PdfPCell(new Phrase("Kiswahili"));
                c2.setHorizontalAlignment(Element.ALIGN_CENTER);
                table2.addCell(c2);
                
@@ -91,16 +95,20 @@
                c2.setHorizontalAlignment(Element.ALIGN_CENTER);
                table2.addCell(c2);
                
-               c2 = new PdfPCell(new Phrase("Subject III"));
-               c2.setHorizontalAlignment(Element.ALIGN_CENTER);
-               table2.addCell(c2);
-               
-               c2 = new PdfPCell(new Phrase("Subject IV"));
+               c2 = new PdfPCell(new Phrase("Physics"));
                c2.setHorizontalAlignment(Element.ALIGN_CENTER);
                table2.addCell(c2);
                //table1.setHeaderRows(1);
 
-               c2 = new PdfPCell(new Phrase("Mean Grade"));
+               c2 = new PdfPCell(new Phrase("Group II"));
+               c2.setHorizontalAlignment(Element.ALIGN_CENTER);
+               table2.addCell(c2);
+               
+               c2 = new PdfPCell(new Phrase("Group III"));
+               c2.setHorizontalAlignment(Element.ALIGN_CENTER);
+               table2.addCell(c2);
+               
+               c2 = new PdfPCell(new Phrase("Group IV/ Group V"));
                c2.setHorizontalAlignment(Element.ALIGN_CENTER);
                table2.addCell(c2);
                              
@@ -162,11 +170,13 @@
             ResultSet rs2=user.getEducationBackground(applicantId);
             document.add(new Paragraph("B. Academic Qualification")); 
             if(rs2.next()) { 
+            table2.addCell(rs2.getString("Eng_Grade"));
+            table2.addCell(rs2.getString("Kisw_Grade"));
+            table2.addCell(rs2.getString("Math_Grade"));
             table2.addCell(rs2.getString("Physics_Grade"));
-            table2.addCell(rs2.getString("Maths_Grade"));
-            table2.addCell(rs2.getString("Subject3_Grade"));
-            table2.addCell(rs2.getString("Subject4_Grade"));
-            table2.addCell(rs2.getString("Mean_Grade"));
+            table2.addCell(rs2.getString("Group2_Grade"));
+            table2.addCell(rs2.getString("Group3_Grade"));
+            table2.addCell(rs2.getString("Grp4or5_Grade"));
             table2.addCell(rs2.getString("Aggregate_Points"));
             table2.addCell(rs2.getString("Cluster_Points"));
             }
@@ -190,7 +200,13 @@
             table3.addCell(ln);
             table3.addCell(cn);
             table3.addCell(rs3.getString("Mode_Of_Study"));
-            table3.addCell(rs3.getString("Campus"));
+            String campusName=new String();
+            int cumpusId=rs3.getInt("Campus");
+            ResultSet getCampusName=user.getCampusName(cumpusId);
+            if(getCampusName.next()){
+              campusName=getCampusName.getString("Campus_Name");
+            }
+            table3.addCell(campusName);
             }
             document.add(table3);
             

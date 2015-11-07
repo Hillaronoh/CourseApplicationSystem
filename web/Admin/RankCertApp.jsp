@@ -55,7 +55,7 @@
             if(session.getAttribute("adminId")==null||(session.getAttribute("adminId")==""))
             {
                 
-                response.sendRedirect("../Login.jsp"); 
+                response.sendRedirect("../index.jsp"); 
 
             }
             else
@@ -76,9 +76,17 @@
             int year=gcalendar.get(Calendar.YEAR);
             
             Admin admin=new Admin();
+            Applicant applicant=new Applicant();
+            Applicant applicant2=new Applicant();
             String firstName=new String();
-           
+                                   
             ResultSet results=admin.getAdmin(adminId);
+            
+            int certStatusId=0;
+            ResultSet certStatus=applicant.checkSatus(5);
+            if(certStatus.next()){
+             certStatusId=certStatus.getInt("Status");
+           }
            
             if(results.next()){
                 firstName=results.getString("First_Name");
@@ -107,6 +115,7 @@
                 int courseIdCf=4;
                 int courseIdIs=5;
                 int courseIdHm=6;
+                int statusId=0;
                 int requiredNumberIt=Integer.parseInt(request.getParameter("it"));
                 int requiredNumberCf=Integer.parseInt(request.getParameter("cf"));
                 int requiredNumberIs=Integer.parseInt(request.getParameter("is"));
@@ -115,7 +124,8 @@
                 int r2=admin.ranking(levelId, courseIdCf, requiredNumberCf);
                 int r3=admin.ranking(levelId, courseIdIs, requiredNumberIs);
                 int r4=admin.ranking(levelId, courseIdHm, requiredNumberHm);
-                if(r1>0&&r2>0&&r3>0&&r4>0){%>
+                int status=admin.changeCourseStatus(statusId, levelId);
+                if(r1>0&&r2>0&&r3>0&&r4>0&&status>0){%>
                 <script>
                     alert("Ranking Successful");
                     window.location.href="RankCertApp.jsp";
@@ -128,8 +138,11 @@
                 <%}
             }
             if(request.getParameter("undo")!=null){
+                int statusId=1; 
+                int levelId=5;
+                int status=admin.changeCourseStatus(statusId, levelId);
                 int r=admin.undoRanking(5);
-                if(r>0){%>
+                if(r>0&&status>0){%>
                 <script>
                     alert("Ranking undone successfully.");
                     window.location.href="RankCertApp.jsp";
@@ -141,6 +154,19 @@
                 </script>  
                 <%}
             }
+            
+            int unrepliedInquiries=0;
+            ResultSet unrepliedInq=admin.numberOfUnrepliedInquiries();
+            unrepliedInq.next(); 
+            unrepliedInquiries = unrepliedInq.getInt(1);
+            
+            int totalInquiries=0;
+            ResultSet totalInq=admin.numberOfInquiries();
+            totalInq.next(); 
+            totalInquiries = totalInq.getInt(1);
+            
+            ResultSet confirmRank=applicant.checkRankingPerLevel(5);
+            ResultSet getRankedCourses=applicant2.checkRankingPerLevel(5); 
             %>
         
         <div class="container body">
@@ -241,73 +267,47 @@
                                 
                                 <li role="presentation" class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-globe"></i>
-                                        <span class="badge bg-green">6</span>
+                                        <i class="fa fa-envelope-o"></i>
+                                        <%if(unrepliedInquiries!=0){%>
+                                        <span class="badge bg-green"><%=unrepliedInquiries%></span>
+                                        <%}%>
                                     </a>
                                     <ul id="menu1" class="dropdown-menu list-unstyled msg_list animated fadeInDown" role="menu">
+                                        
                                         <li>
                                             <a>
-                                                <span class="image">
-                                                    <img src="images/img.jpg" alt="Profile Image" />
-                                                </span>
+                                               
                                                 <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
+                                                    <span>Inquiries(<%=totalInquiries%>)</span>
+                                                    <span class="time">Unreplied(<%=unrepliedInquiries%>)</span>
                                                 </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where... 
-                                                </span>
-                                            </a>
+                                                
+                                            </a>  
                                         </li>
                                         <li>
                                             <a>
-                                                <span class="image">
-                                                    <img src="images/img.jpg" alt="Profile Image" />
-                                                </span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
+                                              
                                                 <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where... 
+                                                    <%if(unrepliedInquiries==0){%>
+                                                    Oops! No unreplied inquiry... 
+                                                    <%} else if(unrepliedInquiries==1){%>
+                                                    You have <%=unrepliedInquiries%> unreplied inquiry... 
+                                                    <%} else {%>
+                                                    You have <%=unrepliedInquiries%> unreplied inquiries...
+                                                    <%}%>
                                                 </span>
-                                            </a>
+                                            </a>  
                                         </li>
+                                        
                                         <li>
-                                            <a>
-                                                <span class="image">
-                                                    <img src="images/img.jpg" alt="Profile Image" />
-                                                </span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where... 
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a>
-                                                <span class="image">
-                                                    <img src="images/img.jpg" alt="Profile Image" />
-                                                </span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where... 
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
+                                            <%if(unrepliedInquiries!=0){%>
                                             <div class="text-center">
-                                                <a>
-                                                    <strong>See All Alerts</strong>
+                                                
+                                                    <strong><a href="UnrepliedInquiries.jsp">Reply</a></strong>
                                                     <i class="fa fa-angle-right"></i>
-                                                </a>
+                                               
                                             </div>
+                                            <%}%>
                                         </li>
                                     </ul>
                                 </li>
@@ -330,7 +330,34 @@
                             <div class="title_left">
                                 <h3>Rank</h3>
                             </div>
-                            
+                             <form>
+                                <%if(certStatusId==0){%>
+                                <div class="pull-right"><button type="submit" name="open" class="btn btn-info"><i class="fa fa-unlock"></i>Open Certificate Application</button></div>
+                            <%} else{%>
+                            <div class="pull-right"><button type="submit" name="close" class="btn btn-warning"><i class="fa fa-lock"></i>Close Certificate Application</button></div>
+                            <%}%>
+                            </form>
+                            <%if(request.getParameter("open")!=null){
+                             int statusId=1;
+                             int levelId=5;
+                            int status=admin.changeCourseStatus(statusId, levelId); 
+                            if(status>0){%>
+                            <script>
+                                alert("Certificate Application was opened successfully.");
+                                window.location.href="RankDegApp.jsp";
+                            </script> 
+                            <%} }
+                            if(request.getParameter("close")!=null){
+                             int statusId=0;
+                             int levelId=5;
+                             int status=admin.changeCourseStatus(statusId, levelId); 
+                             if(status>0){%>
+                            <script>
+                                alert("Certificate Application was closed successfully.");
+                                window.location.href="RankDegApp.jsp";
+                            </script> 
+                            <%} }
+                            %>
                         </div>
                         <div class="clearfix"></div>
                         <div class="row">
@@ -344,7 +371,94 @@
                                     <div class="x_content">
                                         <br />
                                         
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
                                         <div class="row">
+                                            <div class="col-sm-3">
+                                                <form>
+                                            <div class="row">
+                                                <div class="col-sm-12 panel panel-default">
+                                                    <fieldset><legend>Rank Status</legend></fieldset>
+                                                    <%boolean isRanked=false;
+                                                    if(confirmRank.next()){
+                                                    isRanked=true;%>
+                                                    <p>Ranking for Certificate Applicants was done successfully as follows;</p>
+                                                    <table class="table table-striped table-bordered table-hover"> 
+                                                             <thead>
+                                                                 <tr>
+                                                                     <th>Course Name</th>
+                                                                     <th>Required Number</th>
+                                                                 </tr>
+                                                             </thead>
+                                                        <%while(getRankedCourses.next()){
+                                                            ResultSet crsName=applicant.getCourseName(getRankedCourses.getInt("Course_id"));
+                                                            crsName.next();
+                                                         %>
+                                                         
+                                                             <tbody>
+                                                                 <tr>
+                                                                     <td><%=crsName.getString("Course_Name")%></td>
+                                                                     <td><%=getRankedCourses.getInt("Required_Number")%></td>
+                                                                 </tr>
+                                                             </tbody>
+                                                        
+                                                        
+                                                         <%}%> 
+                                                     </table>
+                                                    <%} else{%>
+                                                    <p>No Ranking found for Certificate Applicants!</p>
+                                                    <%}%>
+                                            </div>
+                                            <%if(isRanked){%>
+                                            <button type="submit" class="btn btn-danger btn-block" name="undo"><i class="fa fa-undo"></i>Undo Previous Ranking</button><br/>
+                                            <%} else{%>
+                                            <button type="submit" class="btn btn-danger btn-block disabled" name="undo"><i class="fa fa-undo"></i>Undo Previous Ranking</button><br/>
+                                            <%}%>
+                                            </div>
+                                            </form>
+                                            </div>
+                                                <div class="col-sm-1"></div>
+                                            <form class="form-horizontal" id="myForm5">
+                                                <div class="col-sm-4 panel panel-default" style="padding: 15px 15px;">
+                                                    <fieldset><legend>Rank Now</legend></fieldset>
+                                                    <p>Specify the number of applicants as follows:</p>
+                                                    <label for="it">Information Technology:</label>
+                                                    <input type="number" class="form-control input" id="it" name="it" placeholder="Number of IT applicants"/><br/>
+                                                    
+                                                    <label for="cf">Computer Forensics:</label>
+                                                    <input type="number" class="form-control input" id="cf" name="cf" placeholder="Number of computer forensics applicants"/><br/>
+                                                    
+                                                    <label for="is">Information Studies:</label>
+                                                    <input type="number" class="form-control input" id="is" name="is" placeholder="Number of information studies applicants"/><br/> 
+                                                    
+                                                    <label for="hm">Hardware Maintenance:</label>
+                                                    <input type="number" class="form-control input" id="hm" name="hm" placeholder="Number of hardware maintenance applicants"/><br/> 
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-3 panel panel-default">
+                                                    <fieldset><legend>Actions</legend></fieldset>
+                                                    <%if(isRanked){%>
+                                                    <button type="submit" class="btn btn-success btn-block disabled" name="rank"><i class="fa fa-check-square-o"></i>Rank</button><br/>
+                                                    <button type="reset" class="btn btn-info btn-block disabled" name="reset"><i class="fa fa-close"></i>Reset</button><br/>
+                                                    <%} else{%>
+                                                    <button type="submit" class="btn btn-success btn-block" name="rank"><i class="fa fa-check-square-o"></i>Rank</button><br/>
+                                                    <button type="reset" class="btn btn-info btn-block " name="reset"><i class="fa fa-close"></i>Reset</button><br/>
+                                                    <%}%>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                       <!-- <div class="row">
                                             <form class="form-horizontal">
                                                 <div class="col-sm-5 panel panel-default" style="padding: 15px 15px;">
                                                     <fieldset> <legend>Specify the number of applicants as follows:</legend></fieldset>
@@ -378,7 +492,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         
                         <div class="modal fade" id="postAnnouncement" role="dialog">
                             <div class="modal-dialog" style="width: 500px;">

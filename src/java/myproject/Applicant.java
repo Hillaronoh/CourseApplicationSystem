@@ -4,8 +4,23 @@
 * and open the template in the editor.
 */
 package myproject;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.*;
 import java.text.DecimalFormat;
+import java.util.Properties;
+import java.util.UUID;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 /**
  *
  * @author hillary
@@ -81,6 +96,22 @@ public class Applicant {
     PreparedStatement pst44=null;
     //get campus name given id
     PreparedStatement pst45=null;
+    //confirm degree, diploma and cert ranking
+    PreparedStatement pst46=null;
+    //get course levels one applied for
+    PreparedStatement pst47=null;
+    //check legibility
+    PreparedStatement pst48=null;
+    //insert temp user
+    PreparedStatement pst49=null;
+    //get key of temp user
+    PreparedStatement pst50=null;
+    //move temp user to permanent table
+    PreparedStatement pst51=null;
+    //delete temp user
+    PreparedStatement pst52=null;
+    //check course status
+    PreparedStatement pst53=null;
     //constructor
     public Applicant() throws ClassNotFoundException{
         Common connection=new Common();
@@ -91,7 +122,7 @@ public class Applicant {
             //application
             pst2=conn.prepareStatement("SELECT First_Name,Middle_Name,Last_Name FROM registration WHERE Email_Address=? AND Role_id=?");
             pst3=conn.prepareStatement("INSERT INTO applicants_details VALUES(?,?,?,?,?,?,?,?,?)");
-            pst4=conn.prepareStatement("UPDATE education_background SET Physics_Grade=?, Maths_Grade=?, Subject3_Grade=?, Subject4_Grade=?, Mean_Grade=?, Aggregate_Points=?, Cluster_Points=? WHERE Email_Address=?");
+            pst4=conn.prepareStatement("UPDATE education_background SET Eng_Grade=?, Kisw_Grade=?, Math_Grade=?, Physics_Grade=?, Group2_Grade=?, Group3_Grade=?, Grp4or5_Grade=?, Aggregate_Points=?, Cluster_Points=? WHERE Email_Address=?");
             pst5=conn.prepareStatement("INSERT INTO course_details(Email_Address, Level_id, Course_id, Mode_Of_Study, Campus) VALUES(?,?,?,?,?)");
             pst6=conn.prepareStatement("SELECT * FROM campuses");
             pst7=conn.prepareStatement("SELECT * FROM courses WHERE Level_id=?");
@@ -108,13 +139,13 @@ public class Applicant {
             pst16=conn.prepareStatement("SELECT Level_Name FROM course_levels WHERE Level_id=?");
             pst17=conn.prepareStatement("SELECT * FROM courses WHERE Course_id=?");
             pst18=conn.prepareStatement("UPDATE applicants_details SET DoB=?, Gender=?, Postal_Address=?, Mobile=?, Country=? WHERE Email_Address=?");
-            pst19=conn.prepareStatement("UPDATE education_background SET Physics_Grade=?, Maths_Grade=?, Subject3_Grade=?, Subject4_Grade=?, Mean_Grade=?, Aggregate_Points=?, Cluster_Points=? WHERE Email_Address=?");
+            pst19=conn.prepareStatement("UPDATE education_background SET Eng_Grade=?, Kisw_Grade=?, Math_Grade=?, Physics_Grade=?, Group2_Grade=?, Group3_Grade=?, Grp4or5_Grade=?, Aggregate_Points=?, Cluster_Points=? WHERE Email_Address=?");
             pst20=conn.prepareStatement("UPDATE course_details SET Level_id=?, Course_id=?, Mode_Of_Study=?, Campus=? WHERE (Email_Address=? AND Level_id=? AND Course_id=?)");
             pst21=conn.prepareStatement("SELECT Level_id FROM course_levels WHERE Level_Name=?");
             pst22=conn.prepareStatement("SELECT Course_id FROM courses WHERE Course_Name=?");
             pst23=conn.prepareStatement("SELECT * FROM campuses");
             pst24=conn.prepareStatement("SELECT * FROM courses");
-            pst25=conn.prepareStatement("SELECT * FROM course_levels");
+            pst25=conn.prepareStatement("SELECT * FROM course_levels WHERE Level_id>=?");
             confirmDet=conn.prepareStatement("SELECT * FROM applicants_details WHERE Email_Address=?");
             check3=conn.prepareStatement("SELECT * FROM course_details WHERE Email_Address=?");
             //inquiries
@@ -154,6 +185,22 @@ public class Applicant {
             pst44=conn.prepareStatement("SELECT * FROM courses WHERE Level_id=? and Cluster_Limit<=?");
             //get campus name given id
             pst45=conn.prepareStatement("SELECT * FROM campuses WHERE Campus_id=?");
+            //confirm degree, diploma and cert ranking
+            pst46=conn.prepareStatement("SELECT * FROM ranking WHERE Level_id=?");
+            //get course levels one applied for
+            pst47=conn.prepareStatement("SELECT DISTINC Level_id FROM course_details WHERE Email_Address=?");
+            //check legibility
+            pst48=conn.prepareStatement("SELECT * FROM education_background");
+            //insert temp user
+            pst49=conn.prepareStatement("INSERT INTO temp_users VALUES(?,?,?,?,?,?)");
+            //get key of temp user
+            pst50=conn.prepareStatement("SELECT * FROM temp_users WHERE Activation_Key=?");
+            //move temp user to permanent table
+            pst51=conn.prepareStatement("INSERT INTO registration VALUES(?,?,?,?,?,?)");
+            //delete temp user
+            pst52=conn.prepareStatement("DELETE FROM temp_users WHERE Activation_Key=?");
+            //check course status
+            pst53=conn.prepareStatement("SELECT Status FROM course_status WHERE Level_id=?");
         }catch(SQLException e){
             e.printStackTrace(System.out);
         }
@@ -231,17 +278,19 @@ public class Applicant {
         return rs;
     }
     //inserts education background details
-    public int setEducationBackground(String physicsGrade, String mathsGrade, String subj3Grade, String subj4Grade, String meanGrade,double aggregatePoints, double clusterPoints, String email){
+    public int setEducationBackground(String engGrade, String kiswGrade, String mathsGrade, String physicsGrade, String grp2Grade, String grp3Grade, String grp4or5Grade, double aggregatePoints, double clusterPoints, String email){
         int j=0;
         try{
-            pst4.setString(1, physicsGrade);
-            pst4.setString(2, mathsGrade);
-            pst4.setString(3, subj3Grade);
-            pst4.setString(4, subj4Grade);
-            pst4.setString(5, meanGrade);
-            pst4.setDouble(6, aggregatePoints);
-            pst4.setDouble(7, clusterPoints);
-            pst4.setString(8, email);
+            pst4.setString(1, engGrade);
+            pst4.setString(2, kiswGrade);
+            pst4.setString(3, mathsGrade);
+            pst4.setString(4, physicsGrade);
+            pst4.setString(5, grp2Grade);
+            pst4.setString(6, grp3Grade);
+            pst4.setString(7, grp4or5Grade);
+            pst4.setDouble(8, aggregatePoints);
+            pst4.setDouble(9, clusterPoints);
+            pst4.setString(10, email);
             j=pst4.executeUpdate();
         }
         catch(SQLException e){
@@ -277,7 +326,7 @@ public class Applicant {
         }
         return k;
     }
-     //checks if section C has been filled..for display/editing
+    //checks if section C has been filled..for display/editing
     public ResultSet checkSectionC(String email){
         ResultSet rs=null;
         try{
@@ -300,6 +349,11 @@ public class Applicant {
         DecimalFormat df = new DecimalFormat("#.##");
         String w1 = df.format(w);
         return Double.parseDouble(w1);
+    }
+    //calculate aggregate points
+    public double calculateAggregatePoints(double eng, double kisw, double maths, double grp2Sub1, double grp2Sub2, double grp3, double grp4or5){
+        double aggregatePoints=(eng+kisw+maths+grp2Sub1+grp2Sub2+grp3+grp4or5);
+        return aggregatePoints;
     }
     //get campuses from db
     public ResultSet getCampuses(){
@@ -337,9 +391,10 @@ public class Applicant {
         return rs;
     }
     //get course levels from db
-    public ResultSet getLevels(){
+    public ResultSet getLevels(int levelId){
         ResultSet rs=null;
         try{
+            pst25.setInt(1, levelId);
             rs=pst25.executeQuery();
         }
         catch(SQLException e){
@@ -509,17 +564,19 @@ public class Applicant {
         return i;
     }
     //updates education background after editing
-    public int editEducationBackground(String physics,String maths,String subj3, String subj4, String mean, double aggPoints, double clusterPoints, String email){
+    public int editEducationBackground(String eng, String kisw, String maths, String physics, String grp2, String grp3, String grp4or5, double aggPoints, double clusterPoints, String email){
         int j=0;
         try{
-            pst19.setString(1, physics);
-            pst19.setString(2, maths);
-            pst19.setString(3, subj3);
-            pst19.setString(4, subj4);
-            pst19.setString(5, mean);
-            pst19.setDouble(6, aggPoints);
-            pst19.setDouble(7, clusterPoints);
-            pst19.setString(8, email);
+            pst19.setString(1, eng);
+            pst19.setString(2, kisw);
+            pst19.setString(3, maths);
+            pst19.setString(4, physics);
+            pst19.setString(5, grp2);
+            pst19.setString(6, grp3);
+            pst19.setString(7, grp4or5);
+            pst19.setDouble(8, aggPoints);
+            pst19.setDouble(9, clusterPoints);
+            pst19.setString(10, email);
             j=pst19.executeUpdate();
         }
         catch(SQLException e){
@@ -538,8 +595,8 @@ public class Applicant {
             pst20.setString(5, email);
             pst20.setInt(6, levelId);
             pst20.setInt(7, courseId);
-           // pst20.setString(8, m);
-           // pst20.setString(9, c);
+            // pst20.setString(8, m);
+            // pst20.setString(9, c);
             j=pst20.executeUpdate();
         }
         catch(SQLException e){
@@ -574,23 +631,23 @@ public class Applicant {
     }
     //for changing pwd
     public int changePwd(String newPwd, String email, String oldPwd){
-       int i=0;
-       try{
-          pst29.setString(1, newPwd);
-          pst29.setString(2, email);
-          pst29.setString(3, oldPwd);
-          i=pst29.executeUpdate();
-       }
-       catch(SQLException e){
-           e.printStackTrace(System.out);
-       }
-       return i;
+        int i=0;
+        try{
+            pst29.setString(1, newPwd);
+            pst29.setString(2, email);
+            pst29.setString(3, oldPwd);
+            i=pst29.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return i;
     }
     //confirm ranking
     public ResultSet confirmRanking(){
         ResultSet rs=null;
         try{
-           rs=pst30.executeQuery();
+            rs=pst30.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);
@@ -601,7 +658,7 @@ public class Applicant {
     public ResultSet getDegCsRank(String email){
         ResultSet rs=null;
         try{
-            pst31.setString(1, email); 
+            pst31.setString(1, email);
             rs=pst31.executeQuery();
         }
         catch(SQLException e){
@@ -613,7 +670,7 @@ public class Applicant {
     public ResultSet getDegItRank(String email){
         ResultSet rs=null;
         try{
-            pst33.setString(1, email); 
+            pst33.setString(1, email);
             rs=pst33.executeQuery();
         }
         catch(SQLException e){
@@ -625,7 +682,7 @@ public class Applicant {
     public ResultSet getDegInfoRank(String email){
         ResultSet rs=null;
         try{
-            pst34.setString(1, email); 
+            pst34.setString(1, email);
             rs=pst34.executeQuery();
         }
         catch(SQLException e){
@@ -637,7 +694,7 @@ public class Applicant {
     public ResultSet getDegCfRank(String email){
         ResultSet rs=null;
         try{
-            pst35.setString(1, email); 
+            pst35.setString(1, email);
             rs=pst35.executeQuery();
         }
         catch(SQLException e){
@@ -649,7 +706,7 @@ public class Applicant {
     public ResultSet getDipCsRank(String email){
         ResultSet rs=null;
         try{
-            pst36.setString(1, email); 
+            pst36.setString(1, email);
             rs=pst36.executeQuery();
         }
         catch(SQLException e){
@@ -661,7 +718,7 @@ public class Applicant {
     public ResultSet getDipItRank(String email){
         ResultSet rs=null;
         try{
-            pst37.setString(1, email); 
+            pst37.setString(1, email);
             rs=pst37.executeQuery();
         }
         catch(SQLException e){
@@ -673,7 +730,7 @@ public class Applicant {
     public ResultSet getDipInfoRank(String email){
         ResultSet rs=null;
         try{
-            pst38.setString(1, email); 
+            pst38.setString(1, email);
             rs=pst38.executeQuery();
         }
         catch(SQLException e){
@@ -685,7 +742,7 @@ public class Applicant {
     public ResultSet getDipCfRank(String email){
         ResultSet rs=null;
         try{
-            pst39.setString(1, email); 
+            pst39.setString(1, email);
             rs=pst39.executeQuery();
         }
         catch(SQLException e){
@@ -697,7 +754,7 @@ public class Applicant {
     public ResultSet getCertItRank(String email){
         ResultSet rs=null;
         try{
-            pst40.setString(1, email); 
+            pst40.setString(1, email);
             rs=pst40.executeQuery();
         }
         catch(SQLException e){
@@ -709,7 +766,7 @@ public class Applicant {
     public ResultSet getCertCfRank(String email){
         ResultSet rs=null;
         try{
-            pst41.setString(1, email); 
+            pst41.setString(1, email);
             rs=pst41.executeQuery();
         }
         catch(SQLException e){
@@ -721,7 +778,7 @@ public class Applicant {
     public ResultSet getCertIsRank(String email){
         ResultSet rs=null;
         try{
-            pst42.setString(1, email); 
+            pst42.setString(1, email);
             rs=pst42.executeQuery();
         }
         catch(SQLException e){
@@ -733,7 +790,7 @@ public class Applicant {
     public ResultSet getCertHmRank(String email){
         ResultSet rs=null;
         try{
-            pst43.setString(1, email); 
+            pst43.setString(1, email);
             rs=pst43.executeQuery();
         }
         catch(SQLException e){
@@ -762,6 +819,199 @@ public class Applicant {
             pst44.setInt(1, levelId);
             pst44.setDouble(2, clusterPoints);
             rs=pst44.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //confirm degree, diploma and cert ranking
+    public ResultSet checkRankingPerLevel(int level){
+        ResultSet rs=null;
+        try{
+            pst46.setInt(1, level);
+            rs=pst46.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get course levels of courses applied for
+    public ResultSet getLevelIdsOfCoursesApplied(String email){
+        ResultSet rs=null;
+        try{
+            pst47.setString(1, email);
+            rs=pst47.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get age
+    public long calculateAge(Date dob, Date curDate){
+        long difference = curDate.getTime() - dob.getTime();
+        long days = (difference / (1000*60*60*24));
+        long age=days/365;
+        return age;
+    }
+    //get age
+    public ResultSet checkLegibility(){
+        ResultSet rs=null;
+        try{
+            rs=pst48.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //send activation links to emails
+    public void sendMail(String email, String actKey, String urlKey) throws UnsupportedEncodingException{
+        final String username = "ronokip55@gmail.com";
+        final String password = "HILLARYHILLARY";
+        
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        
+        Session session = Session.getInstance(props,new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        
+        try {
+            //String q = "random word £500 bank $";
+            // String html = "http://localhost:8080/Project1c/Login.jsp/%20query?q=" + URLEncoder.encode(actKey, "UTF-8");
+            String html = "Thank You For Identifying MMUST, The University Of Choice.\nClick on the link below to activate your account.<a href=http://localhost:8080/Project1c/index.jsp?u="+actKey+">mmust"+urlKey+"accountactivation</a>";
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("ronokip55@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            message.setSubject("Account Activation");
+            message.setText(html, "UTF-8", "html");
+            
+            Transport.send(message);
+            
+            // System.out.println("Done");
+            
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    //generate random key
+    public String keyGen() throws NoSuchAlgorithmException{
+        String uuid = UUID.randomUUID().toString();
+        return uuid;
+    }
+    //generate random string for url
+    public String keyGen2() throws NoSuchAlgorithmException{
+        String uuid = UUID.randomUUID().toString();
+        return uuid;
+    }
+    //insert temp user
+    public int insertTempUser(String fn, String mn, String ln, String email, String pwd, String key){
+        int j=0;
+        try{
+            pst49.setString(1, fn);
+            pst49.setString(2, mn);
+            pst49.setString(3, ln);
+            pst49.setString(4, email);
+            pst49.setString(5, pwd);
+            pst49.setString(6, key);
+            j=pst49.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return j;
+    }
+    //get key of temp user
+    public ResultSet getKey(String key){
+        ResultSet rs=null;
+        try{
+            pst50.setString(1, key);
+            rs=pst50.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //move temp user to permanent table
+    public int insertTempUser(String fname, String mname, String lname, String email, String pwd, int ri){
+        int j=0;
+        try{
+            pst51.setString(1, fname);
+            pst51.setString(2, mname);
+            pst51.setString(3, lname);
+            pst51.setString(4, email);
+            pst51.setString(5, pwd);
+            pst51.setInt(6, ri);
+            j=pst51.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return j;
+    }
+    //delete temp user
+    public int deleteTempUser(String key){
+        int j=0;
+        try{
+            pst52.setString(1, key);
+            j=pst52.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return j;
+    }
+    //send emailfor password reset
+    public void sendMailPwd(String email, String urlKey){
+        final String username = "ronokip55@gmail.com";
+        final String password = "HILLARYHILLARY";
+        
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        
+        Session session = Session.getInstance(props,new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        
+        try {
+            // String html = "http://localhost:8080/Project1c/Login.jsp/%20query?q=" + URLEncoder.encode(actKey, "UTF-8");
+            String html = "Click on the link below to reset your password.\n<a href=http://localhost:8080/Project1c/Applicants/PasswordReset.jsp?u="+email+">mmust"+urlKey+"passwordrecovery</a>";
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("ronokip55@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            message.setSubject("Password Recovery");
+            message.setText(html, "UTF-8", "html");
+            
+            Transport.send(message);
+            
+            // System.out.println("Done");
+            
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    //check course status
+    public ResultSet checkSatus(int levelId){
+        ResultSet rs=null;
+        try{
+            pst53.setInt(1, levelId);
+            rs=pst53.executeQuery();
         }
         catch(SQLException e){
             e.printStackTrace(System.out);

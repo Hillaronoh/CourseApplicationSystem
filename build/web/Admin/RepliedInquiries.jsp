@@ -56,7 +56,7 @@
            if(session.getAttribute("adminId")==null||(session.getAttribute("adminId")==""))
            {
                 
-               response.sendRedirect("../Login.jsp"); 
+               response.sendRedirect("../index.jsp"); 
 
            }
            else
@@ -103,6 +103,16 @@
                 </script> 
                 <%}
             }
+            
+            int unrepliedInquiries=0;
+            ResultSet unrepliedInq=admin.numberOfUnrepliedInquiries();
+            unrepliedInq.next(); 
+            unrepliedInquiries = unrepliedInq.getInt(1);
+            
+            int totalInquiries=0;
+            ResultSet totalInq=admin.numberOfInquiries();
+            totalInq.next(); 
+            totalInquiries = totalInq.getInt(1);
             %>
         
         <div class="container body">
@@ -203,73 +213,47 @@
                                 
                                 <li role="presentation" class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-globe"></i>
-                                        <span class="badge bg-green">6</span>
+                                        <i class="fa fa-envelope-o"></i>
+                                        <%if(unrepliedInquiries!=0){%>
+                                        <span class="badge bg-green"><%=unrepliedInquiries%></span>
+                                        <%}%>
                                     </a>
                                     <ul id="menu1" class="dropdown-menu list-unstyled msg_list animated fadeInDown" role="menu">
+                                        
                                         <li>
                                             <a>
-                                                <span class="image">
-                                                    <img src="images/img.jpg" alt="Profile Image" />
-                                                </span>
+                                               
                                                 <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
+                                                    <span>Inquiries(<%=totalInquiries%>)</span>
+                                                    <span class="time">Unreplied(<%=unrepliedInquiries%>)</span>
                                                 </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where... 
-                                                </span>
-                                            </a>
+                                                
+                                            </a>  
                                         </li>
                                         <li>
                                             <a>
-                                                <span class="image">
-                                                    <img src="images/img.jpg" alt="Profile Image" />
-                                                </span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
+                                              
                                                 <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where... 
+                                                    <%if(unrepliedInquiries==0){%>
+                                                    Oops! No unreplied inquiry... 
+                                                    <%} else if(unrepliedInquiries==1){%>
+                                                    You have <%=unrepliedInquiries%> unreplied inquiry... 
+                                                    <%} else {%>
+                                                    You have <%=unrepliedInquiries%> unreplied inquiries...
+                                                    <%}%>
                                                 </span>
-                                            </a>
+                                            </a>  
                                         </li>
+                                        
                                         <li>
-                                            <a>
-                                                <span class="image">
-                                                    <img src="images/img.jpg" alt="Profile Image" />
-                                                </span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where... 
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a>
-                                                <span class="image">
-                                                    <img src="images/img.jpg" alt="Profile Image" />
-                                                </span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where... 
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
+                                            <%if(unrepliedInquiries!=0){%>
                                             <div class="text-center">
-                                                <a>
-                                                    <strong>See All Alerts</strong>
+                                                
+                                                    <strong><a href="UnrepliedInquiries.jsp">Reply</a></strong>
                                                     <i class="fa fa-angle-right"></i>
-                                                </a>
+                                               
                                             </div>
+                                            <%}%>
                                         </li>
                                     </ul>
                                 </li>

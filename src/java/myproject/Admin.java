@@ -103,8 +103,14 @@ public class Admin {
     PreparedStatement pst43=null;
     //delete applicant....course details db
     PreparedStatement pst44=null;
+    //get number of unreplied inquiries
+    PreparedStatement pst46=null;
+    //get total number of inquiries
+    PreparedStatement pst47=null;
     //try
     PreparedStatement pst45=null;
+    //changing course status
+    PreparedStatement pst48=null; 
     //constructor
     public Admin() throws ClassNotFoundException{
         Common connection=new Common();
@@ -218,6 +224,12 @@ public class Admin {
             pst44=conn.prepareStatement("DELETE FROM course_details WHERE Email_Address=? AND Level_id=? AND Course_id=?");
             //
             pst45=conn.prepareStatement("select * from course_details");
+            //get number of unreplied inquiries
+            pst46=conn.prepareStatement("SELECT count(*) FROM inquiries WHERE Reply IS NULL");
+            //get total number of inquiries
+            pst47=conn.prepareStatement("SELECT count(*) FROM inquiries");
+            //changing course status
+            pst48=conn.prepareStatement("UPDATE course_status SET Status=? WHERE Level_id=?");
             
             /*pst27=conn.prepareStatement("SELECT    Email_Address,\n" +
             "              Physics_Grade,\n" +
@@ -752,6 +764,28 @@ public class Admin {
         }
         return i;
     }
+    //get number of unreplied inquiries
+    public ResultSet numberOfUnrepliedInquiries(){
+        ResultSet rs=null;
+        try{
+            rs=pst46.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
+    //get total number of inquiries
+    public ResultSet numberOfInquiries(){
+        ResultSet rs=null;
+        try{
+            rs=pst47.executeQuery();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return rs;
+    }
     //send mails
     public void sendMails(String emails){
         final String username = "ronokip55@gmail.com";
@@ -796,5 +830,18 @@ public class Admin {
             e.printStackTrace(System.out);
         }
         return rs;
+    }
+    //changing course status
+    public int changeCourseStatus(int statusId, int levelId){
+        int j=0;
+        try{
+            pst48.setInt(1, statusId);
+            pst48.setInt(2, levelId);
+            j=pst48.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace(System.out);
+        }
+        return j;
     }
 }

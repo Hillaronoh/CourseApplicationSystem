@@ -5,6 +5,7 @@ import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 import java.sql.*;
 import myproject.*;
+import javax.crypto.SecretKey;
 
 public final class UserRegistrationb_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
@@ -45,7 +46,8 @@ public final class UserRegistrationb_jsp extends org.apache.jasper.runtime.HttpJ
 
       out.write("\n");
       out.write("\n");
-      out.write("  \n");
+      out.write(" \n");
+      out.write("\n");
       out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
@@ -70,9 +72,68 @@ public final class UserRegistrationb_jsp extends org.apache.jasper.runtime.HttpJ
       out.write("            .login-panel{\n");
       out.write("                margin-top: 19%;\n");
       out.write("                width: 90%;\n");
-      out.write("                margin-left: 7%;\n");
+      out.write("                margin-left: 6%;\n");
       out.write("                height: 350px;\n");
       out.write("            }\n");
+      out.write("           \n");
+      out.write("            .strength_meter{\n");
+      out.write("                //position: relative;\n");
+      out.write("                left: 0px;\n");
+      out.write("                margin-top: -30px;\n");
+      out.write("                width: 100%;\n");
+      out.write("                height: 2px;\n");
+      out.write("                z-index:-1;\n");
+      out.write("                border-radius:5px;\n");
+      out.write("                padding-right:13px;\n");
+      out.write("            }\n");
+      out.write("            .button_strength {\n");
+      out.write("                text-decoration: none;\n");
+      out.write("                color: white;\n");
+      out.write("                font-size: 10px;\n");
+      out.write("            }\n");
+      out.write("            .strength_meter div{\n");
+      out.write("                width:0%;\n");
+      out.write("                height: 15px;\n");
+      out.write("                text-align: right;\n");
+      out.write("                color: #000;\n");
+      out.write("                line-height: 43px;\n");
+      out.write("                -webkit-transition: all .3s ease-in-out;\n");
+      out.write("                -moz-transition: all .3s ease-in-out;\n");
+      out.write("                -o-transition: all .3s ease-in-out;\n");
+      out.write("                -ms-transition: all .3s ease-in-out;\n");
+      out.write("                transition: all .3s ease-in-out;\n");
+      out.write("                \n");
+      out.write("                border-radius:5px;\n");
+      out.write("            }\n");
+      out.write("            .strength_meter div p{\n");
+      out.write("                position: absolute;\n");
+      out.write("                top: 50px;\n");
+      out.write("                right: 0px;\n");
+      out.write("                color: red;\n");
+      out.write("                font-size:13px;\n");
+      out.write("            }\n");
+      out.write("                \n");
+      out.write("            .veryweak{\n");
+      out.write("                background-color: #FFA0A0;\n");
+      out.write("                border-color: #F04040!important;\n");
+      out.write("                width:25%!important;\n");
+      out.write("            }\n");
+      out.write("            .weak{\n");
+      out.write("                background-color: #FFB78C;\n");
+      out.write("                border-color: #FF853C!important;\n");
+      out.write("                width:50%!important;\n");
+      out.write("            }\n");
+      out.write("            .medium{\n");
+      out.write("                background-color: #FFEC8B;\n");
+      out.write("                border-color: #FC0!important;\n");
+      out.write("                width:75%!important;\n");
+      out.write("            }\n");
+      out.write("            .strong{\n");
+      out.write("                background-color: #C3FF88;\n");
+      out.write("                border-color: #8DFF1C!important;\n");
+      out.write("                width:100%!important;\n");
+      out.write("            }\n");
+      out.write("            \n");
       out.write("        </style>\n");
       out.write("    </head>\n");
       out.write("    <body style=\"overflow-x: hidden; background-color: #EFEEEE;\"> \n");
@@ -85,9 +146,11 @@ public final class UserRegistrationb_jsp extends org.apache.jasper.runtime.HttpJ
       out.write("            \n");
       out.write("            <div class=\"login-panel panel panel-default\">\n");
       out.write("   \n");
-      out.write("        ");
-if(request.getParameter("register")!=null){                 
-            Applicant applicant=new Applicant();  
+      out.write("           ");
+ Applicant applicant=new Applicant();
+            String key=applicant.keyGen();
+            String key2=applicant.keyGen2();
+            if(request.getParameter("register")!=null){                 
             String fname=request.getParameter("fname");
             String mname=request.getParameter("mname");
             String lname=request.getParameter("lname");
@@ -96,8 +159,7 @@ if(request.getParameter("register")!=null){
             int roleId=2;
     
             ResultSet results1=applicant.checkIfRegistered(email);
-            int results2=applicant.setUsers(fname, mname, lname, email, pwd, roleId);
-
+            //int results2=applicant.setUsers(fname, mname, lname, email, pwd, roleId);
     
             if(results1.next()){
       out.write("\n");
@@ -107,11 +169,14 @@ if(request.getParameter("register")!=null){
       out.write("            ");
  }
             else{
-    
-                if(results2>0){
+                applicant.sendMail(email, key, key2);
+                int tempUser=applicant.insertTempUser(fname, mname, lname, email, pwd, key); 
+                if(tempUser>0){
       out.write("\n");
       out.write("                <div class=\"panel-heading\">\n");
-      out.write("                    <h3 class=\"panel-title alert alert-success alert-block\" style=\"text-align: center;\"><span style=\"color: green;\">Registration Successful... Click Sign In below to Login</span></h3>\n");
+      out.write("                    <h3 class=\"panel-title alert alert-success alert-block\" style=\"text-align: center;\"><span style=\"color: green;\">Account Activation link has been sent to ");
+      out.print(email);
+      out.write("</span></h3>\n");
       out.write("                </div> \n");
       out.write("                ");
  }
@@ -172,7 +237,7 @@ if(request.getParameter("register")!=null){
       out.write("                            <input type=\"password\" class=\"form-control input\" id=\"password2\" name=\"password2\" placeholder=\"Confirm Password\"/>\n");
       out.write("                        </div>        \n");
       out.write("                    </div>\n");
-      out.write("                        \n");
+      out.write("                    <div class=\"row\" style=\"height:4px;\"></div>\n");
       out.write("                    <div class=\"row\" id=\"buttons1\">\n");
       out.write("                        <div class=\"col-sm-3\"></div>\n");
       out.write("                        <div class=\"form-group col-sm-3\">\n");
@@ -186,10 +251,11 @@ if(request.getParameter("register")!=null){
       out.write("                  \n");
       out.write("                </fieldset>\n");
       out.write("                <div class=\"row\">\n");
-      out.write("                    <div class=\"col-sm-9\"></div>\n");
+      out.write("                    \n");
       out.write("                    <div class=\"col-sm-3\">\n");
-      out.write("                        <a href=\"../Login.jsp\" style=\"float: right;\">Sign In</a>\n");
+      out.write("                        <div class=\"pull-left\"><a href=\"../index.jsp\"><button type=\"button\" class=\"btn btn-info btn-sm\"><i class=\"fa fa-backward\">Back</i></button></a></div>\n");
       out.write("                    </div>\n");
+      out.write("                    <div class=\"col-sm-9\"></div>\n");
       out.write("                </div>\n");
       out.write("            </form>\n");
       out.write("                \n");
@@ -204,6 +270,22 @@ if(request.getParameter("register")!=null){
       out.write("    <script type=\"text/javascript\" src=\"mycss/validation/jquery.validate.js\"></script>\n");
       out.write("    <script type=\"text/javascript\" src=\"mycss/validation/additional-methods.js\"></script>\n");
       out.write("    <script src=\"mycss/validation/custom.js\"></script>\n");
+      out.write("    <script type=\"text/javascript\" src=\"js/strength.js\"></script>\n");
+      out.write("    <script type=\"text/javascript\" src=\"js/js.js\"></script>\n");
+      out.write("    \n");
+      out.write("    <script>\n");
+      out.write("        $(document).ready(function($) {\n");
+      out.write("            \n");
+      out.write("            $('#password1').strength({\n");
+      out.write("                strengthClass: 'strength',\n");
+      out.write("                strengthMeterClass: 'strength_meter',\n");
+      out.write("                strengthButtonClass: 'button_strength',\n");
+      out.write("                strengthButtonText: 'Show Password',\n");
+      out.write("                strengthButtonTextToggle: 'Hide Password'\n");
+      out.write("            });\n");
+      out.write("            \n");
+      out.write("        });\n");
+      out.write("    </script>\n");
       out.write("</body>\n");
       out.write("</html>\n");
     } catch (Throwable t) {
